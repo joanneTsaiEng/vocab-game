@@ -279,6 +279,36 @@
             </div>
           </div>
 
+          <!-- Student Info + Google Sheets Linking -->
+          <div class="win98-inward bg-pink-100 p-3 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="text-xs font-black text-fuchsia-900 flex items-center gap-1.5">
+                <span>👤</span>
+                <span>學生作答回傳設定</span>
+              </div>
+              <button onclick="app.saveGoogleSheetConfig()" class="win98-btn px-3 py-1 text-[11px] font-bold text-fuchsia-900">
+                儲存連結
+              </button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div class="space-y-1">
+                <label class="text-[10px] font-bold text-fuchsia-800">學生姓名</label>
+                <input id="studentNameInput" type="text" placeholder="例：王小明" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none">
+              </div>
+              <div class="space-y-1">
+                <label class="text-[10px] font-bold text-fuchsia-800">班級 / 座號</label>
+                <input id="studentClassInput" type="text" placeholder="例：401 / 12" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none">
+              </div>
+              <div class="space-y-1 sm:col-span-1">
+                <label class="text-[10px] font-bold text-fuchsia-800">Google Apps Script URL</label>
+                <input id="googleSheetUrlInput" type="text" placeholder="https://script.google.com/macros/s/AKfycbxN4mjCELdnwi67uv_JZ71onQ9K5mGyNUf_YH-Y7LtPvffw8mV1HbzZnbVoNrtfdrnd/exec" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none break-all">
+              </div>
+            </div>
+            <div id="googleSheetStatus" class="text-[10px] font-bold text-pink-700 bg-white px-2 py-1 border border-pink-300">
+              尚未設定 Google Sheets 回傳連結
+            </div>
+          </div>
+
           <!-- High Score & Start Button Row -->
           <div class="pt-3 border-t-2 border-pink-200 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="win98-inward bg-pink-100 px-4 py-2 flex items-center space-x-3 w-full sm:w-auto">
@@ -6648,6 +6678,10 @@ class Y2KSpellingBeeApp {
     this.mode = 'spelling'; // 'spelling' or 'choice'
     this.selectedLevel = 'all'; // 'all', '1-2', '3-4', '5-6'
     this.soundEnabled = true;
+    this.googleSheetUrl = localStorage.getItem('y2k_google_sheet_url') || '';
+    this.studentName = localStorage.getItem('y2k_student_name') || '';
+    this.studentClass = localStorage.getItem('y2k_student_class') || '';
+    this.answerLog = [];
     
     // Game state
     this.timer = 300; // 5 minutes (300 seconds)
@@ -6677,6 +6711,47 @@ class Y2KSpellingBeeApp {
     document.getElementById('dbTotalCountDisplay').textContent = VOCABULARY_DATABASE.length;
     this.updateWrongBadge();
     this.renderDictionaryList(VOCABULARY_DATABASE);
+    this.loadStudentInputs();
+    this.updateGoogleSheetStatus(this.googleSheetUrl ? 'Google Sheets 回傳已連線，可自動同步作答紀錄' : '尚未設定 Google Sheets 回傳連結');
+  }
+
+  loadStudentInputs() {
+    const nameInput = document.getElementById('studentNameInput');
+    const classInput = document.getElementById('studentClassInput');
+    const urlInput = document.getElementById('googleSheetUrlInput');
+    if (nameInput) nameInput.value = this.studentName;
+    if (classInput) classInput.value = this.studentClass;
+    if (urlInput) urlInput.value = this.googleSheetUrl;
+  }
+
+  saveGoogleSheetConfig() {
+    const nameInput = document.getElementById('studentNameInput');
+    const classInput = document.getElementById('studentClassInput');
+    const urlInput = document.getElementById('googleSheetUrlInput');
+
+    if (nameInput) {
+      this.studentName = nameInput.value.trim();
+      localStorage.setItem('y2k_student_name', this.studentName);
+    }
+    if (classInput) {
+      this.studentClass = classInput.value.trim();
+      localStorage.setItem('y2k_student_class', this.studentClass);
+    }
+    if (urlInput) {
+      this.googleSheetUrl = urlInput.value.trim();
+      localStorage.setItem('y2k_google_sheet_url', this.googleSheetUrl);
+      this.updateGoogleSheetStatus(this.googleSheetUrl ? 'Google Sheets 回傳已連線，可自動同步作答紀錄' : '尚未設定 Google Sheets 回傳連結');
+    }
+  }
+
+  updateGoogleSheetStatus(message, success = true) {
+    const status = document.getElementById('googleSheetStatus');
+    if (!status) return;
+    status.textContent = message;
+    status.className = 'text-[10px] font-bold px-2 py-1 border';
+    status.classList.add(success ? 'text-pink-700' : 'text-rose-700');
+    status.classList.add(success ? 'border-pink-300' : 'border-rose-300');
+    status.classList.add('bg-white');
   }
 
   startClock() {
@@ -6841,6 +6916,8 @@ class Y2KSpellingBeeApp {
   // --- Game Session Execution ---
   startGame() {
     this.playSfx('click');
+    this.answerLog = [];
+    this.saveGoogleSheetConfig();
     
     // Filter active words
     this.activeWordList = VOCABULARY_DATABASE.filter(item => {
@@ -7066,6 +7143,21 @@ class Y2KSpellingBeeApp {
     const multiplier = Math.min(1 + (this.combo - 1) * 0.2, 3.0);
     const addedScore = Math.round(basePoints * multiplier);
     this.score += addedScore;
+    const answerText = this.mode === 'spelling'
+      ? document.getElementById('spellingInput').value.trim()
+      : document.querySelector('.choice-btn:disabled')?.textContent || '未填寫';
+
+    this.answerLog.push({
+      index: this.answeredCount,
+      word: this.currentQuestion.word,
+      studentAnswer: answerText,
+      correct: true,
+      points: addedScore,
+      combo: this.combo,
+      definition: this.currentQuestion.def,
+      mode: this.mode,
+      timestamp: new Date().toISOString()
+    });
 
     if (this.combo % 3 === 0 && this.combo > 1) {
       this.playSfx('combo');
@@ -7088,6 +7180,22 @@ class Y2KSpellingBeeApp {
     const card = document.getElementById('questionCard');
     card.classList.add('animate-shake');
     setTimeout(() => card.classList.remove('animate-shake'), 400);
+
+    const answerText = this.mode === 'spelling'
+      ? document.getElementById('spellingInput').value.trim()
+      : document.querySelector('.choice-btn:disabled')?.textContent || '未填寫';
+
+    this.answerLog.push({
+      index: this.answeredCount,
+      word: this.currentQuestion.word,
+      studentAnswer: answerText,
+      correct: false,
+      points: 0,
+      combo: 0,
+      definition: this.currentQuestion.def,
+      mode: this.mode,
+      timestamp: new Date().toISOString()
+    });
 
     this.addWrongWord(this.currentQuestion);
     this.showFeedback(`✗ 答錯了！正確答案：${correctWord} (${this.currentQuestion.def})`, 'rose');
@@ -7185,7 +7293,63 @@ class Y2KSpellingBeeApp {
       feedbackElem.textContent = '單字需要每天累積！打開「單字總覽」與「錯題本」多聽發音與例句，成績一定飛速成長！';
     }
 
+    this.submitStudentResult();
     this.showScreen('summary');
+  }
+
+  submitStudentResult() {
+    if (!this.googleSheetUrl) {
+      this.updateGoogleSheetStatus('尚未設定 Google Sheets 回傳連結', false);
+      return Promise.resolve({ ok: false, message: '未設定 Google Apps Script URL' });
+    }
+
+    const studentName = this.studentName || document.getElementById('studentNameInput')?.value?.trim() || '未填姓名';
+    const studentClass = this.studentClass || document.getElementById('studentClassInput')?.value?.trim() || '未填班級';
+    const payload = {
+      studentName,
+      studentClass,
+      mode: this.mode,
+      selectedLevel: this.selectedLevel,
+      score: this.score,
+      correctCount: this.correctCount,
+      answeredCount: this.answeredCount,
+      accuracyRate: this.answeredCount > 0 ? Math.round((this.correctCount / this.answeredCount) * 100) : 0,
+      maxCombo: this.maxCombo,
+      timestamp: new Date().toISOString(),
+      answers: this.answerLog
+    };
+
+    this.updateGoogleSheetStatus('正在同步作答紀錄到 Google Sheets…');
+
+    return fetch(this.googleSheetUrl, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(async (response) => {
+        const text = await response.text();
+        let result = {};
+        try {
+          result = JSON.parse(text);
+        } catch (e) {
+          result = { message: text };
+        }
+
+        if (!response.ok || result.ok === false) {
+          throw new Error(result.message || 'Google Sheets 同步失敗');
+        }
+
+        this.updateGoogleSheetStatus(result.message || 'Google Sheets 同步成功');
+        return result;
+      })
+      .catch((error) => {
+        console.error('Google Sheets submit error:', error);
+        this.updateGoogleSheetStatus(`同步失敗：${error.message || '請確認 URL 正確'}`, false);
+        return { ok: false, message: error.message || '同步失敗' };
+      });
   }
 
   // --- Word Explorer (單字總覽區) ---
