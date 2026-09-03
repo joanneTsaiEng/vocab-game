@@ -201,6 +201,22 @@
         <div id="homeScreen" class="space-y-5">
           
           <!-- Marquee Banner -->
+          <!-- 學生姓名 / 座號輸入卡片 -->
+          <div class="win98-window p-3 bg-pink-100 border-2 border-pink-400 space-y-1.5">
+            <div class="text-xs font-bold text-fuchsia-900 flex items-center gap-1.5">
+              <span>🏷️</span>
+              <span>學生身分登記（成績將自動回傳教師後台）：</span>
+            </div>
+            <div class="flex gap-2">
+              <input 
+                type="text" 
+                id="studentNameInput" 
+                placeholder="請輸入：班級座號 + 姓名（例如：30105 王小明）" 
+                class="win98-inward w-full px-3 py-1.5 bg-white text-xs sm:text-sm font-bold text-fuchsia-950 outline-none"
+              />
+            </div>
+          </div>
+
           <div class="win98-inward bg-pink-900 text-yellow-300 p-1.5 font-mono text-xs overflow-hidden flex items-center">
             <span class="bg-pink-700 text-white px-2 py-0.5 font-bold mr-2 text-[10px] uppercase">GSAT 2000</span>
             <div class="truncate animate-pulse">
@@ -276,36 +292,6 @@
               <button onclick="app.selectLevel('5-6')" data-lvl="5-6" class="lvl-btn win98-btn py-2 px-2 text-xs font-bold text-fuchsia-950">
                 👑 Level 5-6 頂標
               </button>
-            </div>
-          </div>
-
-          <!-- Student Info + Google Sheets Linking -->
-          <div class="win98-inward bg-pink-100 p-3 space-y-3">
-            <div class="flex items-center justify-between gap-2">
-              <div class="text-xs font-black text-fuchsia-900 flex items-center gap-1.5">
-                <span>👤</span>
-                <span>學生作答回傳設定</span>
-              </div>
-              <button onclick="app.saveGoogleSheetConfig()" class="win98-btn px-3 py-1 text-[11px] font-bold text-fuchsia-900">
-                儲存連結
-              </button>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <div class="space-y-1">
-                <label class="text-[10px] font-bold text-fuchsia-800">學生姓名</label>
-                <input id="studentNameInput" type="text" placeholder="例：王小明" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none">
-              </div>
-              <div class="space-y-1">
-                <label class="text-[10px] font-bold text-fuchsia-800">班級 / 座號</label>
-                <input id="studentClassInput" type="text" placeholder="例：401 / 12" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none">
-              </div>
-              <div class="space-y-1 sm:col-span-1">
-                <label class="text-[10px] font-bold text-fuchsia-800">Google Apps Script URL</label>
-                <input id="googleSheetUrlInput" type="text" placeholder="https://script.google.com/macros/s/AKfycbxN4mjCELdnwi67uv_JZ71onQ9K5mGyNUf_YH-Y7LtPvffw8mV1HbzZnbVoNrtfdrnd/exec" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none break-all">
-              </div>
-            </div>
-            <div id="googleSheetStatus" class="text-[10px] font-bold text-pink-700 bg-white px-2 py-1 border border-pink-300">
-              尚未設定 Google Sheets 回傳連結
             </div>
           </div>
 
@@ -6669,22 +6655,26 @@ VOCABULARY_DATABASE.forEach(item => {
 </script>
 
 <script>
+
+// 填入你在 Google Apps Script 部署取得的 Web 應用程式網址 🔗
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvxY7O9BHc8HSZVtKLJSLlJ52fsnh99XwZH2xaEBibtpiRh866WR6gzn_--pROO1hnwg/exec";
+
+// 5 個箱盒對應的間隔天數 ⏳
+const BOX_INTERVALS = { 1: 1, 2: 3, 3: 7, 4: 14, 5: 30 };
+
 class Y2KSpellingBeeApp {
   escapeRegex(value) {
     return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
   constructor() {
-    this.mode = 'spelling'; // 'spelling' or 'choice'
-    this.selectedLevel = 'all'; // 'all', '1-2', '3-4', '5-6'
+    this.mode = 'choice'; // 預設學測選擇題模式
+    this.selectedLevel = 'all';
     this.soundEnabled = true;
-    this.googleSheetUrl = localStorage.getItem('y2k_google_sheet_url') || '';
-    this.studentName = localStorage.getItem('y2k_student_name') || '';
-    this.studentClass = localStorage.getItem('y2k_student_class') || '';
-    this.answerLog = [];
+    this.studentName = "";
     
-    // Game state
-    this.timer = 300; // 5 minutes (300 seconds)
+    // 遊戲運行狀態
+    this.timer = 300; // 5 分鐘挑戰
     this.timerInterval = null;
     this.score = 0;
     this.combo = 0;
@@ -6692,15 +6682,17 @@ class Y2KSpellingBeeApp {
     this.answeredCount = 0;
     this.correctCount = 0;
     
+    // 當前題庫與佇列
     this.currentQuestion = null;
-    this.activeWordList = [];
-    this.shuffledDeck = []; // Fisher-Yates non-repeating queue
-    this.deckIndex = 0;
+    this.dailyQueue = [];      // 今日 20 題清單 (10 複習 + 10 新字)
+    this.queueIndex = 0;
+    this.sessionWrongWords = []; // 本局錯題記錄
     
+    // 本地資料儲存
+    this.srsData = this.loadSRSData();
     this.wrongWords = this.loadWrongWords();
     this.bestScore = parseInt(localStorage.getItem('y2k_spelling_best_score') || '0', 10);
     
-    // Web Speech API
     this.synth = window.speechSynthesis;
     this.initAudioContext();
     this.startClock();
@@ -6711,49 +6703,301 @@ class Y2KSpellingBeeApp {
     document.getElementById('dbTotalCountDisplay').textContent = VOCABULARY_DATABASE.length;
     this.updateWrongBadge();
     this.renderDictionaryList(VOCABULARY_DATABASE);
-    this.loadStudentInputs();
-    this.updateGoogleSheetStatus(this.googleSheetUrl ? 'Google Sheets 回傳已連線，可自動同步作答紀錄' : '尚未設定 Google Sheets 回傳連結');
   }
 
-  loadStudentInputs() {
+  // --- SRS 資料讀寫與排程演算法 ---
+  loadSRSData() {
+    try {
+      return JSON.parse(localStorage.getItem('y2k_srs_data') || '{}');
+    } catch(e) {
+      return {};
+    }
+  }
+
+  saveSRSData() {
+    localStorage.setItem('y2k_srs_data', JSON.stringify(this.srsData));
+  }
+
+  getTodayString() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  // 建立每日 20 題學習佇列（10 複習 + 10 新字）
+  buildDailyQueue() {
+    const today = this.getTodayString();
+    
+    // 依選定級別過濾詞庫
+    const pool = VOCABULARY_DATABASE.filter(item => {
+      if (this.selectedLevel === 'all') return true;
+      if (this.selectedLevel === '1-2') return item.level === 1 || item.level === 2;
+      if (this.selectedLevel === '3-4') return item.level === 3 || item.level === 4;
+      if (this.selectedLevel === '5-6') return item.level === 5 || item.level === 6;
+      return true;
+    });
+
+    const dueReviewWords = [];
+    const unlearnedWords = [];
+
+    pool.forEach(item => {
+      const record = this.srsData[item.word];
+      if (record) {
+        if (record.nextReviewDate <= today && record.box < 5) {
+          dueReviewWords.push(item);
+        }
+      } else {
+        unlearnedWords.push(item);
+      }
+    });
+
+    // 隨機洗牌
+    dueReviewWords.sort(() => Math.random() - 0.5);
+    unlearnedWords.sort(() => Math.random() - 0.5);
+
+    // 抓取 10 題到期複習字
+    const selectedReview = dueReviewWords.slice(0, 10);
+    
+    // 計算需要補充的新字數量（補足 20 題）
+    const neededNewCount = 20 - selectedReview.length;
+    const selectedNew = unlearnedWords.slice(0, Math.max(10, neededNewCount));
+
+    const combinedQueue = [...selectedReview, ...selectedNew].slice(0, 20);
+    combinedQueue.sort(() => Math.random() - 0.5); // 混合順序
+
+    return combinedQueue.length > 0 ? combinedQueue : pool.slice(0, 20);
+  }
+
+  // 更新單字箱盒等級與下次複習日期
+  updateWordSchedule(word, isCorrect) {
+    const record = this.srsData[word] || { box: 1, nextReviewDate: this.getTodayString() };
+    let currentBox = record.box || 1;
+    
+    // 溫和升降級：答對升 1 級，答錯降 1 級
+    let nextBox = isCorrect ? Math.min(5, currentBox + 1) : Math.max(1, currentBox - 1);
+    const intervalDays = BOX_INTERVALS[nextBox];
+
+    const targetDate = new Date();
+    targetDate.setDate(targetDate.getDate() + intervalDays);
+    const nextReviewDate = targetDate.toISOString().split('T')[0];
+
+    this.srsData[word] = {
+      box: nextBox,
+      lastReviewed: this.getTodayString(),
+      nextReviewDate: nextReviewDate
+    };
+
+    this.saveSRSData();
+  }
+
+  getBoxCounts() {
+    const counts = { box1: 0, box2: 0, box3: 0, box4: 0, box5: 0 };
+    Object.values(this.srsData).forEach(item => {
+      const b = `box${item.box}`;
+      if (counts[b] !== undefined) counts[b]++;
+    });
+    return counts;
+  }
+
+  // --- 遊戲開始流程 ---
+  startGame() {
     const nameInput = document.getElementById('studentNameInput');
-    const classInput = document.getElementById('studentClassInput');
-    const urlInput = document.getElementById('googleSheetUrlInput');
-    if (nameInput) nameInput.value = this.studentName;
-    if (classInput) classInput.value = this.studentClass;
-    if (urlInput) urlInput.value = this.googleSheetUrl;
+    const nameVal = nameInput ? nameInput.value.trim() : "";
+    
+    if (!nameVal) {
+      alert("⚠️ 請先在上方輸入您的【班級座號與姓名】再開始挑戰喔！");
+      if (nameInput) nameInput.focus();
+      return;
+    }
+    
+    this.studentName = nameVal;
+    this.playSfx('click');
+    
+    // 產生今日 20 題佇列
+    this.dailyQueue = this.buildDailyQueue();
+    this.queueIndex = 0;
+    this.sessionWrongWords = [];
+
+    // 重設狀態
+    this.timer = 300;
+    this.score = 0;
+    this.combo = 0;
+    this.maxCombo = 0;
+    this.answeredCount = 0;
+    this.correctCount = 0;
+
+    this.updateHUD();
+    this.showScreen('game');
+
+    clearInterval(this.timerInterval);
+    this.timerInterval = setInterval(() => {
+      this.timer--;
+      this.updateTimerDisplay();
+      if (this.timer <= 0) {
+        this.endGame();
+      }
+    }, 1000);
+
+    this.updateTimerDisplay();
+    this.nextQuestion();
   }
 
-  saveGoogleSheetConfig() {
-    const nameInput = document.getElementById('studentNameInput');
-    const classInput = document.getElementById('studentClassInput');
-    const urlInput = document.getElementById('googleSheetUrlInput');
+  nextQuestion() {
+    if (this.queueIndex >= this.dailyQueue.length) {
+      // 20 題全部作答完畢，直接進入結算
+      this.endGame();
+      return;
+    }
 
-    if (nameInput) {
-      this.studentName = nameInput.value.trim();
-      localStorage.setItem('y2k_student_name', this.studentName);
-    }
-    if (classInput) {
-      this.studentClass = classInput.value.trim();
-      localStorage.setItem('y2k_student_class', this.studentClass);
-    }
-    if (urlInput) {
-      this.googleSheetUrl = urlInput.value.trim();
-      localStorage.setItem('y2k_google_sheet_url', this.googleSheetUrl);
-      this.updateGoogleSheetStatus(this.googleSheetUrl ? 'Google Sheets 回傳已連線，可自動同步作答紀錄' : '尚未設定 Google Sheets 回傳連結');
+    this.currentQuestion = this.dailyQueue[this.queueIndex++];
+
+    document.getElementById('wordLevelTag').textContent = `Level ${this.currentQuestion.level}`;
+    document.getElementById('wordPosTag').textContent = `[${this.currentQuestion.pos}]`;
+
+    const hollowTarget = this.currentQuestion.hollow_out || this.currentQuestion.word;
+    const exampleRegex = new RegExp(this.escapeRegex(hollowTarget), 'gi');
+    const maskedSentence = this.currentQuestion.example 
+      ? this.currentQuestion.example.replace(exampleRegex, ' ( _______ ) ') 
+      : `The student prepared carefully to ( _______ ) the challenge.`;
+
+    const spellingPromptArea = document.getElementById('spellingPromptArea');
+    const choicePromptArea = document.getElementById('choicePromptArea');
+    const spellingForm = document.getElementById('spellingForm');
+    const choiceGrid = document.getElementById('choiceGrid');
+    const questionTypeBadge = document.getElementById('questionTypeBadge');
+
+    if (this.mode === 'spelling') {
+      questionTypeBadge.textContent = 'Spelling Bee 模式';
+      questionTypeBadge.className = 'px-2 py-0.5 bg-pink-100 text-pink-700 font-bold';
+
+      spellingPromptArea.classList.remove('hidden');
+      choicePromptArea.classList.add('hidden');
+      spellingForm.classList.remove('hidden');
+      choiceGrid.classList.add('hidden');
+
+      document.getElementById('wordDefinition').textContent = this.currentQuestion.def;
+      document.getElementById('spellingExample').textContent = `"${maskedSentence}"`;
+      document.getElementById('spellingExample').classList.remove('hidden');
+
+      const input = document.getElementById('spellingInput');
+      input.value = '';
+      input.focus();
+      document.getElementById('lengthHint').textContent = `長度: ${this.currentQuestion.word.length} 字母`;
+
+      setTimeout(() => this.speakWord(this.currentQuestion.word), 150);
+    } else {
+      questionTypeBadge.textContent = '學測第一大題字彙模式 (純英文語境)';
+      questionTypeBadge.className = 'px-2 py-0.5 bg-purple-200 text-purple-900 font-bold';
+
+      spellingPromptArea.classList.add('hidden');
+      choicePromptArea.classList.remove('hidden');
+      document.getElementById('spellingExample').classList.add('hidden');
+
+      spellingForm.classList.add('hidden');
+      choiceGrid.classList.remove('hidden');
+
+      const highlightedSentence = maskedSentence.replace(/\(\s*_______\s*\)/g, '<span class="px-3 py-0.5 mx-1 bg-yellow-200 border border-yellow-400 font-mono font-black text-pink-700 underline tracking-widest">[ ______ ]</span>');
+      document.getElementById('choiceSentenceText').innerHTML = highlightedSentence;
+
+      this.buildMultipleChoiceOptions();
     }
   }
 
-  updateGoogleSheetStatus(message, success = true) {
-    const status = document.getElementById('googleSheetStatus');
-    if (!status) return;
-    status.textContent = message;
-    status.className = 'text-[10px] font-bold px-2 py-1 border';
-    status.classList.add(success ? 'text-pink-700' : 'text-rose-700');
-    status.classList.add(success ? 'border-pink-300' : 'border-rose-300');
-    status.classList.add('bg-white');
+  // --- 正確與錯誤處理 ---
+  onAnswerSuccess(basePoints) {
+    this.answeredCount++;
+    this.correctCount++;
+    this.combo++;
+    if (this.combo > this.maxCombo) this.maxCombo = this.combo;
+
+    // 排程升級 📈
+    this.updateWordSchedule(this.currentQuestion.word, true);
+
+    const multiplier = Math.min(1 + (this.combo - 1) * 0.2, 3.0);
+    const addedScore = Math.round(basePoints * multiplier);
+    this.score += addedScore;
+
+    if (this.combo % 3 === 0 && this.combo > 1) {
+      this.playSfx('combo');
+      this.triggerConfetti(0.3);
+      this.showFeedback(`★ ${this.combo} COMBO 連擊！+${addedScore} PTS ★`, 'green');
+    } else {
+      this.playSfx('correct');
+      this.showFeedback(`✓ 正確！+${addedScore} PTS (${this.currentQuestion.word})`, 'green');
+    }
+
+    this.updateHUD();
+    setTimeout(() => this.nextQuestion(), 550);
   }
 
+  onAnswerFailure(correctWord) {
+    this.answeredCount++;
+    this.combo = 0;
+    this.playSfx('wrong');
+
+    // 排程降級 📉 與錯題記錄
+    this.updateWordSchedule(this.currentQuestion.word, false);
+    this.sessionWrongWords.push(this.currentQuestion.word);
+    this.addWrongWord(this.currentQuestion);
+
+    const card = document.getElementById('questionCard');
+    card.classList.add('animate-shake');
+    setTimeout(() => card.classList.remove('animate-shake'), 400);
+
+    this.showFeedback(`✗ 答錯了！正確答案：${correctWord} (${this.currentQuestion.def})`, 'rose');
+    this.updateHUD();
+
+    setTimeout(() => this.nextQuestion(), 1400);
+  }
+
+  // --- 遊戲結算與非同步回傳 Google 試算表 ---
+  endGame() {
+    clearInterval(this.timerInterval);
+    this.playSfx('combo');
+    this.triggerConfetti(2);
+
+    if (this.score > this.bestScore) {
+      this.bestScore = this.score;
+      localStorage.setItem('y2k_spelling_best_score', this.bestScore.toString());
+    }
+
+    const accuracyRate = this.answeredCount > 0 ? Math.round((this.correctCount / this.answeredCount) * 100) : 0;
+
+    document.getElementById('summaryFinalScore').textContent = this.score.toLocaleString();
+    document.getElementById('summaryAccuracy').textContent = `${this.correctCount} / ${this.answeredCount}`;
+    document.getElementById('summaryMaxCombo').textContent = `${this.maxCombo}x`;
+    document.getElementById('summaryRate').textContent = `${accuracyRate}%`;
+
+    // 背景默默發送資料至 Google Sheets 🚀
+    this.sendProgressToGoogleSheet({
+      timestamp: new Date().toLocaleString(),
+      studentName: this.studentName,
+      score: this.score,
+      accuracy: `${accuracyRate}%`,
+      boxCounts: this.getBoxCounts(),
+      wrongWords: this.sessionWrongWords
+    });
+
+    this.showScreen('summary');
+  }
+
+  sendProgressToGoogleSheet(payload) {
+    if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.includes("YOUR_GAS_WEB_APP_URL_HERE")) {
+      console.warn("尚未設定 Google Apps Script Web App URL。");
+      return;
+    }
+
+    fetch(GAS_WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors", // 靜態網頁跨域發送必備
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      console.log("✅ 學習進度已成功回傳至試算表！");
+    }).catch(err => {
+      console.error("❌ 回傳失敗：", err);
+    });
+  }
+
+  // --- 其餘基礎輔助函式維持不變 ---
   startClock() {
     setInterval(() => {
       const d = new Date();
@@ -6766,17 +7010,12 @@ class Y2KSpellingBeeApp {
   initAudioContext() {
     try {
       this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    } catch(e) {
-      console.warn("Web Audio API not supported.");
-    }
+    } catch(e) {}
   }
 
-  // --- 8-Bit Retro Chiptune SFX Synthesizer ---
   playSfx(type) {
     if (!this.soundEnabled || !this.audioCtx) return;
-    if (this.audioCtx.state === 'suspended') {
-      this.audioCtx.resume();
-    }
+    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
     
     const now = this.audioCtx.currentTime;
     const osc = this.audioCtx.createOscillator();
@@ -6785,27 +7024,24 @@ class Y2KSpellingBeeApp {
     gain.connect(this.audioCtx.destination);
 
     if (type === 'correct') {
-      // 8-bit arcade high ping
       osc.type = 'square';
-      osc.frequency.setValueAtTime(523.25, now); // C5
-      osc.frequency.setValueAtTime(783.99, now + 0.08); // G5
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(783.99, now + 0.08);
       gain.gain.setValueAtTime(0.15, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
       osc.start(now);
       osc.stop(now + 0.25);
     } else if (type === 'combo') {
-      // Retro triumph arpeggio
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(440, now); // A4
-      osc.frequency.setValueAtTime(554.37, now + 0.07); // C#5
-      osc.frequency.setValueAtTime(659.25, now + 0.14); // E5
-      osc.frequency.setValueAtTime(880, now + 0.21); // A5
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.setValueAtTime(554.37, now + 0.07);
+      osc.frequency.setValueAtTime(659.25, now + 0.14);
+      osc.frequency.setValueAtTime(880, now + 0.21);
       gain.gain.setValueAtTime(0.2, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
       osc.start(now);
       osc.stop(now + 0.4);
     } else if (type === 'wrong') {
-      // Low noise error buzz
       osc.type = 'sawtooth';
       osc.frequency.setValueAtTime(180, now);
       osc.frequency.setValueAtTime(110, now + 0.08);
@@ -6814,7 +7050,6 @@ class Y2KSpellingBeeApp {
       osc.start(now);
       osc.stop(now + 0.28);
     } else if (type === 'click') {
-      // Windows 98 click
       osc.type = 'sine';
       osc.frequency.setValueAtTime(800, now);
       gain.gain.setValueAtTime(0.08, now);
@@ -6824,7 +7059,6 @@ class Y2KSpellingBeeApp {
     }
   }
 
-  // --- Voice Synthesis (TTS) ---
   speakWord(text) {
     if (!this.synth) return;
     this.synth.cancel();
@@ -6832,11 +7066,6 @@ class Y2KSpellingBeeApp {
     utterance.lang = 'en-US';
     utterance.rate = 0.92;
     utterance.pitch = 1.05;
-    
-    const voices = this.synth.getVoices();
-    const usVoice = voices.find(v => v.lang === 'en-US' || v.lang === 'en_US');
-    if (usVoice) utterance.voice = usVoice;
-    
     this.synth.speak(utterance);
   }
 
@@ -6846,37 +7075,26 @@ class Y2KSpellingBeeApp {
     }
   }
 
-  // --- Mode & Level Switching ---
   selectMode(mode) {
     this.playSfx('click');
     this.mode = mode;
-    
     const spellCard = document.getElementById('mode-spelling');
     const choiceCard = document.getElementById('mode-choice');
-    
     if (mode === 'spelling') {
       spellCard.classList.add('!border-pink-500', 'bg-pink-100', 'opacity-100');
-      spellCard.classList.remove('opacity-80', 'bg-fuchsia-50');
       choiceCard.classList.remove('!border-pink-500', 'bg-pink-100');
-      choiceCard.classList.add('opacity-80', 'bg-fuchsia-50');
     } else {
       choiceCard.classList.add('!border-pink-500', 'bg-pink-100', 'opacity-100');
-      choiceCard.classList.remove('opacity-80', 'bg-fuchsia-50');
       spellCard.classList.remove('!border-pink-500', 'bg-pink-100');
-      spellCard.classList.add('opacity-80', 'bg-fuchsia-50');
     }
   }
 
   selectLevel(lvl) {
     this.playSfx('click');
     this.selectedLevel = lvl;
-    document.querySelectorAll('.lvl-btn').forEach(btn => {
-      btn.classList.remove('win98-btn-active');
-    });
+    document.querySelectorAll('.lvl-btn').forEach(btn => btn.classList.remove('win98-btn-active'));
     const activeBtn = document.querySelector(`[data-lvl="${lvl}"]`);
-    if (activeBtn) {
-      activeBtn.classList.add('win98-btn-active');
-    }
+    if (activeBtn) activeBtn.classList.add('win98-btn-active');
   }
 
   showScreen(screenName) {
@@ -6913,71 +7131,16 @@ class Y2KSpellingBeeApp {
     }
   }
 
-  // --- Game Session Execution ---
-  startGame() {
-    this.playSfx('click');
-    this.answerLog = [];
-    this.saveGoogleSheetConfig();
-    
-    // Filter active words
-    this.activeWordList = VOCABULARY_DATABASE.filter(item => {
-      if (this.selectedLevel === 'all') return true;
-      if (this.selectedLevel === '1-2') return item.level === 1 || item.level === 2;
-      if (this.selectedLevel === '3-4') return item.level === 3 || item.level === 4;
-      if (this.selectedLevel === '5-6') return item.level === 5 || item.level === 6;
-      return true;
-    });
-
-    if (this.activeWordList.length === 0) {
-      this.activeWordList = VOCABULARY_DATABASE;
-    }
-
-    // Shuffle deck for NO-REPEAT order (Fisher-Yates)
-    this.shuffledDeck = [...this.activeWordList].sort(() => Math.random() - 0.5);
-    this.deckIndex = 0;
-
-    // Reset scores & HUD
-    this.timer = 300; // 5 Minutes
-    this.score = 0;
-    this.combo = 0;
-    this.maxCombo = 0;
-    this.answeredCount = 0;
-    this.correctCount = 0;
-
-    this.updateHUD();
-    this.showScreen('game');
-
-    // 5-min Countdown Interval
-    clearInterval(this.timerInterval);
-    this.timerInterval = setInterval(() => {
-      this.timer--;
-      this.updateTimerDisplay();
-      if (this.timer <= 0) {
-        this.endGame();
-      }
-    }, 1000);
-
-    this.updateTimerDisplay();
-    this.nextQuestion();
-  }
-
   updateTimerDisplay() {
     const mins = Math.floor(this.timer / 60);
     const secs = this.timer % 60;
     const timerElem = document.getElementById('timerText');
     timerElem.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-    
-    if (this.timer <= 30) {
-      timerElem.classList.add('text-rose-500', 'animate-pulse');
-    } else {
-      timerElem.classList.remove('text-rose-500', 'animate-pulse');
-    }
   }
 
   updateHUD() {
     document.getElementById('currentScore').textContent = this.score.toLocaleString();
     document.getElementById('answeredCount').textContent = this.answeredCount;
-    
     const comboBadge = document.getElementById('comboBadge');
     const comboText = document.getElementById('comboText');
     if (this.combo >= 2) {
@@ -6991,84 +7154,11 @@ class Y2KSpellingBeeApp {
     }
   }
 
-  nextQuestion() {
-    // If deck runs out, reshuffle and continue
-    if (this.deckIndex >= this.shuffledDeck.length) {
-      this.shuffledDeck = [...this.activeWordList].sort(() => Math.random() - 0.5);
-      this.deckIndex = 0;
-    }
-
-    this.currentQuestion = this.shuffledDeck[this.deckIndex++];
-
-    // Populate UI Tags
-    document.getElementById('wordLevelTag').textContent = `Level ${this.currentQuestion.level}`;
-    document.getElementById('wordPosTag').textContent = `[${this.currentQuestion.pos}]`;
-
-    // Mask sentence for cloze context using the exact word specified in database.
-    const hollowTarget = this.currentQuestion.hollow_out || this.currentQuestion.word;
-    const exampleRegex = new RegExp(this.escapeRegex(hollowTarget), 'gi');
-    const maskedSentence = this.currentQuestion.example 
-      ? this.currentQuestion.example.replace(exampleRegex, ' ( _______ ) ') 
-      : `The student prepared carefully to ( _______ ) the challenge.`;
-
-    const spellingPromptArea = document.getElementById('spellingPromptArea');
-    const choicePromptArea = document.getElementById('choicePromptArea');
-    const spellingForm = document.getElementById('spellingForm');
-    const choiceGrid = document.getElementById('choiceGrid');
-    const questionTypeBadge = document.getElementById('questionTypeBadge');
-
-    if (this.mode === 'spelling') {
-      // 1. SPELLING BEE: Show Audio + Chinese Definition + Example Sentence
-      questionTypeBadge.textContent = 'Spelling Bee 模式';
-      questionTypeBadge.className = 'px-2 py-0.5 bg-pink-100 text-pink-700 font-bold';
-
-      spellingPromptArea.classList.remove('hidden');
-      choicePromptArea.classList.add('hidden');
-      spellingForm.classList.remove('hidden');
-      choiceGrid.classList.add('hidden');
-
-      document.getElementById('wordDefinition').textContent = this.currentQuestion.def;
-      document.getElementById('spellingExample').textContent = `"${maskedSentence}"`;
-      document.getElementById('spellingExample').classList.remove('hidden');
-
-      const input = document.getElementById('spellingInput');
-      input.value = '';
-      input.focus();
-      document.getElementById('lengthHint').textContent = `長度: ${this.currentQuestion.word.length} 字母`;
-
-      setTimeout(() => {
-        this.speakWord(this.currentQuestion.word);
-      }, 150);
-
-    } else {
-      // 2. MULTIPLE CHOICE: SIMULATE GSAT EXAM PART 1 (NO CHINESE, NO AUDIO)
-      questionTypeBadge.textContent = '學測第一大題字彙模式 (純英文語境)';
-      questionTypeBadge.className = 'px-2 py-0.5 bg-purple-200 text-purple-900 font-bold';
-
-      spellingPromptArea.classList.add('hidden');
-      choicePromptArea.classList.remove('hidden');
-      document.getElementById('spellingExample').classList.add('hidden');
-
-      spellingForm.classList.add('hidden');
-      choiceGrid.classList.remove('hidden');
-
-      // Highlight the cloze blank in the English sentence
-      const highlightedSentence = maskedSentence.replace(/\(\s*_______\s*\)/g, '<span class="px-3 py-0.5 mx-1 bg-yellow-200 border border-yellow-400 font-mono font-black text-pink-700 underline tracking-widest">[ ______ ]</span>');
-      document.getElementById('choiceSentenceText').innerHTML = highlightedSentence;
-
-      this.buildMultipleChoiceOptions();
-    }
-  }
-
-  // Build Multiple Choice 4 Options (No audio, purely English distractors)
   buildMultipleChoiceOptions() {
     const grid = document.getElementById('choiceGrid');
     grid.innerHTML = '';
-
     const correctAnswer = this.currentQuestion;
     const distractors = [];
-    
-    // Prefer distractors with same part of speech or similar level from the entire database
     const pool = VOCABULARY_DATABASE.filter(w => w.word !== correctAnswer.word);
     
     while (distractors.length < 3 && pool.length > 0) {
@@ -7084,8 +7174,7 @@ class Y2KSpellingBeeApp {
     options.forEach((opt, idx) => {
       const btn = document.createElement('button');
       btn.className = 'choice-btn win98-btn w-full p-3.5 text-left font-bold flex items-center justify-between transition hover:bg-pink-100 active:scale-98';
-      
-      const keyLabel = String.fromCharCode(65 + idx); // (A), (B), (C), (D)
+      const keyLabel = String.fromCharCode(65 + idx);
       btn.innerHTML = `
         <div class="flex items-center space-x-2.5 truncate">
           <span class="w-6 h-6 win98-inward bg-pink-100 text-pink-700 flex items-center justify-center font-mono font-black text-xs">(${keyLabel})</span>
@@ -7098,13 +7187,11 @@ class Y2KSpellingBeeApp {
     });
   }
 
-  // --- Answer Processing ---
   handleSpellingSubmit(e) {
     if (e) e.preventDefault();
     const input = document.getElementById('spellingInput');
     const userSpelling = input.value.trim().toLowerCase();
     const targetSpelling = this.currentQuestion.word.toLowerCase();
-
     if (!userSpelling) return;
 
     if (userSpelling === targetSpelling) {
@@ -7116,8 +7203,6 @@ class Y2KSpellingBeeApp {
 
   handleChoiceSelect(selectedWord, btnElem) {
     const isCorrect = selectedWord.toLowerCase() === this.currentQuestion.word.toLowerCase();
-    
-    // Highlight choices
     document.querySelectorAll('.choice-btn').forEach(b => {
       b.disabled = true;
       if (b.innerText.includes(this.currentQuestion.word)) {
@@ -7134,84 +7219,12 @@ class Y2KSpellingBeeApp {
     }
   }
 
-  onAnswerSuccess(basePoints) {
-    this.answeredCount++;
-    this.correctCount++;
-    this.combo++;
-    if (this.combo > this.maxCombo) this.maxCombo = this.combo;
-
-    const multiplier = Math.min(1 + (this.combo - 1) * 0.2, 3.0);
-    const addedScore = Math.round(basePoints * multiplier);
-    this.score += addedScore;
-    const answerText = this.mode === 'spelling'
-      ? document.getElementById('spellingInput').value.trim()
-      : document.querySelector('.choice-btn:disabled')?.textContent || '未填寫';
-
-    this.answerLog.push({
-      index: this.answeredCount,
-      word: this.currentQuestion.word,
-      studentAnswer: answerText,
-      correct: true,
-      points: addedScore,
-      combo: this.combo,
-      definition: this.currentQuestion.def,
-      mode: this.mode,
-      timestamp: new Date().toISOString()
-    });
-
-    if (this.combo % 3 === 0 && this.combo > 1) {
-      this.playSfx('combo');
-      this.triggerConfetti(0.3);
-      this.showFeedback(`★ ${this.combo} COMBO 連擊！+${addedScore} PTS ★`, 'green');
-    } else {
-      this.playSfx('correct');
-      this.showFeedback(`✓ 正確！+${addedScore} PTS (${this.currentQuestion.word})`, 'green');
-    }
-
-    this.updateHUD();
-    setTimeout(() => this.nextQuestion(), 550);
-  }
-
-  onAnswerFailure(correctWord) {
-    this.answeredCount++;
-    this.combo = 0;
-    this.playSfx('wrong');
-
-    const card = document.getElementById('questionCard');
-    card.classList.add('animate-shake');
-    setTimeout(() => card.classList.remove('animate-shake'), 400);
-
-    const answerText = this.mode === 'spelling'
-      ? document.getElementById('spellingInput').value.trim()
-      : document.querySelector('.choice-btn:disabled')?.textContent || '未填寫';
-
-    this.answerLog.push({
-      index: this.answeredCount,
-      word: this.currentQuestion.word,
-      studentAnswer: answerText,
-      correct: false,
-      points: 0,
-      combo: 0,
-      definition: this.currentQuestion.def,
-      mode: this.mode,
-      timestamp: new Date().toISOString()
-    });
-
-    this.addWrongWord(this.currentQuestion);
-    this.showFeedback(`✗ 答錯了！正確答案：${correctWord} (${this.currentQuestion.def})`, 'rose');
-    this.updateHUD();
-
-    setTimeout(() => this.nextQuestion(), 1400);
-  }
-
   giveFirstLetterHint() {
     if (!this.currentQuestion || this.mode !== 'spelling') return;
     this.playSfx('click');
     const input = document.getElementById('spellingInput');
     const firstChar = this.currentQuestion.word.charAt(0).toUpperCase();
-    if (!input.value.startsWith(firstChar)) {
-      input.value = firstChar;
-    }
+    if (!input.value.startsWith(firstChar)) input.value = firstChar;
     this.score = Math.max(0, this.score - 20);
     this.updateHUD();
     this.showFeedback(`💡 字首提示：${firstChar}`, 'yellow');
@@ -7220,6 +7233,8 @@ class Y2KSpellingBeeApp {
 
   skipQuestion() {
     this.playSfx('click');
+    this.updateWordSchedule(this.currentQuestion.word, false);
+    this.sessionWrongWords.push(this.currentQuestion.word);
     this.addWrongWord(this.currentQuestion);
     this.combo = 0;
     this.updateHUD();
@@ -7231,16 +7246,10 @@ class Y2KSpellingBeeApp {
     const fb = document.getElementById('feedbackBox');
     fb.textContent = message;
     fb.className = 'absolute inset-x-0 bottom-0 py-2 text-center text-xs sm:text-sm font-black transition-all duration-200 pointer-events-none border-t';
-
-    if (color === 'green') {
-      fb.classList.add('bg-green-100', 'text-green-900', 'border-green-400', 'opacity-100');
-    } else if (color === 'rose') {
-      fb.classList.add('bg-rose-100', 'text-rose-900', 'border-rose-400', 'opacity-100');
-    } else if (color === 'yellow') {
-      fb.classList.add('bg-yellow-100', 'text-yellow-900', 'border-yellow-400', 'opacity-100');
-    } else {
-      fb.classList.add('bg-pink-200', 'text-fuchsia-900', 'border-pink-400', 'opacity-100');
-    }
+    if (color === 'green') fb.classList.add('bg-green-100', 'text-green-900', 'border-green-400', 'opacity-100');
+    else if (color === 'rose') fb.classList.add('bg-rose-100', 'text-rose-900', 'border-rose-400', 'opacity-100');
+    else if (color === 'yellow') fb.classList.add('bg-yellow-100', 'text-yellow-900', 'border-yellow-400', 'opacity-100');
+    else fb.classList.add('bg-pink-200', 'text-fuchsia-900', 'border-pink-400', 'opacity-100');
 
     setTimeout(() => {
       fb.classList.remove('opacity-100');
@@ -7259,100 +7268,6 @@ class Y2KSpellingBeeApp {
     }
   }
 
-  // --- End & Summary Screen ---
-  endGame() {
-    clearInterval(this.timerInterval);
-    this.playSfx('combo');
-    this.triggerConfetti(2);
-
-    if (this.score > this.bestScore) {
-      this.bestScore = this.score;
-      localStorage.setItem('y2k_spelling_best_score', this.bestScore.toString());
-    }
-
-    document.getElementById('summaryFinalScore').textContent = this.score.toLocaleString();
-    document.getElementById('summaryAccuracy').textContent = `${this.correctCount} / ${this.answeredCount}`;
-    document.getElementById('summaryMaxCombo').textContent = `${this.maxCombo}x`;
-    
-    const rate = this.answeredCount > 0 ? Math.round((this.correctCount / this.answeredCount) * 100) : 0;
-    document.getElementById('summaryRate').textContent = `${rate}%`;
-
-    const titleElem = document.getElementById('summaryRankTitle');
-    const feedbackElem = document.getElementById('summaryFeedbackText');
-    if (this.score >= 3500) {
-      titleElem.textContent = '👑 頂標學霸級 • 學測單字神人！';
-      feedbackElem.textContent = '太厲害了！5 分鐘內維持極高連擊與詞彙直覺，大考第一大題拿滿分易如反掌！';
-    } else if (this.score >= 2000) {
-      titleElem.textContent = '🔥 前標先鋒 • 實力超群！';
-      feedbackElem.textContent = '表現非常亮眼！多到單字總覽複習高頻例句，下回挑戰必定超越 3500 分！';
-    } else if (this.score >= 1000) {
-      titleElem.textContent = '🌱 均標進階者 • 潛力無窮！';
-      feedbackElem.textContent = '順利完成 5 分鐘極速考驗！每天利用單字總覽背 10 個新單字，實力將大幅躍升！';
-    } else {
-      titleElem.textContent = '✨ 初試啼聲 • 繼續加油！';
-      feedbackElem.textContent = '單字需要每天累積！打開「單字總覽」與「錯題本」多聽發音與例句，成績一定飛速成長！';
-    }
-
-    this.submitStudentResult();
-    this.showScreen('summary');
-  }
-
-  submitStudentResult() {
-    if (!this.googleSheetUrl) {
-      this.updateGoogleSheetStatus('尚未設定 Google Sheets 回傳連結', false);
-      return Promise.resolve({ ok: false, message: '未設定 Google Apps Script URL' });
-    }
-
-    const studentName = this.studentName || document.getElementById('studentNameInput')?.value?.trim() || '未填姓名';
-    const studentClass = this.studentClass || document.getElementById('studentClassInput')?.value?.trim() || '未填班級';
-    const payload = {
-      studentName,
-      studentClass,
-      mode: this.mode,
-      selectedLevel: this.selectedLevel,
-      score: this.score,
-      correctCount: this.correctCount,
-      answeredCount: this.answeredCount,
-      accuracyRate: this.answeredCount > 0 ? Math.round((this.correctCount / this.answeredCount) * 100) : 0,
-      maxCombo: this.maxCombo,
-      timestamp: new Date().toISOString(),
-      answers: this.answerLog
-    };
-
-    this.updateGoogleSheetStatus('正在同步作答紀錄到 Google Sheets…');
-
-    return fetch(this.googleSheetUrl, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    })
-      .then(async (response) => {
-        const text = await response.text();
-        let result = {};
-        try {
-          result = JSON.parse(text);
-        } catch (e) {
-          result = { message: text };
-        }
-
-        if (!response.ok || result.ok === false) {
-          throw new Error(result.message || 'Google Sheets 同步失敗');
-        }
-
-        this.updateGoogleSheetStatus(result.message || 'Google Sheets 同步成功');
-        return result;
-      })
-      .catch((error) => {
-        console.error('Google Sheets submit error:', error);
-        this.updateGoogleSheetStatus(`同步失敗：${error.message || '請確認 URL 正確'}`, false);
-        return { ok: false, message: error.message || '同步失敗' };
-      });
-  }
-
-  // --- Word Explorer (單字總覽區) ---
   showDictionaryModal() {
     this.playSfx('click');
     document.getElementById('dictionaryModal').classList.remove('hidden');
@@ -7367,16 +7282,11 @@ class Y2KSpellingBeeApp {
   filterDictionary() {
     const lvl = document.getElementById('dictLevelFilter').value;
     const query = document.getElementById('dictSearchInput').value.trim().toLowerCase();
-
     const filtered = VOCABULARY_DATABASE.filter(item => {
       const matchLvl = (lvl === 'all') || (item.level.toString() === lvl);
-      const matchQuery = !query || 
-        item.word.toLowerCase().includes(query) || 
-        item.def.includes(query) ||
-        (item.example && item.example.toLowerCase().includes(query));
+      const matchQuery = !query || item.word.toLowerCase().includes(query) || item.def.includes(query);
       return matchLvl && matchQuery;
     });
-
     this.renderDictionaryList(filtered);
   }
 
@@ -7384,17 +7294,6 @@ class Y2KSpellingBeeApp {
     const container = document.getElementById('dictionaryList');
     document.getElementById('dictResultCount').textContent = list.length;
     container.innerHTML = '';
-
-    if (list.length === 0) {
-      container.innerHTML = `
-        <div class="text-center py-10 text-fuchsia-400">
-          <div class="text-3xl mb-2">🔍</div>
-          <p class="font-bold text-fuchsia-900">查無符合條件的單字</p>
-        </div>
-      `;
-      return;
-    }
-
     list.forEach(item => {
       const card = document.createElement('div');
       card.className = 'win98-inward p-2.5 bg-pink-50/70 hover:bg-pink-100/80 transition flex flex-col gap-1.5';
@@ -7405,9 +7304,7 @@ class Y2KSpellingBeeApp {
             <span class="text-[10px] px-1.5 py-0.2 bg-white text-fuchsia-800 font-mono border border-pink-300">[${item.pos}]</span>
             <span class="text-[10px] px-1.5 py-0.2 bg-pink-500 text-white font-bold rounded-xs">Level ${item.level}</span>
           </div>
-          <button onclick="app.speakWord('${item.word}')" class="win98-btn px-2.5 py-0.5 text-xs text-fuchsia-950 font-bold hover:bg-pink-200">
-            🔊 發音
-          </button>
+          <button onclick="app.speakWord('${item.word}')" class="win98-btn px-2.5 py-0.5 text-xs text-fuchsia-950 font-bold hover:bg-pink-200">🔊 發音</button>
         </div>
         <div class="text-xs font-bold text-fuchsia-950">${item.def}</div>
         ${item.example ? `<div class="text-[11px] text-fuchsia-800 italic bg-white p-2 border border-pink-200 font-serif">"${item.example}"</div>` : ''}
@@ -7416,13 +7313,8 @@ class Y2KSpellingBeeApp {
     });
   }
 
-  // --- Wrong Words Memory & Review ---
   loadWrongWords() {
-    try {
-      return JSON.parse(localStorage.getItem('y2k_wrong_words') || '[]');
-    } catch(e) {
-      return [];
-    }
+    try { return JSON.parse(localStorage.getItem('y2k_wrong_words') || '[]'); } catch(e) { return []; }
   }
 
   saveWrongWords() {
@@ -7432,13 +7324,7 @@ class Y2KSpellingBeeApp {
 
   addWrongWord(item) {
     if (!this.wrongWords.some(w => w.word === item.word)) {
-      this.wrongWords.unshift({
-        word: item.word,
-        pos: item.pos,
-        def: item.def,
-        level: item.level,
-        example: item.example
-      });
+      this.wrongWords.unshift({ word: item.word, pos: item.pos, def: item.def, level: item.level, example: item.example });
       if (this.wrongWords.length > 100) this.wrongWords.pop();
       this.saveWrongWords();
     }
@@ -7453,37 +7339,23 @@ class Y2KSpellingBeeApp {
     this.playSfx('click');
     const list = document.getElementById('reviewList');
     list.innerHTML = '';
-
-    if (this.wrongWords.length === 0) {
-      list.innerHTML = `
-        <div class="text-center py-10 text-fuchsia-400">
-          <div class="text-4xl mb-2">🎉</div>
-          <p class="font-bold text-fuchsia-900 text-sm">目前錯題本空空如也！</p>
-          <p class="text-[11px] mt-1 text-fuchsia-600">在 5 分鐘挑戰中答錯或跳過的單字會自動收錄於此，提供例句與發音複習。</p>
-        </div>
-      `;
-    } else {
-      this.wrongWords.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'win98-inward p-2.5 bg-pink-50 flex flex-col gap-1.5';
-        card.innerHTML = `
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <span class="text-base font-black font-mono text-pink-600">${item.word}</span>
-              <span class="text-[10px] px-1.5 py-0.2 bg-white text-fuchsia-800 font-mono border border-pink-300">[${item.pos}]</span>
-              <span class="text-[10px] px-1.5 py-0.2 bg-pink-500 text-white font-bold">L${item.level}</span>
-            </div>
-            <button onclick="app.speakWord('${item.word}')" class="win98-btn px-2 py-0.5 text-xs text-fuchsia-900">
-              🔊 念發音
-            </button>
+    this.wrongWords.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'win98-inward p-2.5 bg-pink-50 flex flex-col gap-1.5';
+      card.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="text-base font-black font-mono text-pink-600">${item.word}</span>
+            <span class="text-[10px] px-1.5 py-0.2 bg-white text-fuchsia-800 font-mono border border-pink-300">[${item.pos}]</span>
+            <span class="text-[10px] px-1.5 py-0.2 bg-pink-500 text-white font-bold">L${item.level}</span>
           </div>
-          <div class="text-xs font-bold text-fuchsia-950">${item.def}</div>
-          ${item.example ? `<div class="text-[11px] text-fuchsia-800 italic bg-white p-1.5 border border-pink-200">"${item.example}"</div>` : ''}
-        `;
-        list.appendChild(card);
-      });
-    }
-
+          <button onclick="app.speakWord('${item.word}')" class="win98-btn px-2 py-0.5 text-xs text-fuchsia-900">🔊 念發音</button>
+        </div>
+        <div class="text-xs font-bold text-fuchsia-950">${item.def}</div>
+        ${item.example ? `<div class="text-[11px] text-fuchsia-800 italic bg-white p-1.5 border border-pink-200">"${item.example}"</div>` : ''}
+      `;
+      list.appendChild(card);
+    });
     document.getElementById('reviewModal').classList.remove('hidden');
   }
 
@@ -7493,7 +7365,6 @@ class Y2KSpellingBeeApp {
   }
 
   clearReviewList() {
-    if (this.wrongWords.length === 0) return;
     this.wrongWords = [];
     this.saveWrongWords();
     this.showReviewModal();
@@ -7505,12 +7376,12 @@ class Y2KSpellingBeeApp {
   }
 }
 
-// Global initialization
 let app;
 window.onload = function() {
   app = new Y2KSpellingBeeApp();
   app.init();
 };
+
 </script>
 </body>
 </html>
