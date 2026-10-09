@@ -234,7 +234,7 @@
           </div>
 
           <!-- Mode Selection Boxes -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             
             <!-- Spelling Bee Mode -->
             <div onclick="app.selectMode('spelling')" id="mode-spelling" class="mode-card win98-window p-4 cursor-pointer transition transform hover:-translate-y-0.5 !border-pink-500 bg-pink-100">
@@ -267,6 +267,23 @@
               </p>
               <div class="win98-inward bg-purple-100 p-1.5 text-center text-[11px] font-bold text-fuchsia-900">
                 ⭐ 基本加分：<span class="text-purple-700 font-black">+100</span> 分 / 題
+              </div>
+            </div>
+
+            <!-- High-frequency collocation mode -->
+            <div onclick="app.selectMode('collocation')" id="mode-collocation" class="mode-card win98-window p-4 cursor-pointer transition transform hover:-translate-y-0.5 opacity-80 bg-amber-50">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-amber-800 font-extrabold text-base flex items-center gap-1.5">
+                  <span>🔥</span>
+                  <span>學測高頻搭配詞挑戰</span>
+                </div>
+                <span class="text-xs bg-amber-500 text-white px-2 py-0.5 rounded-full font-bold">克漏字 • 搭配詞</span>
+              </div>
+              <p class="text-xs text-amber-950 mb-3 leading-relaxed">
+                根據學測克漏字例句推敲高頻搭配語，答題後可查看字根提示與中文翻譯。
+              </p>
+              <div class="win98-inward bg-amber-200/80 p-1.5 text-center text-[11px] font-bold text-amber-950">
+                ⭐ 基本加分：<span class="text-amber-700 font-black">+120</span> 分 / 題
               </div>
             </div>
           </div>
@@ -383,7 +400,7 @@
 
               <!-- GSAT Choice Prompt: Pure English Cloze Context (NO CHINESE) -->
               <div id="choicePromptArea" class="hidden text-left bg-pink-50/70 p-3 sm:p-4 rounded border border-pink-200">
-                <div class="text-[11px] font-bold text-fuchsia-700 mb-1 flex items-center gap-1">
+                <div id="choiceModeHeaderLabel" class="text-[11px] font-bold text-fuchsia-700 mb-1 flex items-center gap-1">
                   <span>📝</span> <span>學測第一大題詞彙題：請根據英文句意選出最適當的單字填入空格</span>
                 </div>
                 <div id="choiceSentenceText" class="text-base sm:text-lg font-bold text-fuchsia-950 leading-relaxed font-serif">
@@ -427,9 +444,44 @@
               </div>
             </div>
 
+            <div id="solutionNoteButtonContainer" class="hidden text-center py-2">
+              <button onclick="app.openSolutionNote()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs sm:text-sm rounded-full shadow-lg transition-transform active:scale-95 flex items-center justify-center mx-auto gap-1.5">
+                <span>💡 解題筆記</span>
+              </button>
+            </div>
+
             <!-- Instant Feedback Banner -->
             <div id="feedbackBox" class="absolute inset-x-0 bottom-0 py-1.5 text-center text-xs sm:text-sm font-black opacity-0 transition-all duration-200 pointer-events-none border-t">
             </div>
+          </div>
+        </div>
+
+        <div id="solutionNoteModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div class="bg-white border-4 border-indigo-900 rounded-2xl max-w-lg w-full p-5 shadow-[6px_6px_0px_0px_#312e81]">
+            <div class="flex justify-between items-center border-b-2 border-indigo-100 pb-2 mb-3">
+              <h3 class="text-base sm:text-lg font-black text-indigo-800">📖 解題筆記・搭配語解析</h3>
+              <button onclick="app.closeSolutionNote()" class="text-gray-400 hover:text-black font-bold text-2xl leading-none" aria-label="關閉解題筆記">&times;</button>
+            </div>
+            <div class="space-y-3 text-left">
+              <div class="bg-indigo-50 border-l-4 border-indigo-500 p-3 rounded-r">
+                <p class="text-xs text-indigo-950 leading-relaxed font-medium">
+                  🌟 別急著背單字。先看空格前後的主詞、動詞與介系詞，找出語意線索，再用常考搭配語驗證答案。答錯沒關係，現在把線索看懂，下一題就能更有把握。
+                </p>
+              </div>
+              <div>
+                <span class="inline-block bg-amber-100 text-amber-900 text-[11px] px-2 py-0.5 rounded font-bold">📝 完整克漏字例句</span>
+                <p id="solutionNoteSentence" class="mt-1 text-gray-800 text-xs sm:text-sm leading-relaxed"></p>
+              </div>
+              <div>
+                <span class="inline-block bg-blue-100 text-blue-800 text-[11px] px-2 py-0.5 rounded font-bold">🌱 字根與記憶法提示（E欄）</span>
+                <p id="solutionNoteRoot" class="mt-1 text-gray-700 text-xs sm:text-sm leading-relaxed"></p>
+              </div>
+              <div>
+                <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2 py-0.5 rounded font-bold">🌐 中文翻譯（F欄）</span>
+                <p id="solutionNoteTranslation" class="mt-1 text-gray-700 text-xs sm:text-sm leading-relaxed"></p>
+              </div>
+            </div>
+            <button onclick="app.closeSolutionNote()" class="mt-4 w-full py-2 bg-indigo-700 text-white font-bold rounded-xl hover:bg-indigo-800 transition text-sm">我看懂了，繼續挑戰</button>
           </div>
         </div>
 
@@ -596,9 +648,10 @@
       <div class="text-xs text-fuchsia-950 space-y-2 leading-relaxed bg-white p-3 win98-inward">
         <p><b>1. 挑戰時間：</b>共 5 分鐘（300 秒）。</p>
         <p><b>2. 選擇題模式（學測仿真）：</b>完全比照大考第一大題，<b>不提供中文與發音</b>，訓練看英文上下文推敲空格單字的能力！</p>
-        <p><b>3. Spelling Bee 模式：</b>提供美式發音、中文提示與例句，輸入完整英文字母。</p>
-        <p><b>4. 連擊狂飆加成 (Combo)：</b>連續答對倍率最高達 <b>3.0x</b>，跳過或答錯歸零。</p>
-        <p><b>5. 單字總覽與錯題本：</b>點擊選單「單字總覽」可隨時背誦全部 L1~L6 單字庫與例句！</p>
+        <p><b>3. 高頻搭配詞挑戰：</b>依克漏字例句判斷搭配語，作答後可查看字根提示與中文翻譯。</p>
+        <p><b>4. Spelling Bee 模式：</b>提供美式發音、中文提示與例句，輸入完整英文字母。</p>
+        <p><b>5. 連擊狂飆加成 (Combo)：</b>連續答對倍率最高達 <b>3.0x</b>，跳過或答錯歸零。</p>
+        <p><b>6. 單字總覽與錯題本：</b>點擊選單「單字總覽」可隨時背誦全部 L1~L6 單字庫與例句！</p>
       </div>
       <div class="text-center">
         <button onclick="document.getElementById('helpModal').classList.add('hidden')" class="win98-btn px-6 py-1 text-xs font-bold">我知道了</button>
@@ -627,6 +680,53 @@
   </footer>
 
 <script>
+/**
+ * 學測高頻搭配詞 CSV 資料（單字、中文釋義、常考搭配詞、克漏字例句、字根提示、中文翻譯）
+ * 原始 VOCABULARY_DATABASE 保持獨立，仍完整保留 6,014 筆詞彙。
+ */
+const COLLOCATION_CSV_ROWS = [
+  ["adapt", "適應、改編", "adapt to N/Ving (適應…)、adapt A for B (改編A以適用B)", "When entering a new culture, international exchange students must quickly _____ to local customs and academic styles. [adapt]", "字根 ad- (朝向) + apt (適合、能力) → 使自己朝向環境去配合適應。", "進入新文化環境時，國際交換生必須迅速適應當地的習俗與學術風格。"],
+  ["adopt", "採納、收養", "adopt an approach / policy (採納方針/政策)、adopt a child (收養孩子)", "The city council decided to _____ a comprehensive green energy policy to effectively combat climate change. [adopt]", "字根 ad- (朝向) + opt (選擇，如 option) → 透過主動選擇而予以採納或收養。", "市議會決定採納一項全面的綠色能源政策，以有效應對氣候變遷。"],
+  ["adept", "熟練的、內行的", "be adept at N/Ving (熟練於…、擅長於…)", "Having practiced coding for years, the software engineer is exceptionally _____ at troubleshooting complex system bugs. [adept]", "字根 ad- (朝向) + ept (能力，源自 apt) → 具有高度專長與能力，表「精通的」。", "經過多年的程式設計練習，這位軟體工程師特別擅長排除複雜的系統漏洞。"],
+  ["accommodate", "容納、提供住宿、順應", "accommodate the needs of... (順應…的需求)、accommodate guests (容納賓客)", "To welcome global tourists, the luxury hotel expanded its facilities to _____ over five hundred guests comfortably. [accommodate]", "字根 ac- (朝向) + mod (模式、度量) → 調整格局模式以提供適當空間與容納。", "為了迎接全球遊客，這家豪華飯店擴建了設施，以舒適地容納五百多位賓客。"],
+  ["ascribe", "歸因於、歸咎於", "ascribe A to B (將A歸因於B)", "Many environmental scientists _____ recent severe droughts directly to global warming and unsustainable human activities. [ascribe]", "字根 a- (朝向) + scribe (寫下) → 將事情的原因歸寫在特定對象名下（歸因於）。", "許多環境科學家將近期嚴重的乾旱直接歸因於全球暖化與不可持續的人類活動。"],
+  ["subscribe", "訂閱、贊同", "subscribe to a magazine (訂閱雜誌)、subscribe to a view (贊同觀點)", "Thousands of tech enthusiasts eagerly _____ to this monthly digital magazine to receive cutting-edge AI industry updates. [subscribe]", "字根 sub- (在底下) + scribe (簽名、寫) → 在合約下方簽字表同意訂閱或贊同觀點。", "成千上萬的科技愛好者熱切訂閱這本每月數位雜誌，以獲取頂尖的 AI 產業最新動態。"],
+  ["prescribe", "開立處方、規定", "prescribe medication for... (為…開藥)、prescribe rules (訂立規範)", "After diagnosing the infection, the physician will carefully _____ effective antibiotics to help ease your throat pain. [prescribe]", "字根 pre- (事先) + scribe (寫下) → 在給藥前預先寫下指示（開立處方、規定）。", "診斷出感染後，醫生會謹慎開立有效的抗生素，以協助緩解您的喉嚨疼痛。"],
+  ["describe", "描述、形容", "describe A as B (將A描述為B)", "Witnesses were asked to clearly _____ the suspect's appearance so that police officers could identify him quickly. [describe]", "字根 de- (向下、完全) + scribe (寫下) → 完整詳盡地落筆描繪其細節（描述）。", "目擊者被要求清楚描述嫌犯的外貌，以便警員能夠迅速指認他。"],
+  ["attribute", "歸因於；特質、屬性", "attribute A to B (將A歸因於B)、a key attribute (關鍵特質)", "Medical experts _____ the remarkable drop in heart disease to regular exercise and healthy dietary habits. [attribute]", "字根 at- (朝向) + tribute (給予、貢獻) → 將結果交付或給予某種緣由（歸因於）。", "醫學專家將心臟病患病率的顯著下降歸因於規律運動與健康的飲食習慣。"],
+  ["contribute", "貢獻、促成、導致", "contribute to N/Ving (促成/導致…)、contribute money to (捐款給…)", "Volunteers passionately dedicate their free time to _____ to building a more supportive and harmonious local community. [contribute]", "字根 con- (共同) + tribute (給予) → 大家共同給予心力或資源，促成有益的貢獻。", "志工們熱情地奉獻空閒時間，為建立一個更互助且和諧的在地社區做出貢獻。"],
+  ["distribute", "分發、分配、散佈", "distribute A to B (將A分發給B)、distribute evenly (均勻分佈)", "The charity organization will fairly _____ warm blankets and hot meals to homeless residents during harsh winters. [distribute]", "字根 dis- (分開) + tribute (給予) → 把物資分開派給眾人（分發、分配）。", "在嚴酷的寒冬中，慈善機構將公平地向無家可歸的居民發放保暖毛毯與熱食。"],
+  ["comprise", "包含、由…組成", "be comprised of (由…組成)、comprise the majority of (佔…的大多數)", "Ten independent research teams will _____ this comprehensive scientific committee investigating novel renewable energy solutions. [comprise]", "字根 com- (共同) + prise (抓住，如 capture) → 全部抓取聚集在一起而組成。", "十個獨立的研究團隊將組成這個專門調查新穎再生能源解決方案的綜合科學委員會。"],
+  ["compromise", "妥協、讓步；危及", "reach a compromise (達成妥協)、compromise safety / health (危及安全/健康)", "To settle the prolonged labor strike, management and factory workers decided to _____ on flexible working hours. [compromise]", "字根 com- (共同) + promise (承諾) → 雙方各退一步共同許下新承諾（達成妥協）。", "為了平息持續已久的罷工，管理層與工廠工人決定在彈性工時方面達成妥協。"],
+  ["conform", "遵從、順應、符合", "conform to rules / standards (遵從規則/符合標準)", "All drone operators must strictly _____ to aviation safety regulations to avoid causing dangerous mid-air collisions. [conform]", "字根 con- (共同) + form (形狀、模樣) → 讓自身形態與大家一致（遵從、順應）。", "所有無人機操作員都必須嚴格遵守航空安全規範，以避免引發危險的空中相撞。"],
+  ["confirm", "證實、確認", "confirm a reservation (確認預約)、confirm a theory / finding (證實理論/研究發現)", "Please check your email inbox carefully to _____ your flight seat reservation before arriving at the airport. [confirm]", "字根 con- (加強) + firm (堅固、確定) → 使事實或預約更加堅固不可動搖（證實、確認）。", "在抵達機場之前，請仔細檢查您的電子郵件信箱，以確認機位預訂。"],
+  ["confront", "面臨、遭遇、對峙", "be confronted with / by (面臨…困難)、confront the issue (正視問題)", "When facing unexpected financial crises, business leaders must courageously _____ hard challenges rather than avoiding them. [confront]", "字根 con- (共同) + front (前額、正面) → 正面迎對而不逃避（面臨、正視）。", "面對突如其來的財務危機，企業領袖必須勇敢正視艱難挑戰，而非逃避。"],
+  ["compel", "強迫、迫使", "compel sb to VR (迫使某人做某事)、feel compelled to VR (深感有必要做…)", "Severe economic sanctions will definitely _____ the hostile regime to reconsider its aggressive nuclear weapons development. [compel]", "字根 com- (加強) + pel (推動、驅使) → 施加強大外力推動某人去做某事（迫使、強迫）。", "嚴厲的經濟制裁必然會迫使該敵對政權重新考慮其激進的核武發展計畫。"],
+  ["expel", "驅逐、開除", "expel sb from school (開除學籍)、expel air / gas (排出氣體)", "The school administration chose to permanently _____ the violent student after repeated violations of campus safety policies. [expel]", "字根 ex- (向外) + pel (推動) → 朝外面推趕出去（驅逐、開除學籍）。", "在屢次違反校園安全規定後，學校行政單位決定永久開除這名有暴力行為的學生。"],
+  ["impel", "驅使、推動", "impel sb to action (驅使某人採取行動)", "Curiosity and personal ambition strongly _____ young scientists to explore mysterious deep-sea ecosystems with great enthusiasm. [impel]", "字根 im- (向內、促使) + pel (推動) → 在內心深處予以推動促成行動（驅使）。", "好奇心與個人抱負強烈驅使著年輕科學家以極大熱情探索神秘的深海生態系統。"],
+  ["repel", "擊退、驅除、排斥", "repel attacks / insects (擊退攻擊/驅蟲)、repel water (防水)", "Special ultrasonic sound waves can effectively _____ annoying mosquitoes without using harmful chemical sprays indoors. [repel]", "字根 re- (向後、反向) + pel (推動) → 朝反方向擊退推離（驅除、擊退）。", "特殊的超音波能有效驅除惱人的蚊子，且無需在室內使用有害的化學噴霧。"],
+  ["deprive", "剝奪、使喪失", "deprive sb of sth / sleep / rights (剝奪某人的…/剝奪睡眠/剝奪權利)", "Extreme sleep loss can severely _____ high school students of mental focus and hurt their exam performance. [deprive]", "字根 de- (除去、剝離) + prive (私人、個別) → 將個人所擁有的事物強行剝離（剝奪）。", "極度缺乏睡眠會嚴重剝奪高中生的專注力，並損害他們的考試表現。"],
+  ["derive", "源自、取得、衍生", "derive from (源自於…)、derive benefit / pleasure from (從…獲得好處/樂趣)", "Many English vocabulary words actually _____ their unique meanings from ancient Latin and Greek linguistic origins. [derive]", "字根 de- (源自) + rive (河流，如 river) → 如河水順流而下，引申為源自或衍生出來。", "許多英語單字的獨特涵義實際上是源自於古拉丁語與希臘語的語言源頭。"],
+  ["emerge", "出現、浮現、脫穎而出", "emerge from (從…浮現/走出)、emerge as a leader (嶄露頭角成為領袖)", "After years of diligent study, the young researcher began to _____ as an influential leader in biotechnology. [emerge]", "字根 e- (向外) + merge (浸入) → 從浸沒狀態浮出水面，引申為嶄露頭角、出現。", "經過多年的勤奮研究，這位年輕研究員開始嶄露頭角，成為生物技術領域深具影響力的領袖。"],
+  ["submerge", "浸入水中、淹沒", "be submerged in water (沒入水中)、submerge one's feelings (壓抑情感)", "The intense tropical storm threatened to completely _____ low-lying coastal villages under severe ocean floodwaters. [submerge]", "字根 sub- (在下方) + merge (浸入) → 徹底浸入水底之下（沒入水中、淹沒）。", "強烈熱帶風暴可能造成嚴重的海洋洪水，徹底淹沒地勢低窪的沿海村落。"],
+  ["persist", "堅持、持續存在", "persist in N/Ving (堅持做…)、if symptoms persist (若症狀持續存在)", "If severe coughing symptoms still _____ after taking medicine, you should immediately consult an experienced pulmonologist. [persist]", "字根 per- (始終、完全) + sist (站立) → 始終如一站著不走，表堅持或持續存在。", "服藥後若嚴重咳嗽症狀仍然持續存在，您應立即諮詢經驗豐富的胸腔科醫生。"],
+  ["resist", "抵抗、抗拒、耐受", "resist temptation (抵擋誘惑)、resist change (抗拒變革)、can't resist Ving (忍不住…)", "Healthy teenagers should consciously learn to _____ junk food temptation and choose nutritious balanced meals instead. [resist]", "字根 re- (反對、反向) + sist (站立) → 朝反方向站立對抗，表抵抗誘惑或抗拒變革。", "健康的青少年應自覺學會抵擋垃圾食物的誘惑，轉而選擇營養均衡的餐點。"],
+  ["consist", "組成；在於", "consist of (由…組成)、consist in (在於…)", "A truly balanced school breakfast should ideally _____ of fresh milk, whole grains, and seasonal organic fruits. [consist]", "字根 con- (共同) + sist (站立) → 許多元素共同站在一起構成整體（由…組成）。", "真正均衡的學校早餐理想上應由鮮奶、全穀物與當季有機水果組成。"],
+  ["insist", "堅持、堅決要求", "insist on N/Ving (堅持要做…)、insist that S + (should) VR", "Passionate consumer rights advocates strictly _____ that food corporations must disclose all artificial chemical ingredients. [insist]", "字根 in- (在…之上) + sist (站立) → 堅定站在自己立場上寸步不讓（堅持、堅決要求）。", "熱心的消費者權益倡導者堅決要求食品企業必須公開所有人工化學成分。"],
+  ["perceive", "察覺、看待、感知", "perceive A as B (將A視為B)、perceive a difference (察覺差異)", "Sociologists often _____ rapid social media trends as both beneficial communicative tools and sources of psychological anxiety. [perceive]", "字根 per- (完全) + ceive (抓取、理解) → 透過感官完全掌握事物全貌（察覺、看待）。", "社會學家常將快速變化的社群媒體趨勢視為有益的溝通工具，同時也是心理焦慮的來源。"],
+  ["conceive", "構想、設想、懷孕", "conceive an idea / a plan (構思構想/計畫)、conceive of (想像…)", "Creative advertising directors often struggle to _____ novel promotional ideas that can capture young consumers' attention. [conceive]", "字根 con- (共同) + ceive (抓取、孕育) → 在大腦中一同孕育新概念（構想、設想）。", "創意廣告總監常絞盡腦汁構思能夠吸引年輕消費者目光的新穎宣傳點子。"],
+  ["deceive", "欺騙、矇蔽", "deceive sb into Ving (欺騙某人做…)、deceive oneself (自欺欺人)", "Dishonest online sellers deliberately use misleading product photos to _____ unsuspecting customers into buying fake goods. [deceive]", "字根 de- (向下、偏離) + ceive (抓取) → 以偏離正軌的手段引人上鉤（欺騙、矇蔽）。", "不肖網路賣家故意使用誤導性的商品照片，以欺騙毫無防備的顧客購買假貨。"],
+  ["decline", "下降、衰退；婉拒", "decline an invitation / offer (婉拒邀請/提議)、in sharp decline (急劇下滑)", "Due to unexpected scheduling conflicts, the famous author had to politely _____ our formal graduation speech invitation. [decline]", "字根 de- (向下) + cline (傾斜) → 往下傾斜表示走下坡，引申為委婉低下身子拒絕。", "由於意料之外的行程衝突，這位知名作家不得不禮貌婉拒我們的畢業典禮演講邀請。"],
+  ["incline", "傾向於、傾斜", "incline to think / believe (傾向於認為)、be inclined to VR (傾向於…)", "When evaluating confusing evidence, thoughtful jurors tend to _____ toward believing credible eyewitness testimony over rumors. [incline]", "字根 in- (朝向) + cline (傾斜) → 心中思想朝某個方向傾斜偏向（傾向於）。", "在評估令人困惑的證據時，深思熟慮的陪審員往往傾向於相信可信的目擊者證詞而非謠言。"],
+  ["retain", "保留、保持、記住", "retain information / knowledge (記住資訊/知識)、retain employees (留住員工)", "Practicing spaced repetition helps ambitious students effectively _____ critical vocabulary terms in their long-term memory. [retain]", "字根 re- (向後、留住) + tain (握住、保持) → 抓牢並留在身邊不流失（保留、記住）。", "練習間隔重複法有助於有抱負的學生將關鍵詞彙有效記在長期記憶中。"],
+  ["sustain", "維持、支撐、遭受", "sustain life / growth (維持生命/增長)、sustain damage / injuries (遭受損害/傷害)", "Developing modern clean energy sources is absolutely vital to _____ sustainable economic growth and protect our planet. [sustain]", "字根 sus- (由下往上) + tain (支撐、握住) → 從底下支撐托住，表維持生命或承受。", "發展現代清潔能源對於維持永續的經濟成長並保護我們的地球至關重要。"],
+  ["maintain", "維持、保養、堅持主張", "maintain order / standards (維持秩序/標準)、maintain one's innocence (堅稱清白)", "Smart city managers work around the clock to _____ reliable public transportation services for all daily commuters. [maintain]", "字根 main (手，源自 manu) + tain (握住) → 用手時常檢修打理，表保養維護或堅持。", "智慧城市管理者日以繼夜地工作，以維持為所有日常通勤者提供可靠的大眾運輸服務。"],
+  ["contain", "包含、容納、克制/控制", "contain the spread of virus (抑制病毒蔓延)、contain one's excitement (抑制興奮之情)", "Healthcare workers acted decisively to _____ the deadly infectious disease before it could spread across neighboring communities. [contain]", "字根 con- (共同) + tain (握住、裝著) → 聚攏握住裝在一處，引申為容納與抑制圍堵。", "醫護人員果斷採取行動，在致命傳染病蔓延至鄰近社區之前將其控制圍堵。"],
+  ["encounter", "巧遇、遭遇、面臨", "encounter difficulties / problems (遭遇困難)、encounter a stranger (偶遇陌生人)", "Foreign exchange tourists often _____ unexpected cultural differences and communication barriers during their first week abroad. [encounter]", "字根 en- (使進入) + counter (相對、對面) → 走到彼此對面碰頭，表巧遇或面臨困難。", "出國留學或旅遊的人在國外的第一週通常會遭遇意料之外的文化差異與溝通障礙。"],
+  ["counter", "反駁、對抗、抵消", "counter an argument / claim (反駁論點/主張)、run counter to (與…背道而馳)", "Armed with solid statistical data, the debater was able to effectively _____ opposing misleading arguments during finals. [counter]", "源自 counter (相對的、反對的) → 站在反方正面出擊反制（反駁、對抗）。", "在決賽中，手握確鑿統計數據的辯手能夠有效反駁對方具有誤導性的論點。"],
+  ["tolerate", "容忍、忍受、耐受", "tolerate bad behavior / pain (容忍不良行為/忍受疼痛)、tolerate heat (耐熱)", "Professional customer service agents must patiently learn to _____ angry complaints from frustrated clients without losing composure. [tolerate]", "字根 toler (忍耐、承受，如 tolerant) → 承受重擔而不發作崩潰（容忍、忍受）。", "專業的客服人員必須耐心學會忍受沮喪客戶的憤怒抱怨，而不失去沉著從容。"]
+];
+
 /**
  * 高中英文 Level 1~6 完整分級大考字彙資料庫 (附大考生活情境例句)
  */
@@ -6649,6 +6749,20 @@ const VOCABULARY_DATABASE = [
 
 // If a specific word is marked for blanking in the example sentence, keep it here.
 // Otherwise, default to the canonical word so the masking still works exactly.
+const COLLOCATION_DATABASE = COLLOCATION_CSV_ROWS.map(([word, def, collocation, clozeSentence, rootClue, translation]) => {
+  const dictionaryEntry = VOCABULARY_DATABASE.find(item => item.word.toLowerCase() === word.toLowerCase());
+  return {
+    word,
+    def,
+    collocation,
+    clozeSentence,
+    rootClue,
+    translation,
+    level: dictionaryEntry?.level || 4,
+    pos: dictionaryEntry?.pos || 'v.'
+  };
+});
+
 VOCABULARY_DATABASE.forEach(item => {
   if (!item.hollow_out) item.hollow_out = item.word;
 });
@@ -6811,8 +6925,10 @@ class Y2KSpellingBeeApp {
     this.studentName = nameVal;
     this.playSfx('click');
     
-    // 產生今日 20 題佇列
-    this.dailyQueue = this.buildDailyQueue();
+    // 搭配詞模式使用 CSV 題庫；其他模式維持原本的每日 20 題 SRS 佇列。
+    this.dailyQueue = this.mode === 'collocation'
+      ? [...COLLOCATION_DATABASE].sort(() => Math.random() - 0.5)
+      : this.buildDailyQueue();
     this.queueIndex = 0;
     this.sessionWrongWords = [];
 
@@ -6841,6 +6957,11 @@ class Y2KSpellingBeeApp {
   }
 
   nextQuestion() {
+    const solutionButton = document.getElementById('solutionNoteButtonContainer');
+    const solutionModal = document.getElementById('solutionNoteModal');
+    if (solutionButton) solutionButton.classList.add('hidden');
+    if (solutionModal) solutionModal.classList.add('hidden');
+
     if (this.queueIndex >= this.dailyQueue.length) {
       // 20 題全部作答完畢，直接進入結算
       this.endGame();
@@ -6852,17 +6973,28 @@ class Y2KSpellingBeeApp {
     document.getElementById('wordLevelTag').textContent = `Level ${this.currentQuestion.level}`;
     document.getElementById('wordPosTag').textContent = `[${this.currentQuestion.pos}]`;
 
-    const hollowTarget = this.currentQuestion.hollow_out || this.currentQuestion.word;
-    const exampleRegex = new RegExp(this.escapeRegex(hollowTarget), 'gi');
-    const maskedSentence = this.currentQuestion.example 
-      ? this.currentQuestion.example.replace(exampleRegex, ' ( _______ ) ') 
-      : `The student prepared carefully to ( _______ ) the challenge.`;
+    let maskedSentence;
+    if (this.mode === 'collocation') {
+      maskedSentence = (this.currentQuestion.clozeSentence || '')
+        .replace(/\s*\[[^\]]+\]\s*$/, '')
+        .trim();
+      if (/^(?:\(?\s*)_{2,}/.test(maskedSentence)) {
+        maskedSentence = `Use the context to complete the sentence: ${maskedSentence}`;
+      }
+    } else {
+      const hollowTarget = this.currentQuestion.hollow_out || this.currentQuestion.word;
+      const exampleRegex = new RegExp(this.escapeRegex(hollowTarget), 'gi');
+      maskedSentence = this.currentQuestion.example
+        ? this.currentQuestion.example.replace(exampleRegex, ' ( _______ ) ')
+        : `The student prepared carefully to ( _______ ) the challenge.`;
+    }
 
     const spellingPromptArea = document.getElementById('spellingPromptArea');
     const choicePromptArea = document.getElementById('choicePromptArea');
     const spellingForm = document.getElementById('spellingForm');
     const choiceGrid = document.getElementById('choiceGrid');
     const questionTypeBadge = document.getElementById('questionTypeBadge');
+    const choiceHeader = document.getElementById('choiceModeHeaderLabel');
 
     if (this.mode === 'spelling') {
       questionTypeBadge.textContent = 'Spelling Bee 模式';
@@ -6884,8 +7016,15 @@ class Y2KSpellingBeeApp {
 
       setTimeout(() => this.speakWord(this.currentQuestion.word), 150);
     } else {
-      questionTypeBadge.textContent = '學測第一大題字彙模式 (純英文語境)';
-      questionTypeBadge.className = 'px-2 py-0.5 bg-purple-200 text-purple-900 font-bold';
+      if (this.mode === 'collocation') {
+        questionTypeBadge.textContent = '🔥 學測高頻搭配詞挑戰';
+        questionTypeBadge.className = 'px-2 py-0.5 bg-amber-200 text-amber-900 font-bold';
+        choiceHeader.innerHTML = '<span>🔥</span> <span>請觀察上下文與介系詞搭配，選出最適合填入空格的單字。</span>';
+      } else {
+        questionTypeBadge.textContent = '學測第一大題字彙模式 (純英文語境)';
+        questionTypeBadge.className = 'px-2 py-0.5 bg-purple-200 text-purple-900 font-bold';
+        choiceHeader.innerHTML = '<span>📝</span> <span>學測第一大題詞彙題：請根據英文句意選出最適當的單字填入空格</span>';
+      }
 
       spellingPromptArea.classList.add('hidden');
       choicePromptArea.classList.remove('hidden');
@@ -6894,7 +7033,8 @@ class Y2KSpellingBeeApp {
       spellingForm.classList.add('hidden');
       choiceGrid.classList.remove('hidden');
 
-      const highlightedSentence = maskedSentence.replace(/\(\s*_______\s*\)/g, '<span class="px-3 py-0.5 mx-1 bg-yellow-200 border border-yellow-400 font-mono font-black text-pink-700 underline tracking-widest">[ ______ ]</span>');
+      const blankMarkup = '<span class="px-3 py-0.5 mx-1 bg-yellow-200 border border-yellow-400 font-mono font-black text-pink-700 underline tracking-widest">[ ______ ]</span>';
+      const highlightedSentence = maskedSentence.replace(/\(\s*_{3,}\s*\)|_{3,}/g, blankMarkup);
       document.getElementById('choiceSentenceText').innerHTML = highlightedSentence;
 
       this.buildMultipleChoiceOptions();
@@ -6908,8 +7048,8 @@ class Y2KSpellingBeeApp {
     this.combo++;
     if (this.combo > this.maxCombo) this.maxCombo = this.combo;
 
-    // 排程升級 📈
-    this.updateWordSchedule(this.currentQuestion.word, true);
+    // 既有單字模式維持 SRS 排程；搭配詞模式不改動 6,014 字詞的複習資料。
+    if (this.mode !== 'collocation') this.updateWordSchedule(this.currentQuestion.word, true);
 
     const multiplier = Math.min(1 + (this.combo - 1) * 0.2, 3.0);
     const addedScore = Math.round(basePoints * multiplier);
@@ -6925,7 +7065,10 @@ class Y2KSpellingBeeApp {
     }
 
     this.updateHUD();
-    setTimeout(() => this.nextQuestion(), 550);
+    if (this.mode === 'collocation') {
+      document.getElementById('solutionNoteButtonContainer').classList.remove('hidden');
+    }
+    setTimeout(() => this.nextQuestion(), this.mode === 'collocation' ? 4500 : 550);
   }
 
   onAnswerFailure(correctWord) {
@@ -6933,8 +7076,8 @@ class Y2KSpellingBeeApp {
     this.combo = 0;
     this.playSfx('wrong');
 
-    // 排程降級 📉 與錯題記錄
-    this.updateWordSchedule(this.currentQuestion.word, false);
+    // 既有單字模式維持 SRS 排程；搭配詞模式不改動既有單字複習資料。
+    if (this.mode !== 'collocation') this.updateWordSchedule(this.currentQuestion.word, false);
     this.sessionWrongWords.push(this.currentQuestion.word);
     this.addWrongWord(this.currentQuestion);
 
@@ -6945,12 +7088,35 @@ class Y2KSpellingBeeApp {
     this.showFeedback(`✗ 答錯了！正確答案：${correctWord} (${this.currentQuestion.def})`, 'rose');
     this.updateHUD();
 
-    setTimeout(() => this.nextQuestion(), 1400);
+    if (this.mode === 'collocation') {
+      document.getElementById('solutionNoteButtonContainer').classList.remove('hidden');
+    }
+    setTimeout(() => this.nextQuestion(), this.mode === 'collocation' ? 5000 : 1400);
+  }
+
+  openSolutionNote() {
+    if (this.mode !== 'collocation' || !this.currentQuestion) return;
+    this.playSfx('click');
+    const question = this.currentQuestion;
+    const completedSentence = (question.clozeSentence || '')
+      .replace(/_{3,}/g, question.word)
+      .replace(/\s*\[[^\]]+\]\s*$/, '')
+      .trim();
+    document.getElementById('solutionNoteSentence').textContent = completedSentence;
+    document.getElementById('solutionNoteRoot').textContent = question.rootClue || '回到句子前後文，找出能與周邊詞語自然搭配的答案。';
+    document.getElementById('solutionNoteTranslation').textContent = question.translation || question.def;
+    document.getElementById('solutionNoteModal').classList.remove('hidden');
+  }
+
+  closeSolutionNote() {
+    this.playSfx('click');
+    document.getElementById('solutionNoteModal').classList.add('hidden');
   }
 
   // --- 遊戲結算與非同步回傳 Google 試算表 ---
   endGame() {
     clearInterval(this.timerInterval);
+    document.getElementById('solutionNoteModal').classList.add('hidden');
     this.playSfx('combo');
     this.triggerConfetti(2);
 
@@ -7078,15 +7244,14 @@ class Y2KSpellingBeeApp {
   selectMode(mode) {
     this.playSfx('click');
     this.mode = mode;
-    const spellCard = document.getElementById('mode-spelling');
-    const choiceCard = document.getElementById('mode-choice');
-    if (mode === 'spelling') {
-      spellCard.classList.add('!border-pink-500', 'bg-pink-100', 'opacity-100');
-      choiceCard.classList.remove('!border-pink-500', 'bg-pink-100');
-    } else {
-      choiceCard.classList.add('!border-pink-500', 'bg-pink-100', 'opacity-100');
-      spellCard.classList.remove('!border-pink-500', 'bg-pink-100');
-    }
+    ['spelling', 'choice', 'collocation'].forEach(modeName => {
+      const card = document.getElementById(`mode-${modeName}`);
+      if (!card) return;
+      card.classList.toggle('!border-pink-500', modeName === mode);
+      card.classList.toggle('bg-pink-100', modeName === mode);
+      card.classList.toggle('opacity-100', modeName === mode);
+      card.classList.toggle('opacity-80', modeName !== mode);
+    });
   }
 
   selectLevel(lvl) {
@@ -7099,6 +7264,7 @@ class Y2KSpellingBeeApp {
 
   showScreen(screenName) {
     this.playSfx('click');
+    if (screenName !== 'game') document.getElementById('solutionNoteModal').classList.add('hidden');
     document.getElementById('homeScreen').classList.add('hidden');
     document.getElementById('gameScreen').classList.add('hidden');
     document.getElementById('summaryScreen').classList.add('hidden');
@@ -7159,7 +7325,8 @@ class Y2KSpellingBeeApp {
     grid.innerHTML = '';
     const correctAnswer = this.currentQuestion;
     const distractors = [];
-    const pool = VOCABULARY_DATABASE.filter(w => w.word !== correctAnswer.word);
+    const wordBank = this.mode === 'collocation' ? COLLOCATION_DATABASE : VOCABULARY_DATABASE;
+    const pool = wordBank.filter(w => w.word !== correctAnswer.word);
     
     while (distractors.length < 3 && pool.length > 0) {
       const randIdx = Math.floor(Math.random() * pool.length);
@@ -7212,7 +7379,7 @@ class Y2KSpellingBeeApp {
 
     if (isCorrect) {
       btnElem.classList.add('!bg-green-300', '!border-green-700');
-      this.onAnswerSuccess(100);
+      this.onAnswerSuccess(this.mode === 'collocation' ? 120 : 100);
     } else {
       btnElem.classList.add('!bg-rose-200', '!border-rose-700', 'text-rose-950');
       this.onAnswerFailure(this.currentQuestion.word);
@@ -7233,7 +7400,7 @@ class Y2KSpellingBeeApp {
 
   skipQuestion() {
     this.playSfx('click');
-    this.updateWordSchedule(this.currentQuestion.word, false);
+    if (this.mode !== 'collocation') this.updateWordSchedule(this.currentQuestion.word, false);
     this.sessionWrongWords.push(this.currentQuestion.word);
     this.addWrongWord(this.currentQuestion);
     this.combo = 0;
