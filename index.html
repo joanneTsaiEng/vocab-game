@@ -457,7 +457,7 @@
         </div>
 
         <div id="solutionNoteModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div class="bg-white border-4 border-indigo-900 rounded-2xl max-w-lg w-full p-5 shadow-[6px_6px_0px_0px_#312e81]">
+          <div class="bg-white border-4 border-indigo-900 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 shadow-[6px_6px_0px_0px_#312e81]">
             <div class="flex justify-between items-center border-b-2 border-indigo-100 pb-2 mb-3">
               <h3 class="text-base sm:text-lg font-black text-indigo-800">📖 解題筆記・搭配語解析</h3>
               <button onclick="app.closeSolutionNote()" class="text-gray-400 hover:text-black font-bold text-2xl leading-none" aria-label="關閉解題筆記">&times;</button>
@@ -473,11 +473,15 @@
                 <p id="solutionNoteSentence" class="mt-1 text-gray-800 text-xs sm:text-sm leading-relaxed"></p>
               </div>
               <div>
-                <span class="inline-block bg-blue-100 text-blue-800 text-[11px] px-2 py-0.5 rounded font-bold">🌱 字根與記憶法提示（E欄）</span>
+                <span class="inline-block bg-amber-100 text-amber-900 text-[11px] px-2 py-0.5 rounded font-bold">🔗 常考搭配詞</span>
+                <p id="solutionNoteCollocation" class="mt-1 text-gray-800 text-xs sm:text-sm leading-relaxed"></p>
+              </div>
+              <div>
+                <span class="inline-block bg-blue-100 text-blue-800 text-[11px] px-2 py-0.5 rounded font-bold">🌱 字根與記憶法提示</span>
                 <p id="solutionNoteRoot" class="mt-1 text-gray-700 text-xs sm:text-sm leading-relaxed"></p>
               </div>
               <div>
-                <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2 py-0.5 rounded font-bold">🌐 中文翻譯（F欄）</span>
+                <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2 py-0.5 rounded font-bold">🌐 中文翻譯</span>
                 <p id="solutionNoteTranslation" class="mt-1 text-gray-700 text-xs sm:text-sm leading-relaxed"></p>
               </div>
             </div>
@@ -724,7 +728,49 @@ const COLLOCATION_CSV_ROWS = [
   ["contain", "包含、容納、克制/控制", "contain the spread of virus (抑制病毒蔓延)、contain one's excitement (抑制興奮之情)", "Healthcare workers acted decisively to _____ the deadly infectious disease before it could spread across neighboring communities. [contain]", "字根 con- (共同) + tain (握住、裝著) → 聚攏握住裝在一處，引申為容納與抑制圍堵。", "醫護人員果斷採取行動，在致命傳染病蔓延至鄰近社區之前將其控制圍堵。"],
   ["encounter", "巧遇、遭遇、面臨", "encounter difficulties / problems (遭遇困難)、encounter a stranger (偶遇陌生人)", "Foreign exchange tourists often _____ unexpected cultural differences and communication barriers during their first week abroad. [encounter]", "字根 en- (使進入) + counter (相對、對面) → 走到彼此對面碰頭，表巧遇或面臨困難。", "出國留學或旅遊的人在國外的第一週通常會遭遇意料之外的文化差異與溝通障礙。"],
   ["counter", "反駁、對抗、抵消", "counter an argument / claim (反駁論點/主張)、run counter to (與…背道而馳)", "Armed with solid statistical data, the debater was able to effectively _____ opposing misleading arguments during finals. [counter]", "源自 counter (相對的、反對的) → 站在反方正面出擊反制（反駁、對抗）。", "在決賽中，手握確鑿統計數據的辯手能夠有效反駁對方具有誤導性的論點。"],
-  ["tolerate", "容忍、忍受、耐受", "tolerate bad behavior / pain (容忍不良行為/忍受疼痛)、tolerate heat (耐熱)", "Professional customer service agents must patiently learn to _____ angry complaints from frustrated clients without losing composure. [tolerate]", "字根 toler (忍耐、承受，如 tolerant) → 承受重擔而不發作崩潰（容忍、忍受）。", "專業的客服人員必須耐心學會忍受沮喪客戶的憤怒抱怨，而不失去沉著從容。"]
+  ["tolerate", "容忍、忍受、耐受", "tolerate bad behavior / pain (容忍不良行為/忍受疼痛)、tolerate heat (耐熱)", "Professional customer service agents must patiently learn to _____ angry complaints from frustrated clients without losing composure. [tolerate]", "字根 toler (忍耐、承受，如 tolerant) → 承受重擔而不發作崩潰（容忍、忍受）。", "專業的客服人員必須耐心學會忍受沮喪客戶的憤怒抱怨，而不失去沉著從容。"],
+  ["rise", "上升、升起、增加 (不及物)", "rise by / to (增加到/幅度為…)、give rise to (引起…)、on the rise (在增加中)", "Due to worsening global warming, average sea levels continue to _____ dangerously, threatening low-lying coastal communities worldwide. [rise]", "不規則變化 rise-rose-risen，為不及物動詞，主詞自己「升起」或「增加」，後面不加受詞。", "由於全球暖化日益嚴重，平均海平面持續危險地上升，威脅著全球低窪的沿海社區。"],
+  ["arise", "產生、發生、出現 (不及物)", "arise from / out of (由…引起/產生)、should problems arise (若問題發生)", "Unforeseen ethical dilemmas may frequently _____ from the rapid deployment of artificial intelligence across various modern industries. [arise]", "字首 a- (加強) + rise (升起) → 問題或情況從無到有浮現、產生，變化為 arise-arose-arisen。", "跨現代各產業快速部署人工智慧的過程中，可能會頻繁產生無法預見的倫理困境。"],
+  ["raise", "提高、籌集、撫養、提出 (及物)", "raise public awareness (喚起大眾意識)、raise funds (籌募資金)、raise questions (提出疑問)", "Environmental activists organized an inspiring charity campaign to _____ public awareness about marine plastic pollution today. [raise]", "規則動詞 raise-raised-raised，為及物動詞，主詞以力量去舉起、撫養或籌集受詞。", "環保倡議者今日舉辦了一場鼓舞人心的慈善活動，以喚起大眾對海洋塑膠污染的意識。"],
+  ["arouse", "喚起、激發、引起 (及物)", "arouse one's curiosity / interest (激發某人的好奇心/興趣)、arouse suspicion (引起懷疑)", "The groundbreaking scientific discovery immediately served to _____ intense public curiosity regarding the existence of extraterrestrial life. [arouse]", "規則動詞 arouse-aroused-aroused，主詞去喚起、刺激抽象的情緒或感覺。", "這項突破性的科學發現立即激起了大眾對外星生命存在的強烈好奇心。"],
+  ["precede", "在…之前發生、先於", "precede sb/sth in time (在時間上先於…)、preceding chapter (前一章)", "Intense public debates and extensive consultations typically _____ the formal implementation of major new government energy policies. [precede]", "字根 pre- (在前面) + cede (走) → 走在事情的最前面，引申為在…之前發生、地位高於。", "激烈的大眾辯論與廣泛的協商諮詢，通常先於政府重大新能源政策的正式施行。"],
+  ["proceed", "繼續進行、前進", "proceed with sth (繼續進行某事)、proceed to VR (接著做…)", "After ensuring passenger safety, the airline crew decided to _____ with the scheduled international flight despite adverse weather. [proceed]", "字根 pro- (向前) + ceed (前進、走) → 繼續往前邁進。", "在確保乘客安全之後，航空公司機組人員決定儘管天候不佳仍繼續進行原定的國際航班。"],
+  ["exceed", "超過、超出、超越", "exceed expectations (超出預期)、exceed the speed limit (超速)", "The sales figures for newly released electric vehicles quickly began to _____ all optimistic quarterly projections made by analysts. [exceed]", "字根 ex- (向外、超出) + ceed (走) → 走出界線之外。", "新發布的電動車銷售數據迅速開始超出分析師所做的所有樂觀季度預測。"],
+  ["succeed", "成功；繼承、接替", "succeed in Ving (成功做到…)、succeed to the throne (繼承王位)、succeed sb as... (接替某人擔任…)", "After years of dedicated teamwork, the startup founders finally managed to _____ in launching an eco-friendly mobile application. [succeed]", "字根 sub- (在下方、隨後) + ceed (走) → 緊隨其後接替前人，引申為接替或順利達成。", "歷經多年的專注團隊合作，新創公司創辦人終於成功推出了一款環保的手機應用程式。"],
+  ["acquire", "獲得、取得、學得", "acquire skills / knowledge (習得技能/知識)、acquire a habit (養成習慣)", "Regular practice in meaningful interactive contexts enables passionate students to _____ practical language proficiency much faster than rote learning. [acquire]", "字根 ad- (朝向) + quire (尋求、獲得) → 朝目標去求取到手，引申為取得、習得。", "在有意義的互動情境中規律練習，能讓熱情的學生比死記硬背更快習得實用語言能力。"],
+  ["require", "需要、要求", "require sb to VR (要求某人做…)、require attention / patience (需要注意力/耐心)", "Mastering advanced artificial intelligence programming concepts will always _____ persistent dedication and solid mathematical reasoning skills. [require]", "字根 re- (反覆、再) + quire (尋求、索要) → 反覆不斷索求，引申為必然需要、強制要求。", "精通進階的人工智慧程式設計概念，必然需要持之以恆的投入與扎實的數學推理能力。"],
+  ["inquire", "詢問、打聽、調查", "inquire about (詢問關於…)、inquire into (調查某事)", "Prospective college students often email the admissions office to politely _____ about available international exchange scholarships and requirements. [inquire]", "字根 in- (進入、向內) + quire (尋求) → 深入向內追問到底，引申為詢問、深入調查。", "準大學生經常寫信給招生辦公室，有禮貌地詢問有關國際交換獎學金與申請要求。"],
+  ["expand", "擴大、擴展、膨脹", "expand business / horizons (拓展業務/視野)、expand rapidly (迅速擴張)", "Reading diverse academic literature definitely helps open-minded students _____ their intellectual horizons and develop critical thinking skills. [expand]", "字根 ex- (向外) + pand (展開、鋪開) → 朝四面八方展開鋪平，表擴大面積、拓展視野。", "閱讀多元的學術文獻絕對有助於心胸寬大開闊的學生拓展智識視野，並培養思辨能力。"],
+  ["extend", "延伸、延長、提供", "extend a deadline (延長截止期限)、extend an invitation / warm welcome (致予邀請/熱烈歡迎)", "Due to unexpected laboratory system maintenance, our kind professor decided to _____ the final assignment deadline by two days. [extend]", "字根 ex- (向外) + tend (拉伸) → 朝特定方向拉長長度或時間。", "由於突發的實驗室系統維護，我們仁慈的教授決定將期末作業截止期限延長兩天。"],
+  ["expend", "花費、耗費、消耗", "expend time / energy / resources on (在…上耗費時間/精力/資源)", "Marathon runners must pace themselves wisely so that they do not _____ all their physical energy before the finish. [expend]", "字根 ex- (向外) + pend (稱重、付錢，源自 expense) → 拿出錢包付款，引申為花費資源、消耗精力。", "馬拉松跑者必須明智調節配速，以免在終點線之前就耗盡了所有的體能精力。"],
+  ["expose", "暴露、接觸、揭發", "expose A to B (使A接觸/暴露於B)、expose the truth (揭露真相)", "Spending excessive screen time can dangerously _____ vulnerable teenagers to toxic online cyberbullying and severe psychological anxiety. [expose]", "字根 ex- (向外) + pose (放置) → 把東西放置在毫無遮蔽的外面，表暴露於危險中、揭穿。", "過度花時間盯著螢幕，可能會危險地使脆弱的青少年暴露於有害的網路霸凌和嚴重焦慮之中。"],
+  ["impose", "強制實行、強加、徵稅", "impose restrictions / fines on (對…施加限制/罰款)、impose a burden on (對…施加負擔)", "The municipal government decided to strictly _____ strict vehicle emission limits to protect public respiratory health across urban centers. [impose]", "字根 im- (在…之上) + pose (放置) → 把法令或負擔硬放置在他人頭上。", "市政府決定嚴格實施車輛排放限制，以保護城市中心大眾的呼吸道健康。"],
+  ["oppose", "反對、對抗", "be strongly opposed to N/Ving (強烈反對…)、oppose a plan / policy (反對計畫/政策)", "Many passionate local residents united to strongly _____ the sudden construction of a massive chemical incinerator near their homes. [oppose]", "字根 op- (反對、對立) + pose (放置、站立) → 站在對立面與他人相對望，表反對、抗拒。", "許多熱心的在地居民團結起來，強烈反對在自家附近突然建造大型化學焚化爐。"],
+  ["dispose", "處置、處理；使傾向於", "dispose of waste / garbage (處理廢棄物/垃圾)、dispose sb to / towards (使某人傾向於…)", "High-tech manufacturing factories must follow rigorous environmental protocols to responsibly _____ of hazardous toxic chemical industrial waste. [dispose]", "字根 dis- (分開) + pose (放置) → 把不需要的東西分門別類放置丟棄，搭配 of 表處理、丟棄。", "高科技製造工廠必須遵循嚴格的環保協議，以負責任地處理具危害性的有毒化學工業廢棄物。"],
+  ["convert", "轉變、變換、改信", "convert A into B (將A轉變為B)、convert to solar power (轉用太陽能)", "Modern solar panels are engineered to efficiently _____ radiant sunlight into usable electricity for household heating systems. [convert]", "字根 con- (完全) + vert (轉向) → 完全徹底轉移方向與形態，表形式上的轉變或轉換。", "現代太陽能板經工程設計能有效將陽光輻射轉化為可用電力，以供家庭供暖系統使用。"],
+  ["divert", "轉移、使轉向、分散注意力", "divert attention / traffic (轉移注意力/疏導交通)、divert funds from A to B (挪用資金)", "Traffic police officers acted swiftly to carefully _____ vehicles away from the busy highway after a severe multicar collision. [divert]", "字根 di- (分開、偏離) + vert (轉向) → 使車流或思緒偏離原本路線。", "發生嚴重的多車追撞事故後，交通警察迅速行動，小心將車輛疏導改道遠離繁忙的高速公路。"],
+  ["reverse", "反轉、徹底顛覆；相反的", "reverse a trend / decision (逆轉趨勢/推翻決定)、in reverse order (倒序)", "Aggressive global reforestation and clean energy efforts are urgent if we hope to successfully _____ devastating biodiversity loss trends. [reverse]", "字根 re- (向後、倒退) + verse (轉) → 朝相反方向轉回去，表顛覆、扭轉局面或倒車。", "如果我們希望成功逆轉毀滅性的生物多樣性喪失趨勢，積極的全球造林與清潔能源努力刻不容緩。"],
+  ["transmit", "傳播、傳送、發射信號", "transmit disease / signals / data (傳播疾病/傳送訊號/傳輸數據)", "Fiber-optic cables utilize ultra-fast light signals to instantly _____ massive quantities of digital data across deep oceanic trenches. [transmit]", "字根 trans- (穿過、跨越) + mit (送出、發送) → 跨越千山萬水發送出去。", "光纖電纜利用超高速的光信號，瞬間將海量的數位數據穿透深海海溝進行傳輸。"],
+  ["emit", "排放、散發氣體/光/聲音", "emit greenhouse gases / radiation (排放溫室氣體/輻射)、emit sounds (發出聲音)", "Traditional gasoline automobiles significantly _____ harmful greenhouse gases that aggravate toxic smog in densely populated metropolitan regions. [emit]", "字根 e- (向外) + mit (送出) → 向外排出氣體或光熱。", "傳統燃油車會大量排放有害溫室氣體，加劇人口稠密都會區的有毒煙霧問題。"],
+  ["submit", "提交、遞交；屈服", "submit an application / proposal (提交申請/提案)、submit to authority (順從/屈服於權威)", "Graduating high school seniors are strictly required to _____ their official college applications through the portal before midnight. [submit]", "字根 sub- (在底下) + mit (送出) → 自下而上雙手呈遞，引申為提交文書報告、屈服低頭。", "應屆高中畢業生被嚴格要求必須在午夜前透過入口網站提交他們的正式大學申請。"],
+  ["admit", "承認；准許進入、收治入學/入院", "admit one's mistake / fault (承認錯誤)、be admitted to hospital / college (獲准入院/大學錄取)", "Honest political leaders possess the humility to publicly _____ their policy errors and work proactively toward constructive solutions. [admit]", "字根 ad- (朝向) + mit (送出、准許) → 准許走上前來，引申為承認事實、准許進入。", "誠實的政治領袖具有公開承認其政策失誤的謙遜，並主動致力於尋求具建設性的解決方案。"],
+  ["suspect", "懷疑、猜想；嫌疑犯", "suspect sb of Ving (懷疑某人犯…)、prime suspect (主要嫌疑犯)", "Experienced medical researchers strongly _____ that prolonged artificial blue light exposure contributes directly to chronic sleep disorders. [suspect]", "字根 sub- (在底下) + spect (看) → 瞇著眼睛由下往上打量，心存懷疑。", "經驗豐富的醫學研究人員強烈懷疑，長時間暴露於人造藍光之下會直接導致慢性睡眠障礙。"],
+  ["inspect", "檢查、審查、視察", "inspect closely / thoroughly (仔細檢查)、inspect equipment for defects (檢查設備有無缺陷)", "Trained aviation safety engineers thoroughly _____ airplane engines before every single commercial departure to ensure maximum flight reliability. [inspect]", "字根 in- (進入、內部) + spect (看) → 往內部裡裡外外仔細檢視。", "訓練有素的航空安全工程師在每次商業航班起飛前都會徹底檢查飛機發動機，以確保最高的飛行可靠性。"],
+  ["prospect", "前景、前途、展望", "career prospects (職業前景)、the prospect of peace / success (和平/成功的展望)", "The exciting _____ of working on breakthrough artificial intelligence technologies attracts top talent from universities all around the globe. [prospect]", "字根 pro- (向前) + spect (看) → 往前看的遼闊視野與遠景。", "投身於突破性人工智慧技術工作的誘人前景，吸引了來自全球各地大學的頂尖人才。"],
+  ["induce", "引誘、導致、催促產生", "induce sleep / vomiting (催眠/催吐)、induce sb to VR (引誘某人做…)", "Doctors frequently warn that severe ongoing psychological stress can quickly _____ intense migraine headaches and chronic cardiovascular issues. [induce]", "字根 in- (進入、引導) + duce (引導、帶領) → 引入促成某種狀態。", "醫生經常警告，持續嚴重的心理壓力會迅速引發劇烈的偏頭痛以及慢性心血管問題。"],
+  ["deduce", "推論、推斷、演繹", "deduce A from B (從B推論出A)、logically deduce (合乎邏輯地推論)", "By carefully analyzing clues found at the crime scene, smart detectives were able to logically _____ who had broken in. [deduce]", "字根 de- (向下) + duce (引導) → 順著證據線索引導出結論。", "透過仔細分析犯罪現場發現的線索，機敏的刑警能夠合乎邏輯地推論出是誰破門而入。"],
+  ["reduce", "減少、降低、減輕", "reduce carbon emissions (減少碳排放)、reduce the risk of (降低…的風險)", "Adopting solar power and electric vehicles will dramatically _____ greenhouse gas emissions and protect fragile arctic polar ecosystems. [reduce]", "字根 re- (向後、退回) + duce (引導) → 引導帶回較低的水平狀態。", "採用太陽能與電動車將顯著減少溫室氣體排放，並保護脆弱的北極生態系統。"],
+  ["comprehend", "充分理解、領會", "fully comprehend (充分理解)、comprehend the importance of (領會…的重要性)", "Elementary students often struggle to fully _____ complex philosophical arguments presented without concrete illustrative real-life examples or analogies. [comprehend]", "字根 com- (全部、共同) + prehend (抓住) → 把所有概念在腦海中一把抓牢。", "如果沒有具體的現實生活範例或比喻，國小學生往往難以完全理解深奧的哲學論點。"],
+  ["apprehend", "逮捕；領會、憂慮", "apprehend a criminal / suspect (逮捕罪犯/嫌犯)", "Dedicated police officers worked tirelessly through midnight to successfully _____ the dangerous armed robbery suspect before he fled overseas. [apprehend]", "字根 ad- (朝向) + prehend (抓住) → 伸出手把罪犯抓捕到案，亦有擔憂之意。", "敬業的警員徹夜不眠地努力工作，終於在危險的持槍搶劫嫌犯潛逃出境之前將其成功逮捕。"],
+  ["affect", "影響、深深打動 (及物動詞)", "adversely affect (造成負面影響)、deeply affect sb (深深打動某人)", "Chronic sleep deprivation can adversely _____ high school students' academic focus and increase their daily mental fatigue dramatically. [affect]", "字首 af- (朝向) + fect (做、產生作用) → 作用力施加在對象上，常作及物動詞。", "長期睡眠不足會對高中生的學習專注力造成負面影響，並大幅增加他們的日常心理疲勞。"],
+  ["effect", "效果、影響、結果；實行、使產生", "have an effect on (對…產生影響)、take effect (生效/起作用)、cause and effect (因果關係)、side effect (副作用)", "Scientists have observed that prolonged exposure to high stress can have a detrimental _____ on cognitive memory performance. [effect]", "字首 ef- (向外，同 ex-) + fect (做、製造) → 做出來產生的成果或作用。", "科學家觀察發現，長期處於高度壓力之下會對認知記憶表現產生有害的影響。"],
+  ["infect", "傳染、感染；侵染 (及物動詞)", "infect sb with sth (使某人感染…)、be infected with / by (感染上…)、infect computer systems (感染電腦系統)", "Public health experts warned that the newly identified airborne virus could easily _____ millions of unvaccinated individuals within weeks. [infect]", "字首 in- (進入、在內) + fect (做、產生作用) → 侵入體內產生致病作用，引申為情緒感染。", "公共衛生專家警告，這種新發現的空氣傳播病毒可能在數週內輕易感染數百萬名未接種疫苗的人。"],
+  ["distinguish", "區分、辨別、使揚名", "distinguish between A and B (區分A與B)、distinguish oneself as... (表現卓越揚名為…)", "Critical media literacy courses teach curious students how to clearly _____ reliable journalism from misleading viral propaganda online. [distinguish]", "字根 dis- (分開) + sting (刺、戳記標記) → 以標記戳印分開劃界。", "批判性媒體素養課程教導求知若渴的學生，如何清楚區分可信的新聞報導與網路上具誤導性的瘋傳宣傳。"],
+  ["extinguish", "熄滅、撲滅、消除", "extinguish a fire / flame (撲滅火勢/火焰)、extinguish hope (破滅希望)", "Brave firefighters worked courageously across several dangerous hours to completely _____ the raging industrial warehouse chemical fire safely. [extinguish]", "字根 ex- (向外、除去) + sting (刺、火花) → 把火花戳除消滅乾淨。", "英勇的消防隊員在數個危險的小時內奮勇搶救，終於安全撲滅了這場肆虐的工業倉庫化學火災。"],
+  ["convey", "傳達、表達；運送", "convey a message / idea (傳達訊息/想法)、convey one's gratitude / sympathy (表達感謝/同情)", "Through expressive facial gestures and rich melodies, the gifted violinist managed to _____ profound emotional warmth without words. [convey]", "字根 con- (共同) + vey (道路，源自 via) → 一路護送過去，引申為傳達心意訊息、運送。", "透過富有表現力的面部神態與豐富旋律，這位天才小提琴家無需言語便成功傳達了深沉的情感溫度。"],
+  ["substitute", "代替、替代；替代品", "substitute A for B (用A替代B)、a substitute teacher (代課老師)", "Bakers seeking healthier recipes can successfully _____ unsweetened applesauce for butter without sacrificing the delightful moist texture. [substitute]", "字根 sub- (在底下) + stitute (站立，源自 stat) → 站在下方隨時替補上場。", "尋求更健康食譜的烘焙師可以用無糖蘋果醬成功替代奶油，而不會犧牲令人愉悅的濕潤口感。"],
+  ["prohibit", "禁止、阻止 (官方命令或法律)", "prohibit sb from Ving (禁止某人做…)、strictly prohibited (嚴格禁止)", "Strict environmental preservation regulations strictly _____ visitors from flying noisy recreational drones inside fragile national park wildlife zones. [prohibit]", "字根 pro- (在前面) + hibit (拿著、把持) → 站在前方擋住並扣留把持，表明文法律禁止。", "嚴格的環境保護法規明文禁止遊客在脆弱的國家公園野生動物保護區內飛行喧鬧的休閒無人機。"],
+  ["inhibit", "抑制、阻礙、約束", "inhibit growth / development (抑制生長/發展)、feel inhibited (感到拘謹拘束)", "Unhealthy perfectionism and constant fear of making mistakes often _____ students from speaking English fluently during group discussions. [inhibit]", "字根 in- (在內) + hibit (持握、抓牢) → 在內心深處被扣住放不開，表抑制、約束發展。", "不健康的完美主義與對犯錯的持續恐懼，經常抑制學生在分組討論中流利說英語。"]
 ];
 
 /**
@@ -6749,7 +6795,7 @@ const VOCABULARY_DATABASE = [
 
 // If a specific word is marked for blanking in the example sentence, keep it here.
 // Otherwise, default to the canonical word so the masking still works exactly.
-const COLLOCATION_DATABASE = COLLOCATION_CSV_ROWS.map(([word, def, collocation, clozeSentence, rootClue, translation]) => {
+let COLLOCATION_DATABASE = COLLOCATION_CSV_ROWS.map(([word, def, collocation, clozeSentence, rootClue, translation]) => {
   const dictionaryEntry = VOCABULARY_DATABASE.find(item => item.word.toLowerCase() === word.toLowerCase());
   return {
     word,
@@ -6772,6 +6818,56 @@ VOCABULARY_DATABASE.forEach(item => {
 
 // 填入你在 Google Apps Script 部署取得的 Web 應用程式網址 🔗
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyvxY7O9BHc8HSZVtKLJSLlJ52fsnh99XwZH2xaEBibtpiRh866WR6gzn_--pROO1hnwg/exec";
+
+function loadCollocationDatabase() {
+  return new Promise((resolve, reject) => {
+    const callbackName = `collocationCallback_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+    const script = document.createElement('script');
+    let settled = false;
+    const timeoutId = setTimeout(() => finish(new Error('搭配詞題庫讀取逾時')), 10000);
+
+    function finish(error, payload) {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeoutId);
+      delete window[callbackName];
+      script.remove();
+      if (error) reject(error);
+      else resolve(payload);
+    }
+
+    window[callbackName] = payload => finish(null, payload);
+    script.onerror = () => finish(new Error('無法讀取搭配詞題庫'));
+
+    const url = new URL(GAS_WEB_APP_URL);
+    url.searchParams.set('callback', callbackName);
+    script.src = url.toString();
+    document.head.appendChild(script);
+  });
+}
+
+function normalizeCollocationDatabase(items) {
+  return items
+    .filter(item => item && typeof item.word === 'string' && item.word.trim() &&
+      typeof item.clozeSentence === 'string' && item.clozeSentence.trim())
+    .map(item => {
+      const word = item.word.trim();
+      const dictionaryEntry = VOCABULARY_DATABASE.find(
+        entry => entry.word.toLowerCase() === word.toLowerCase()
+      );
+      return {
+        ...item,
+        word,
+        def: item.def || '',
+        collocation: item.collocation || '',
+        clozeSentence: item.clozeSentence.trim(),
+        rootClue: item.rootClue || '',
+        translation: item.translation || '',
+        level: dictionaryEntry?.level || 4,
+        pos: dictionaryEntry?.pos || 'n./v.'
+      };
+    });
+}
 
 // 5 個箱盒對應的間隔天數 ⏳
 const BOX_INTERVALS = { 1: 1, 2: 3, 3: 7, 4: 14, 5: 30 };
@@ -6912,42 +7008,65 @@ class Y2KSpellingBeeApp {
   }
 
   // --- 遊戲開始流程 ---
-  startGame() {
-    const nameInput = document.getElementById('studentNameInput');
-    const nameVal = nameInput ? nameInput.value.trim() : "";
-    
-    this.studentName = nameVal;
-    this.playSfx('click');
-    
-    // 搭配詞模式使用 CSV 題庫；其他模式維持原本的每日 20 題 SRS 佇列。
-    this.dailyQueue = this.mode === 'collocation'
-      ? [...COLLOCATION_DATABASE].sort(() => Math.random() - 0.5)
-      : this.buildDailyQueue();
-    this.queueIndex = 0;
-    this.sessionWrongWords = [];
+  async startGame() {
+    if (this.isStartingGame) return;
+    this.isStartingGame = true;
+    const startButtons = document.querySelectorAll('button[onclick="app.startGame()"]');
+    startButtons.forEach(button => { button.disabled = true; });
 
-    // 重設狀態
-    this.timer = 300;
-    this.score = 0;
-    this.combo = 0;
-    this.maxCombo = 0;
-    this.answeredCount = 0;
-    this.correctCount = 0;
+    try {
+      const nameInput = document.getElementById('studentNameInput');
+      const nameVal = nameInput ? nameInput.value.trim() : "";
 
-    this.updateHUD();
-    this.showScreen('game');
+      this.studentName = nameVal;
+      this.playSfx('click');
 
-    clearInterval(this.timerInterval);
-    this.timerInterval = setInterval(() => {
-      this.timer--;
-      this.updateTimerDisplay();
-      if (this.timer <= 0) {
-        this.endGame();
+      if (this.mode === 'collocation') {
+        try {
+          const response = await loadCollocationDatabase();
+          const remoteDatabase = response?.ok && Array.isArray(response.data)
+            ? normalizeCollocationDatabase(response.data)
+            : [];
+          if (!remoteDatabase.length) throw new Error(response?.message || '遠端題庫沒有有效題目');
+          COLLOCATION_DATABASE = remoteDatabase;
+        } catch (error) {
+          console.warn('改用內建搭配詞題庫：', error);
+        }
       }
-    }, 1000);
 
-    this.updateTimerDisplay();
-    this.nextQuestion();
+      // 搭配詞模式使用試算表題庫；其他模式維持原本的每日 20 題 SRS 佇列。
+      this.dailyQueue = this.mode === 'collocation'
+        ? [...COLLOCATION_DATABASE].sort(() => Math.random() - 0.5)
+        : this.buildDailyQueue();
+      this.queueIndex = 0;
+      this.sessionWrongWords = [];
+
+      // 重設狀態
+      this.timer = 300;
+      this.score = 0;
+      this.combo = 0;
+      this.maxCombo = 0;
+      this.answeredCount = 0;
+      this.correctCount = 0;
+
+      this.updateHUD();
+      this.showScreen('game');
+
+      clearInterval(this.timerInterval);
+      this.timerInterval = setInterval(() => {
+        this.timer--;
+        this.updateTimerDisplay();
+        if (this.timer <= 0) {
+          this.endGame();
+        }
+      }, 1000);
+
+      this.updateTimerDisplay();
+      this.nextQuestion();
+    } finally {
+      this.isStartingGame = false;
+      startButtons.forEach(button => { button.disabled = false; });
+    }
   }
 
   nextQuestion() {
@@ -7097,6 +7216,7 @@ class Y2KSpellingBeeApp {
       .replace(/\s*\[[^\]]+\]\s*$/, '')
       .trim();
     document.getElementById('solutionNoteSentence').textContent = completedSentence;
+    document.getElementById('solutionNoteCollocation').textContent = question.collocation || '此單字尚未提供常考搭配詞。';
     document.getElementById('solutionNoteRoot').textContent = question.rootClue || '回到句子前後文，找出能與周邊詞語自然搭配的答案。';
     document.getElementById('solutionNoteTranslation').textContent = question.translation || question.def;
     document.getElementById('solutionNoteModal').classList.remove('hidden');
