@@ -205,13 +205,13 @@
           <div class="win98-window p-3 bg-pink-100 border-2 border-pink-400 space-y-1.5">
             <div class="text-xs font-bold text-fuchsia-900 flex items-center gap-1.5">
               <span>🏷️</span>
-              <span>學生身分登記（成績將自動回傳教師後台）：</span>
+              <span>學生身分登記（選填，成績將自動回傳教師後台）：</span>
             </div>
             <div class="flex gap-2">
               <input 
                 type="text" 
                 id="studentNameInput" 
-                placeholder="請輸入：班級座號 + 姓名（例如：30105 王小明）" 
+                placeholder="選填：班級座號 + 姓名（例如：30105 王小明）" 
                 class="win98-inward w-full px-3 py-1.5 bg-white text-xs sm:text-sm font-bold text-fuchsia-950 outline-none"
               />
             </div>
@@ -481,7 +481,7 @@
                 <p id="solutionNoteTranslation" class="mt-1 text-gray-700 text-xs sm:text-sm leading-relaxed"></p>
               </div>
             </div>
-            <button onclick="app.closeSolutionNote()" class="mt-4 w-full py-2 bg-indigo-700 text-white font-bold rounded-xl hover:bg-indigo-800 transition text-sm">我看懂了，繼續挑戰</button>
+            <button onclick="app.continueAfterSolutionNote()" class="mt-4 w-full py-2 bg-indigo-700 text-white font-bold rounded-xl hover:bg-indigo-800 transition text-sm">我看懂了，繼續挑戰</button>
           </div>
         </div>
 
@@ -6916,12 +6916,6 @@ class Y2KSpellingBeeApp {
     const nameInput = document.getElementById('studentNameInput');
     const nameVal = nameInput ? nameInput.value.trim() : "";
     
-    if (!nameVal) {
-      alert("⚠️ 請先在上方輸入您的【班級座號與姓名】再開始挑戰喔！");
-      if (nameInput) nameInput.focus();
-      return;
-    }
-    
     this.studentName = nameVal;
     this.playSfx('click');
     
@@ -7068,7 +7062,7 @@ class Y2KSpellingBeeApp {
     if (this.mode === 'collocation') {
       document.getElementById('solutionNoteButtonContainer').classList.remove('hidden');
     }
-    setTimeout(() => this.nextQuestion(), this.mode === 'collocation' ? 4500 : 550);
+    if (this.mode !== 'collocation') setTimeout(() => this.nextQuestion(), 550);
   }
 
   onAnswerFailure(correctWord) {
@@ -7091,7 +7085,7 @@ class Y2KSpellingBeeApp {
     if (this.mode === 'collocation') {
       document.getElementById('solutionNoteButtonContainer').classList.remove('hidden');
     }
-    setTimeout(() => this.nextQuestion(), this.mode === 'collocation' ? 5000 : 1400);
+    if (this.mode !== 'collocation') setTimeout(() => this.nextQuestion(), 1400);
   }
 
   openSolutionNote() {
@@ -7111,6 +7105,11 @@ class Y2KSpellingBeeApp {
   closeSolutionNote() {
     this.playSfx('click');
     document.getElementById('solutionNoteModal').classList.add('hidden');
+  }
+
+  continueAfterSolutionNote() {
+    this.closeSolutionNote();
+    this.nextQuestion();
   }
 
   // --- 遊戲結算與非同步回傳 Google 試算表 ---
@@ -7496,7 +7495,7 @@ class Y2KSpellingBeeApp {
       this.saveWrongWords();
     }
   }
-
+889
   updateWrongBadge() {
     const badge = document.getElementById('wrongCountBadge');
     if (badge) badge.textContent = this.wrongWords.length;
