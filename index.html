@@ -145,10 +145,6 @@
       <div class="text-3xl text-purple-600 drop-shadow">👑</div>
       <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">L1-L6題庫.dat</span>
     </div>
-    <div class="flex flex-col items-center">
-      <div class="text-3xl text-amber-500 drop-shadow">💿</div>
-      <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">學測必勝.zip</span>
-    </div>
   </div>
 
   <!-- Top Retro OS Window Container -->
@@ -683,6 +679,7 @@
     </div>
   </footer>
 
+<script src="collocation-data.js"></script>
 <script>
 /**
  * 學測高頻搭配詞 CSV 資料（單字、中文釋義、常考搭配詞、克漏字例句、字根提示、中文翻譯）
@@ -6793,6 +6790,15 @@ const VOCABULARY_DATABASE = [
   {"word": "true", "level": 2, "pos": "adj./adv./v.", "def": "真實的、正確的", "hollow_out": "true", "example": "Is it true that you are changing jobs next month?"}
 ];
 
+COLLOCATION_CSV_ROWS.push(...window.COLLOCATION_QUESTION_BANK.slice(COLLOCATION_CSV_ROWS.length).map(question => [
+  question.word,
+  question.def,
+  question.collocation,
+  question.clozeSentence,
+  question.rootClue,
+  question.translation
+]));
+
 // If a specific word is marked for blanking in the example sentence, keep it here.
 // Otherwise, default to the canonical word so the masking still works exactly.
 let COLLOCATION_DATABASE = COLLOCATION_CSV_ROWS.map(([word, def, collocation, clozeSentence, rootClue, translation]) => {
@@ -6882,6 +6888,7 @@ class Y2KSpellingBeeApp {
     this.selectedLevel = 'all';
     this.soundEnabled = true;
     this.studentName = "";
+    this.answerLog = [];
     
     // 遊戲運行狀態
     this.timer = 300; // 5 分鐘挑戰
@@ -7028,7 +7035,10 @@ class Y2KSpellingBeeApp {
             ? normalizeCollocationDatabase(response.data)
             : [];
           if (!remoteDatabase.length) throw new Error(response?.message || '遠端題庫沒有有效題目');
-          COLLOCATION_DATABASE = remoteDatabase;
+          const questionsByWord = new Map(
+            [...COLLOCATION_DATABASE, ...remoteDatabase].map(question => [question.word.toLowerCase(), question])
+          );
+          COLLOCATION_DATABASE = [...questionsByWord.values()];
         } catch (error) {
           console.warn('改用內建搭配詞題庫：', error);
         }
@@ -7040,6 +7050,7 @@ class Y2KSpellingBeeApp {
         : this.buildDailyQueue();
       this.queueIndex = 0;
       this.sessionWrongWords = [];
+      this.answerLog = [];
 
       // 重設狀態
       this.timer = 300;
@@ -7253,10 +7264,17 @@ class Y2KSpellingBeeApp {
 
     // 背景默默發送資料至 Google Sheets 🚀
     this.sendProgressToGoogleSheet({
-      timestamp: new Date().toLocaleString(),
-      studentName: this.studentName,
+      timestamp: new Date().toISOString(),
+      studentName: this.studentName || '未填姓名',
+      studentClass: document.getElementById('studentClassInput')?.value?.trim() || '未填班級',
+      mode: this.mode,
+      selectedLevel: this.selectedLevel,
       score: this.score,
-      accuracy: `${accuracyRate}%`,
+      correctCount: this.correctCount,
+      answeredCount: this.answeredCount,
+      accuracyRate,
+      maxCombo: this.maxCombo,
+      answers: this.answerLog,
       boxCounts: this.getBoxCounts(),
       wrongWords: this.sessionWrongWords
     });
@@ -7273,7 +7291,7 @@ class Y2KSpellingBeeApp {
     fetch(GAS_WEB_APP_URL, {
       method: "POST",
       mode: "no-cors", // 靜態網頁跨域發送必備
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(payload)
     }).then(() => {
       console.log("✅ 學習進度已成功回傳至試算表！");
@@ -7479,6 +7497,7 @@ class Y2KSpellingBeeApp {
     const userSpelling = input.value.trim().toLowerCase();
     const targetSpelling = this.currentQuestion.word.toLowerCase();
     if (!userSpelling) return;
+    this.recordAnswer(userSpelling, userSpelling === targetSpelling);
 
     if (userSpelling === targetSpelling) {
       this.onAnswerSuccess(150);
@@ -7489,6 +7508,7 @@ class Y2KSpellingBeeApp {
 
   handleChoiceSelect(selectedWord, btnElem) {
     const isCorrect = selectedWord.toLowerCase() === this.currentQuestion.word.toLowerCase();
+    this.recordAnswer(selectedWord, isCorrect);
     document.querySelectorAll('.choice-btn').forEach(b => {
       b.disabled = true;
       if (b.innerText.includes(this.currentQuestion.word)) {
@@ -7505,6 +7525,20 @@ class Y2KSpellingBeeApp {
     }
   }
 
+  recordAnswer(userAnswer, isCorrect, status = 'answered') {
+    this.answerLog.push({
+      mode: this.mode,
+      word: this.currentQuestion.word,
+      userAnswer,
+      correctAnswer: this.currentQuestion.word,
+      isCorrect,
+      status,
+      question: this.currentQuestion.clozeSentence || this.currentQuestion.example || '',
+      collocation: this.currentQuestion.collocation || '',
+      timestamp: new Date().toISOString()
+    });
+  }
+
   giveFirstLetterHint() {
     if (!this.currentQuestion || this.mode !== 'spelling') return;
     this.playSfx('click');
@@ -7519,6 +7553,7 @@ class Y2KSpellingBeeApp {
 
   skipQuestion() {
     this.playSfx('click');
+    this.recordAnswer('', false, 'skipped');
     if (this.mode !== 'collocation') this.updateWordSchedule(this.currentQuestion.word, false);
     this.sessionWrongWords.push(this.currentQuestion.word);
     this.addWrongWord(this.currentQuestion);
