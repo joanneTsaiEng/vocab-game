@@ -145,10 +145,6 @@
       <div class="text-3xl text-purple-600 drop-shadow">👑</div>
       <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">L1-L6題庫.dat</span>
     </div>
-    <div class="flex flex-col items-center">
-      <div class="text-3xl text-amber-500 drop-shadow">💿</div>
-      <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">學測必勝.zip</span>
-    </div>
   </div>
 
   <!-- Top Retro OS Window Container -->
@@ -706,62 +702,12 @@
     </div>
   </footer>
 
+<script src="collocation-data.js"></script>
 <script>
 /**
  * 試算表 vocabularies and sentence 分頁資料庫 (學測高頻搭配詞題庫)
  */
-const COLLOCATION_DATABASE = [
-  {
-    word: "adapt",
-    pos: "v.",
-    level: 4,
-    def: "適應、改編",
-    collocation: "adapt to N/Ving (適應…)、adapt A for B (改編A以適用B)",
-    clozeSentence: "When entering a new culture, international exchange students must quickly _____ to local customs and academic styles. [adapt]",
-    rootClue: "字根 ad- (朝向) + apt (適合、能力) → 使自己朝向環境去配合適應。",
-    translation: "進入新文化環境時，國際交換生必須迅速適應當地的習俗與學術風格。"
-  },
-  {
-    word: "adopt",
-    pos: "v.",
-    level: 4,
-    def: "採納、收養",
-    collocation: "adopt an approach / policy (採納方針/政策)、adopt a child (收養孩子)",
-    clozeSentence: "The city council decided to _____ a comprehensive green energy policy to effectively combat climate change. [adopt]",
-    rootClue: "字根 ad- (朝向) + opt (選擇，如 option) → 透過主動選擇而予以採納或收養。",
-    translation: "市議會決定採納一項全面的綠色能源政策，以有效應對氣候變遷。"
-  },
-  {
-    word: "adept",
-    pos: "adj.",
-    level: 5,
-    def: "熟練的、內行的",
-    collocation: "be adept at N/Ving (熟練於…、擅長於…)",
-    clozeSentence: "Having practiced coding for years, the software engineer is exceptionally _____ at troubleshooting complex system bugs. [adept]",
-    rootClue: "字根 ad- (朝向) + ept (能力，源自 apt) → 具有高度專長與能力，表「精通的」。",
-    translation: "經過多年的程式設計練習，這位軟體工程師特別擅長排除複雜的系統漏洞。"
-  },
-  {
-    word: "accommodate",
-    pos: "v.",
-    level: 5,
-    def: "容納、提供住宿、順應",
-    collocation: "accommodate the needs of... (順應…的需求)、accommodate guests (容納賓客)",
-    clozeSentence: "To welcome global tourists, the luxury hotel expanded its facilities to _____ over five hundred guests comfortably. [accommodate]",
-    rootClue: "字根 ac- (朝向) + mod (模式、度量) → 調整格局模式以提供適當空間與容納。",
-    translation: "為了迎接全球遊客，這家豪華飯店擴建了設施，以舒適地容納五百多位賓客。"
-  },
-  {
-    word: "ascribe",
-    pos: "v.",
-    level: 5,
-    def: "歸因於、歸咎於",
-    collocation: "ascribe A to B (將A歸因於B)",
-    clozeSentence: "Many environmental scientists _____ recent severe droughts directly to global warming and unsustainable human activities. [ascribe]",
-    rootClue: "字根 a- (朝向) + scribe (寫下) → 將事情的原因歸寫在特定對象名下（歸因於）。",
-    translation: "許多環境科學家將近期嚴重的乾旱直接歸因於全球暖化與不可持續的人類活動。"
-  }
-];
+const COLLOCATION_DATABASE = window.COLLOCATION_QUESTION_BANK;
 
 /**
  * 高中英文 Level 1~6 完整分級大考字彙資料庫
@@ -1231,6 +1177,8 @@ class Y2KSpellingBeeApp {
 
     if (!userSpelling) return;
 
+    this.recordAnswer(userSpelling, userSpelling === targetSpelling);
+
     if (userSpelling === targetSpelling) {
       this.onAnswerSuccess(150);
     } else {
@@ -1240,6 +1188,7 @@ class Y2KSpellingBeeApp {
 
   handleChoiceSelect(selectedWord, btnElem) {
     const isCorrect = selectedWord.toLowerCase() === this.currentQuestion.word.toLowerCase();
+    this.recordAnswer(selectedWord, isCorrect);
     
     document.querySelectorAll('.choice-btn').forEach(b => {
       b.disabled = true;
@@ -1282,6 +1231,20 @@ class Y2KSpellingBeeApp {
 
     this.updateHUD();
     setTimeout(() => this.nextQuestion(), 800);
+  }
+
+  recordAnswer(userAnswer, isCorrect, status = 'answered') {
+    this.answerLog.push({
+      mode: this.mode,
+      word: this.currentQuestion.word,
+      userAnswer,
+      correctAnswer: this.currentQuestion.word,
+      isCorrect,
+      status,
+      question: this.currentQuestion.clozeSentence || this.currentQuestion.example || '',
+      collocation: this.currentQuestion.collocation || '',
+      timestamp: new Date().toISOString()
+    });
   }
 
   onAnswerFailure(correctWord) {
@@ -1335,6 +1298,7 @@ class Y2KSpellingBeeApp {
 
   skipQuestion() {
     this.playSfx('click');
+    this.recordAnswer('', false, 'skipped');
     this.addWrongWord(this.currentQuestion);
     this.combo = 0;
     this.updateHUD();
