@@ -140,17 +140,6 @@
     </div>
   </div>
 
-  <div class="fixed top-4 right-4 hidden lg:flex flex-col space-y-6 z-0 opacity-85">
-    <div class="flex flex-col items-center group cursor-pointer pointer-events-auto" onclick="app.showDictionaryModal()">
-      <div class="text-3xl text-purple-600 drop-shadow">👑</div>
-      <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">L1-L6題庫.dat</span>
-    </div>
-    <div class="flex flex-col items-center">
-      <div class="text-3xl text-amber-500 drop-shadow">💿</div>
-      <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">學測必勝.zip</span>
-    </div>
-  </div>
-
   <!-- Top Retro OS Window Container -->
   <main class="w-full max-w-4xl mx-auto p-2 sm:p-4 z-10 flex-1 flex flex-col justify-center">
 
@@ -292,9 +281,14 @@
           <div class="space-y-2">
             <div class="text-xs font-bold text-fuchsia-900 flex items-center justify-between">
               <span class="flex items-center gap-1">📂 <span>選擇挑戰詞彙級別：</span></span>
-              <button onclick="app.showDictionaryModal()" class="text-pink-600 hover:underline text-[11px] font-bold">
-                🔍 點此前往【單字總覽】直接背單字
-              </button>
+              <div class="flex items-center gap-3">
+                <button onclick="app.showDictionaryModal()" class="text-pink-600 hover:underline text-[11px] font-bold">
+                  🔍 單字總覽
+                </button>
+                <button onclick="app.showFavoritesModal()" class="text-amber-700 hover:underline text-[11px] font-bold">
+                  ★ 收藏題目 (<span id="favoriteCountBadge">0</span>)
+                </button>
+              </div>
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="levelSelectorGroup">
               <button onclick="app.selectLevel('all')" data-lvl="all" class="lvl-btn win98-btn win98-btn-active py-2 px-2 text-xs font-bold text-fuchsia-950">
@@ -442,6 +436,21 @@
               <div id="choiceGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <!-- Injected via JavaScript -->
               </div>
+            </div>
+
+            <div class="w-full max-w-xl mx-auto mt-3 flex items-center justify-between gap-2">
+              <button id="favoriteQuestionBtn" onclick="app.toggleFavoriteQuestion()" type="button" class="win98-btn px-3 py-2 text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100" title="收藏這道題目">
+                <i class="far fa-star mr-1" aria-hidden="true"></i><span>加入收藏</span>
+              </button>
+              <div id="advanceQuestionButtonContainer" class="hidden">
+                <button onclick="app.nextQuestion()" type="button" class="win98-btn px-4 py-2 text-xs font-bold text-fuchsia-950 bg-pink-200 hover:bg-pink-300">
+                  下一題 <span aria-hidden="true">▶</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="answerReviewContainer" class="hidden w-full max-w-xl mx-auto mt-2 win98-inward bg-emerald-50 p-3 text-left text-xs text-fuchsia-950" aria-live="polite">
+              <div id="answerReviewText" class="font-bold leading-relaxed"></div>
             </div>
 
             <div id="solutionNoteButtonContainer" class="hidden text-center py-2">
@@ -642,6 +651,23 @@
     </div>
   </div>
 
+  <div id="favoritesModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3">
+    <div class="win98-window max-w-xl w-full max-h-[85vh] flex flex-col shadow-2xl">
+      <div class="y2k-header-gradient px-3 py-1.5 flex items-center justify-between text-white font-bold text-sm">
+        <div class="flex items-center space-x-2">
+          <span>⭐</span>
+          <span class="pixel-font text-base text-yellow-200 font-bold">我的收藏題目</span>
+        </div>
+        <button onclick="app.closeFavoritesModal()" class="w-5 h-5 win98-btn flex items-center justify-center text-xs text-rose-700 font-black hover:bg-rose-200" aria-label="關閉收藏題目">✕</button>
+      </div>
+      <div id="favoritesList" class="p-4 overflow-y-auto space-y-2.5 flex-1 text-xs bg-white" aria-live="polite"></div>
+      <div class="p-3 bg-pink-100 border-t border-pink-300 flex justify-between items-center">
+        <button onclick="app.clearFavorites()" class="win98-btn px-3 py-1 text-rose-700 font-bold text-xs">清空收藏</button>
+        <button onclick="app.closeFavoritesModal()" class="win98-btn px-5 py-1 text-fuchsia-950 font-bold text-xs">關閉</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Help Modal -->
   <div id="helpModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3">
     <div class="win98-window max-w-md w-full p-4 space-y-3 bg-pink-50">
@@ -683,6 +709,7 @@
     </div>
   </footer>
 
+<script src="collocation-data.js"></script>
 <script>
 /**
  * 學測高頻搭配詞 CSV 資料（單字、中文釋義、常考搭配詞、克漏字例句、字根提示、中文翻譯）
@@ -6793,6 +6820,15 @@ const VOCABULARY_DATABASE = [
   {"word": "true", "level": 2, "pos": "adj./adv./v.", "def": "真實的、正確的", "hollow_out": "true", "example": "Is it true that you are changing jobs next month?"}
 ];
 
+COLLOCATION_CSV_ROWS.splice(0, COLLOCATION_CSV_ROWS.length, ...window.COLLOCATION_QUESTION_BANK.map(question => [
+  question.word,
+  question.def,
+  question.collocation,
+  question.clozeSentence,
+  question.rootClue,
+  question.translation
+]));
+
 // If a specific word is marked for blanking in the example sentence, keep it here.
 // Otherwise, default to the canonical word so the masking still works exactly.
 let COLLOCATION_DATABASE = COLLOCATION_CSV_ROWS.map(([word, def, collocation, clozeSentence, rootClue, translation]) => {
@@ -6882,6 +6918,7 @@ class Y2KSpellingBeeApp {
     this.selectedLevel = 'all';
     this.soundEnabled = true;
     this.studentName = "";
+    this.answerLog = [];
     
     // 遊戲運行狀態
     this.timer = 300; // 5 分鐘挑戰
@@ -6897,10 +6934,12 @@ class Y2KSpellingBeeApp {
     this.dailyQueue = [];      // 今日 20 題清單 (10 複習 + 10 新字)
     this.queueIndex = 0;
     this.sessionWrongWords = []; // 本局錯題記錄
+    this.questionAnswered = false;
     
     // 本地資料儲存
     this.srsData = this.loadSRSData();
     this.wrongWords = this.loadWrongWords();
+    this.favoriteQuestions = this.loadFavoriteQuestions();
     this.bestScore = parseInt(localStorage.getItem('y2k_spelling_best_score') || '0', 10);
     
     this.synth = window.speechSynthesis;
@@ -6912,6 +6951,7 @@ class Y2KSpellingBeeApp {
     document.getElementById('bestScoreDisplay').textContent = this.bestScore.toLocaleString();
     document.getElementById('dbTotalCountDisplay').textContent = VOCABULARY_DATABASE.length;
     this.updateWrongBadge();
+    this.updateFavoritesBadge();
     this.renderDictionaryList(VOCABULARY_DATABASE);
   }
 
@@ -7028,7 +7068,10 @@ class Y2KSpellingBeeApp {
             ? normalizeCollocationDatabase(response.data)
             : [];
           if (!remoteDatabase.length) throw new Error(response?.message || '遠端題庫沒有有效題目');
-          COLLOCATION_DATABASE = remoteDatabase;
+          const questionsByWord = new Map(
+            [...COLLOCATION_DATABASE, ...remoteDatabase].map(question => [question.word.toLowerCase(), question])
+          );
+          COLLOCATION_DATABASE = [...questionsByWord.values()];
         } catch (error) {
           console.warn('改用內建搭配詞題庫：', error);
         }
@@ -7040,6 +7083,7 @@ class Y2KSpellingBeeApp {
         : this.buildDailyQueue();
       this.queueIndex = 0;
       this.sessionWrongWords = [];
+      this.answerLog = [];
 
       // 重設狀態
       this.timer = 300;
@@ -7070,8 +7114,11 @@ class Y2KSpellingBeeApp {
   }
 
   nextQuestion() {
+    this.questionAnswered = false;
     const solutionButton = document.getElementById('solutionNoteButtonContainer');
     const solutionModal = document.getElementById('solutionNoteModal');
+    document.getElementById('answerReviewContainer').classList.add('hidden');
+    document.getElementById('advanceQuestionButtonContainer').classList.add('hidden');
     if (solutionButton) solutionButton.classList.add('hidden');
     if (solutionModal) solutionModal.classList.add('hidden');
 
@@ -7082,6 +7129,7 @@ class Y2KSpellingBeeApp {
     }
 
     this.currentQuestion = this.dailyQueue[this.queueIndex++];
+    this.updateFavoriteButton();
 
     document.getElementById('wordLevelTag').textContent = `Level ${this.currentQuestion.level}`;
     document.getElementById('wordPosTag').textContent = `[${this.currentQuestion.pos}]`;
@@ -7124,6 +7172,7 @@ class Y2KSpellingBeeApp {
 
       const input = document.getElementById('spellingInput');
       input.value = '';
+      input.disabled = false;
       input.focus();
       document.getElementById('lengthHint').textContent = `長度: ${this.currentQuestion.word.length} 字母`;
 
@@ -7156,6 +7205,9 @@ class Y2KSpellingBeeApp {
 
   // --- 正確與錯誤處理 ---
   onAnswerSuccess(basePoints) {
+    this.questionAnswered = true;
+    this.lockCurrentAnswer();
+    this.showAnswerReview(true);
     this.answeredCount++;
     this.correctCount++;
     this.combo++;
@@ -7181,10 +7233,12 @@ class Y2KSpellingBeeApp {
     if (this.mode === 'collocation') {
       document.getElementById('solutionNoteButtonContainer').classList.remove('hidden');
     }
-    if (this.mode !== 'collocation') setTimeout(() => this.nextQuestion(), 550);
   }
 
   onAnswerFailure(correctWord) {
+    this.questionAnswered = true;
+    this.lockCurrentAnswer();
+    this.showAnswerReview(false, correctWord);
     this.answeredCount++;
     this.combo = 0;
     this.playSfx('wrong');
@@ -7204,7 +7258,22 @@ class Y2KSpellingBeeApp {
     if (this.mode === 'collocation') {
       document.getElementById('solutionNoteButtonContainer').classList.remove('hidden');
     }
-    if (this.mode !== 'collocation') setTimeout(() => this.nextQuestion(), 1400);
+  }
+
+  lockCurrentAnswer() {
+    const input = document.getElementById('spellingInput');
+    if (input) input.disabled = true;
+    document.querySelectorAll('.choice-btn').forEach(button => { button.disabled = true; });
+  }
+
+  showAnswerReview(isCorrect, correctWord = this.currentQuestion.word) {
+    const review = document.getElementById('answerReviewContainer');
+    const message = isCorrect
+      ? `答對了！${correctWord}：${this.currentQuestion.def}`
+      : `答錯了，正確答案是 ${correctWord}：${this.currentQuestion.def}`;
+    document.getElementById('answerReviewText').textContent = message;
+    review.classList.remove('hidden');
+    document.getElementById('advanceQuestionButtonContainer').classList.remove('hidden');
   }
 
   openSolutionNote() {
@@ -7253,10 +7322,17 @@ class Y2KSpellingBeeApp {
 
     // 背景默默發送資料至 Google Sheets 🚀
     this.sendProgressToGoogleSheet({
-      timestamp: new Date().toLocaleString(),
-      studentName: this.studentName,
+      timestamp: new Date().toISOString(),
+      studentName: this.studentName || '未填姓名',
+      studentClass: document.getElementById('studentClassInput')?.value?.trim() || '未填班級',
+      mode: this.mode,
+      selectedLevel: this.selectedLevel,
       score: this.score,
-      accuracy: `${accuracyRate}%`,
+      correctCount: this.correctCount,
+      answeredCount: this.answeredCount,
+      accuracyRate,
+      maxCombo: this.maxCombo,
+      answers: this.answerLog,
       boxCounts: this.getBoxCounts(),
       wrongWords: this.sessionWrongWords
     });
@@ -7273,7 +7349,7 @@ class Y2KSpellingBeeApp {
     fetch(GAS_WEB_APP_URL, {
       method: "POST",
       mode: "no-cors", // 靜態網頁跨域發送必備
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(payload)
     }).then(() => {
       console.log("✅ 學習進度已成功回傳至試算表！");
@@ -7475,10 +7551,12 @@ class Y2KSpellingBeeApp {
 
   handleSpellingSubmit(e) {
     if (e) e.preventDefault();
+    if (this.questionAnswered || !this.currentQuestion) return;
     const input = document.getElementById('spellingInput');
     const userSpelling = input.value.trim().toLowerCase();
     const targetSpelling = this.currentQuestion.word.toLowerCase();
     if (!userSpelling) return;
+    this.recordAnswer(userSpelling, userSpelling === targetSpelling);
 
     if (userSpelling === targetSpelling) {
       this.onAnswerSuccess(150);
@@ -7488,7 +7566,9 @@ class Y2KSpellingBeeApp {
   }
 
   handleChoiceSelect(selectedWord, btnElem) {
+    if (this.questionAnswered || !this.currentQuestion) return;
     const isCorrect = selectedWord.toLowerCase() === this.currentQuestion.word.toLowerCase();
+    this.recordAnswer(selectedWord, isCorrect);
     document.querySelectorAll('.choice-btn').forEach(b => {
       b.disabled = true;
       if (b.innerText.includes(this.currentQuestion.word)) {
@@ -7505,6 +7585,20 @@ class Y2KSpellingBeeApp {
     }
   }
 
+  recordAnswer(userAnswer, isCorrect, status = 'answered') {
+    this.answerLog.push({
+      mode: this.mode,
+      word: this.currentQuestion.word,
+      userAnswer,
+      correctAnswer: this.currentQuestion.word,
+      isCorrect,
+      status,
+      question: this.currentQuestion.clozeSentence || this.currentQuestion.example || '',
+      collocation: this.currentQuestion.collocation || '',
+      timestamp: new Date().toISOString()
+    });
+  }
+
   giveFirstLetterHint() {
     if (!this.currentQuestion || this.mode !== 'spelling') return;
     this.playSfx('click');
@@ -7518,14 +7612,18 @@ class Y2KSpellingBeeApp {
   }
 
   skipQuestion() {
+    if (this.questionAnswered || !this.currentQuestion) return;
     this.playSfx('click');
+    this.recordAnswer('', false, 'skipped');
     if (this.mode !== 'collocation') this.updateWordSchedule(this.currentQuestion.word, false);
     this.sessionWrongWords.push(this.currentQuestion.word);
     this.addWrongWord(this.currentQuestion);
     this.combo = 0;
     this.updateHUD();
+    this.questionAnswered = true;
+    this.lockCurrentAnswer();
+    this.showAnswerReview(false);
     this.showFeedback(`⏩ 已跳過！答案：${this.currentQuestion.word} (${this.currentQuestion.def})`, 'gray');
-    this.nextQuestion();
   }
 
   showFeedback(message, color) {
@@ -7606,6 +7704,149 @@ class Y2KSpellingBeeApp {
   saveWrongWords() {
     localStorage.setItem('y2k_wrong_words', JSON.stringify(this.wrongWords));
     this.updateWrongBadge();
+  }
+
+  loadFavoriteQuestions() {
+    try {
+      const favorites = JSON.parse(localStorage.getItem('y2k_favorite_questions') || '[]');
+      return Array.isArray(favorites) ? favorites : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  saveFavoriteQuestions() {
+    localStorage.setItem('y2k_favorite_questions', JSON.stringify(this.favoriteQuestions));
+    this.updateFavoritesBadge();
+  }
+
+  getFavoriteKey(question = this.currentQuestion, mode = this.mode) {
+    if (!question) return '';
+    const prompt = question.clozeSentence || question.example || '';
+    return `${mode}|${question.word.toLowerCase()}|${prompt}`;
+  }
+
+  updateFavoritesBadge() {
+    const badge = document.getElementById('favoriteCountBadge');
+    if (badge) badge.textContent = this.favoriteQuestions.length;
+  }
+
+  updateFavoriteButton() {
+    const button = document.getElementById('favoriteQuestionBtn');
+    if (!button) return;
+    const isFavorite = this.favoriteQuestions.some(item => item.key === this.getFavoriteKey());
+    button.innerHTML = isFavorite
+      ? '<i class="fas fa-star mr-1" aria-hidden="true"></i><span>已加入收藏</span>'
+      : '<i class="far fa-star mr-1" aria-hidden="true"></i><span>加入收藏</span>';
+    button.title = isFavorite ? '從收藏移除此題' : '收藏這道題目';
+    button.classList.toggle('!bg-amber-200', isFavorite);
+  }
+
+  toggleFavoriteQuestion() {
+    if (!this.currentQuestion) return;
+    this.playSfx('click');
+    const key = this.getFavoriteKey();
+    const index = this.favoriteQuestions.findIndex(item => item.key === key);
+    if (index >= 0) {
+      this.favoriteQuestions.splice(index, 1);
+    } else {
+      this.favoriteQuestions.unshift({
+        key,
+        word: this.currentQuestion.word,
+        def: this.currentQuestion.def,
+        pos: this.currentQuestion.pos,
+        level: this.currentQuestion.level,
+        mode: this.mode,
+        question: this.currentQuestion.clozeSentence || this.currentQuestion.example || '',
+        collocation: this.currentQuestion.collocation || '',
+        savedAt: new Date().toISOString()
+      });
+    }
+    this.saveFavoriteQuestions();
+    this.updateFavoriteButton();
+    if (!document.getElementById('favoritesModal').classList.contains('hidden')) {
+      this.renderFavoriteList();
+    }
+  }
+
+  showFavoritesModal() {
+    this.playSfx('click');
+    this.renderFavoriteList();
+    document.getElementById('favoritesModal').classList.remove('hidden');
+  }
+
+  renderFavoriteList() {
+    const list = document.getElementById('favoritesList');
+    list.replaceChildren();
+    if (!this.favoriteQuestions.length) {
+      const emptyMessage = document.createElement('p');
+      emptyMessage.className = 'py-8 text-center text-fuchsia-700 font-bold';
+      emptyMessage.textContent = '目前沒有收藏題目。';
+      list.appendChild(emptyMessage);
+      return;
+    }
+
+    const modeLabels = { spelling: 'Spelling Bee', choice: '學測字彙選擇題', collocation: '高頻搭配詞' };
+    this.favoriteQuestions.forEach(item => {
+      const card = document.createElement('article');
+      card.className = 'win98-inward p-3 bg-amber-50 flex flex-col gap-1.5';
+
+      const heading = document.createElement('div');
+      heading.className = 'flex items-center justify-between gap-2';
+      const word = document.createElement('span');
+      word.className = 'text-base font-black font-mono text-amber-800';
+      word.textContent = item.word;
+      const mode = document.createElement('span');
+      mode.className = 'text-[10px] px-1.5 py-0.5 bg-white text-fuchsia-800 border border-pink-300';
+      mode.textContent = modeLabels[item.mode] || '挑戰題目';
+      const removeButton = document.createElement('button');
+      removeButton.className = 'win98-btn px-2 py-0.5 text-xs text-rose-700 font-bold';
+      removeButton.type = 'button';
+      removeButton.textContent = '移除';
+      removeButton.addEventListener('click', () => this.removeFavorite(item.key));
+      heading.append(word, mode, removeButton);
+      card.appendChild(heading);
+
+      const definition = document.createElement('p');
+      definition.className = 'font-bold text-fuchsia-950';
+      definition.textContent = item.def || '';
+      card.appendChild(definition);
+
+      if (item.question) {
+        const sentence = document.createElement('p');
+        sentence.className = 'text-[11px] text-fuchsia-800 italic bg-white p-2 border border-pink-200';
+        sentence.textContent = item.question
+          .replace(/\s*\[[^\]]+\]\s*$/, '')
+          .replace(/\[\s*_{3,}\s*\]|_{3,}/g, item.word);
+        card.appendChild(sentence);
+      }
+      if (item.collocation) {
+        const collocation = document.createElement('p');
+        collocation.className = 'text-[11px] text-amber-900';
+        collocation.textContent = item.collocation;
+        card.appendChild(collocation);
+      }
+      list.appendChild(card);
+    });
+  }
+
+  removeFavorite(key) {
+    this.favoriteQuestions = this.favoriteQuestions.filter(item => item.key !== key);
+    this.saveFavoriteQuestions();
+    this.updateFavoriteButton();
+    this.renderFavoriteList();
+  }
+
+  clearFavorites() {
+    this.favoriteQuestions = [];
+    this.saveFavoriteQuestions();
+    this.updateFavoriteButton();
+    this.renderFavoriteList();
+  }
+
+  closeFavoritesModal() {
+    this.playSfx('click');
+    document.getElementById('favoritesModal').classList.add('hidden');
   }
 
   addWrongWord(item) {
