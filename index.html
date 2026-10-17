@@ -595,7 +595,7 @@
         </div>
 
         <div class="w-full sm:w-64 relative">
-          <input type="text" id="dictSearchInput" oninput="app.filterDictionary()" placeholder="搜尋英文或中文釋義..." class="win98-inward w-full px-2.5 py-1 bg-white text-fuchsia-950 font-medium outline-none">
+          <input type="text" id="dictSearchInput" oninput="app.scheduleDictionaryFilter()" placeholder="搜尋英文或中文釋義..." class="win98-inward w-full px-2.5 py-1 bg-white text-fuchsia-950 font-medium outline-none">
           <span class="absolute right-2 top-1 text-pink-400">🔍</span>
         </div>
       </div>
@@ -6833,8 +6833,10 @@ if (Array.isArray(window.COLLOCATION_QUESTION_BANK)) {
 
 // If a specific word is marked for blanking in the example sentence, keep it here.
 // Otherwise, default to the canonical word so the masking still works exactly.
+const VOCABULARY_BY_WORD = new Map(VOCABULARY_DATABASE.map(item => [item.word.toLowerCase(), item]));
+
 let COLLOCATION_DATABASE = COLLOCATION_CSV_ROWS.map(([word, def, collocation, clozeSentence, rootClue, translation]) => {
-  const dictionaryEntry = VOCABULARY_DATABASE.find(item => item.word.toLowerCase() === word.toLowerCase());
+  const dictionaryEntry = VOCABULARY_BY_WORD.get(word.toLowerCase());
   return {
     word,
     def,
@@ -6890,9 +6892,7 @@ function normalizeCollocationDatabase(items) {
       typeof item.clozeSentence === 'string' && item.clozeSentence.trim())
     .map(item => {
       const word = item.word.trim();
-      const dictionaryEntry = VOCABULARY_DATABASE.find(
-        entry => entry.word.toLowerCase() === word.toLowerCase()
-      );
+      const dictionaryEntry = VOCABULARY_BY_WORD.get(word.toLowerCase());
       return {
         ...item,
         word,
@@ -6943,6 +6943,10 @@ class Y2KSpellingBeeApp {
     this.wrongWords = this.loadWrongWords();
     this.favoriteQuestions = this.loadFavoriteQuestions();
     this.bestScore = parseInt(localStorage.getItem('y2k_spelling_best_score') || '0', 10);
+    this.dictionaryItems = [];
+    this.dictionaryRenderCount = 0;
+    this.dictionaryFilterTimeout = null;
+    this.collocationDatabasePromise = null;
     
     this.synth = window.speechSynthesis;
     this.initAudioContext();
@@ -6954,7 +6958,12 @@ class Y2KSpellingBeeApp {
     document.getElementById('dbTotalCountDisplay').textContent = VOCABULARY_DATABASE.length;
     this.updateWrongBadge();
     this.updateFavoritesBadge();
-    this.renderDictionaryList(VOCABULARY_DATABASE);
+    const dictionaryList = document.getElementById('dictionaryList');
+    dictionaryList.addEventListener('scroll', () => {
+      if (dictionaryList.scrollTop + dictionaryList.clientHeight >= dictionaryList.scrollHeight - 120) {
+        this.renderNextDictionaryPage();
+      }
+    }, { passive: true });
   }
 
   // --- SRS 資料讀寫與排程演算法 ---
@@ -6972,6 +6981,15 @@ class Y2KSpellingBeeApp {
 
   getTodayString() {
     return new Date().toISOString().split('T')[0];
+  }
+
+  pickRandomItems(items, count) {
+    const selectedCount = Math.min(count, items.length);
+    for (let index = 0; index < selectedCount; index++) {
+      const randomIndex = index + Math.floor(Math.random() * (items.length - index));
+      [items[index], items[randomIndex]] = [items[randomIndex], items[index]];
+    }
+    return items.slice(0, selectedCount);
   }
 
   // 建立每日 20 題學習佇列（10 複習 + 10 新字）
@@ -7001,16 +7019,12 @@ class Y2KSpellingBeeApp {
       }
     });
 
-    // 隨機洗牌
-    dueReviewWords.sort(() => Math.random() - 0.5);
-    unlearnedWords.sort(() => Math.random() - 0.5);
-
     // 抓取 10 題到期複習字
-    const selectedReview = dueReviewWords.slice(0, 10);
+    const selectedReview = this.pickRandomItems(dueReviewWords, 10);
     
     // 計算需要補充的新字數量（補足 20 題）
     const neededNewCount = 20 - selectedReview.length;
-    const selectedNew = unlearnedWords.slice(0, Math.max(10, neededNewCount));
+    const selectedNew = this.pickRandomItems(unlearnedWords, Math.max(10, neededNewCount));
 
     const combinedQueue = [...selectedReview, ...selectedNew].slice(0, 20);
     combinedQueue.sort(() => Math.random() - 0.5); // 混合順序
@@ -7063,21 +7077,7 @@ class Y2KSpellingBeeApp {
       this.studentName = nameVal;
       this.playSfx('click');
 
-      if (this.mode === 'collocation') {
-        try {
-          const response = await loadCollocationDatabase();
-          const remoteDatabase = response?.ok && Array.isArray(response.data)
-            ? normalizeCollocationDatabase(response.data)
-            : [];
-          if (!remoteDatabase.length) throw new Error(response?.message || '遠端題庫沒有有效題目');
-          const questionsByWord = new Map(
-            [...COLLOCATION_DATABASE, ...remoteDatabase].map(question => [question.word.toLowerCase(), question])
-          );
-          COLLOCATION_DATABASE = [...questionsByWord.values()];
-        } catch (error) {
-          console.warn('改用內建搭配詞題庫：', error);
-        }
-      }
+      if (this.mode === 'collocation') this.refreshCollocationDatabase();
 
       // 搭配詞模式使用試算表題庫；其他模式維持原本的每日 20 題 SRS 佇列。
       this.dailyQueue = this.mode === 'collocation'
@@ -7113,6 +7113,24 @@ class Y2KSpellingBeeApp {
       this.isStartingGame = false;
       startButtons.forEach(button => { button.disabled = false; });
     }
+  }
+
+  refreshCollocationDatabase() {
+    if (this.collocationDatabasePromise) return this.collocationDatabasePromise;
+    this.collocationDatabasePromise = loadCollocationDatabase()
+      .then(response => {
+        const remoteDatabase = response?.ok && Array.isArray(response.data)
+          ? normalizeCollocationDatabase(response.data)
+          : [];
+        if (!remoteDatabase.length) throw new Error(response?.message || '遠端題庫沒有有效題目');
+        const questionsByWord = new Map(
+          [...COLLOCATION_DATABASE, ...remoteDatabase].map(question => [question.word.toLowerCase(), question])
+        );
+        COLLOCATION_DATABASE = [...questionsByWord.values()];
+      })
+      .catch(error => console.warn('改用內建搭配詞題庫：', error))
+      .finally(() => { this.collocationDatabasePromise = null; });
+    return this.collocationDatabasePromise;
   }
 
   nextQuestion() {
@@ -7441,6 +7459,7 @@ class Y2KSpellingBeeApp {
   selectMode(mode) {
     this.playSfx('click');
     this.mode = mode;
+    if (mode === 'collocation') this.refreshCollocationDatabase();
     ['spelling', 'choice', 'collocation'].forEach(modeName => {
       const card = document.getElementById(`mode-${modeName}`);
       if (!card) return;
@@ -7676,11 +7695,26 @@ class Y2KSpellingBeeApp {
     this.renderDictionaryList(filtered);
   }
 
+  scheduleDictionaryFilter() {
+    clearTimeout(this.dictionaryFilterTimeout);
+    this.dictionaryFilterTimeout = setTimeout(() => this.filterDictionary(), 150);
+  }
+
   renderDictionaryList(list) {
     const container = document.getElementById('dictionaryList');
     document.getElementById('dictResultCount').textContent = list.length;
-    container.innerHTML = '';
-    list.forEach(item => {
+    this.dictionaryItems = list;
+    this.dictionaryRenderCount = 0;
+    container.replaceChildren();
+    this.renderNextDictionaryPage();
+  }
+
+  renderNextDictionaryPage() {
+    const container = document.getElementById('dictionaryList');
+    const nextItems = this.dictionaryItems.slice(this.dictionaryRenderCount, this.dictionaryRenderCount + 100);
+    if (!nextItems.length) return;
+    const fragment = document.createDocumentFragment();
+    nextItems.forEach(item => {
       const card = document.createElement('div');
       card.className = 'win98-inward p-2.5 bg-pink-50/70 hover:bg-pink-100/80 transition flex flex-col gap-1.5';
       card.innerHTML = `
@@ -7695,8 +7729,10 @@ class Y2KSpellingBeeApp {
         <div class="text-xs font-bold text-fuchsia-950">${item.def}</div>
         ${item.example ? `<div class="text-[11px] text-fuchsia-800 italic bg-white p-2 border border-pink-200 font-serif">"${item.example}"</div>` : ''}
       `;
-      container.appendChild(card);
+      fragment.appendChild(card);
     });
+    container.appendChild(fragment);
+    this.dictionaryRenderCount += nextItems.length;
   }
 
   loadWrongWords() {
