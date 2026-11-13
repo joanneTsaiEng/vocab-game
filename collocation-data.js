@@ -1,4 +1,5 @@
-window.COLLOCATION_QUESTION_BANK = [
+577window.COLLOCATION_QUESTION_BANK = 
+[
     {
         "word":  "adapt",
         "pos":  "v.",
@@ -739,7 +740,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "sensible",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 明智的；合情理的",
         "collocation":  "sensible decision (明智的決定)；sensible choice (合理的選擇)",
         "clozeSentence":  "Facing severe economic inflation, young adults should make a [ _____ ] budget to reduce unnecessary daily expenses.",
@@ -748,7 +749,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "sensitive",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 敏感的；體貼的",
         "collocation":  "sensitive skin (敏感肌膚)；sensitive to (對…敏感)",
         "clozeSentence":  "Dermatologists advise people with [ _____ ] skin to avoid facial skincare products containing strong artificial chemicals.",
@@ -757,7 +758,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "stationary",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 靜止的；不動的",
         "collocation":  "remain stationary (保持靜止)；stationary bike (室內健身車)",
         "clozeSentence":  "Heavy traffic caused vehicles to remain completely [ _____ ] on the highway for over three painful hours.",
@@ -766,7 +767,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "stationery",
-        "pos":  "n.",
+        "pos":  "v.",
         "def":  "n. 文具；信紙",
         "collocation":  "stationery store (文具店)；office stationery (辦公文具)",
         "clozeSentence":  "Before the new semester begins, students flock to local [ _____ ] stores to purchase notebooks and pens.",
@@ -775,7 +776,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "discreet",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 謹慎的；考慮周到的",
         "collocation":  "discreet manner (謹慎的舉止)；remain discreet (保持謹言慎行)",
         "clozeSentence":  "Diplomats must remain exceptionally [ _____ ] during sensitive international negotiations to avoid leaking delicate political secrets.",
@@ -784,7 +785,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "discrete",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 分立的；個別的",
         "collocation":  "discrete categories (個別的類別)；discrete units (獨立單元)",
         "clozeSentence":  "Machine learning algorithms divide complex audio signals into [ _____ ] units for more accurate speech recognition.",
@@ -793,7 +794,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "principal",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 主要的；n. 校長",
         "collocation":  "principal reason (主要原因)；school principal (校長)",
         "clozeSentence":  "Renewable green energy has gradually become the [ _____ ] source of electricity in several progressive European cities.",
@@ -802,7 +803,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "principle",
-        "pos":  "n.",
+        "pos":  "v.",
         "def":  "n. 原則；原理",
         "collocation":  "basic principle (基本原則)；in principle (原則上)",
         "clozeSentence":  "Every responsible investigative journalist must firmly adhere to the fundamental [ _____ ] of objective and truthful reporting.",
@@ -811,7 +812,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "eligible",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 有資格的；符合條件的",
         "collocation":  "eligible for (有資格獲得…)；eligible applicants (合格的申請者)",
         "clozeSentence":  "Undergraduates with outstanding academic performance are fully [ _____ ] to apply for this prestigious international scholarship.",
@@ -820,7 +821,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "illegible",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 難以辨認的；字跡潦草的",
         "collocation":  "illegible handwriting (潦草難辨的筆跡)；almost illegible (幾乎無法辨認)",
         "clozeSentence":  "The historical manuscript was damaged by severe humidity, making the ancient author\u0027s handwritten notes almost [ _____ ].",
@@ -829,7 +830,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "conscientious",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 認真盡責的；一絲不苟的",
         "collocation":  "conscientious worker (盡職的工作者)；conscientious effort (認真不懈的努力)",
         "clozeSentence":  "Thanks to her [ _____ ] attitude toward scientific research, the lab assistant noticed a critical experimental flaw.",
@@ -838,7 +839,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "subconscious",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 潛意識的；n. 潛意識",
         "collocation":  "subconscious mind (潛意識思維)；subconscious desire (潛意識渴望)",
         "clozeSentence":  "Psychologists believe that recurring dreams often reflect our deepest [ _____ ] anxieties about daily work and social relationships.",
@@ -883,7 +884,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "exhaustive",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 徹底的；詳盡無遺的",
         "collocation":  "exhaustive research (詳盡的研究)；exhaustive list (完整詳盡的清單)",
         "clozeSentence":  "After conducting an [ _____ ] investigation into the plane crash, aviation safety officials released their final report.",
@@ -892,7 +893,7 @@ window.COLLOCATION_QUESTION_BANK = [
     },
     {
         "word":  "exhilarating",
-        "pos":  "adj.",
+        "pos":  "v.",
         "def":  "adj. 令人極度興奮的；令人振奮的",
         "collocation":  "exhilarating experience (令人振奮的經驗)；exhilarating feeling (興奮感)",
         "clozeSentence":  "Riding the steep high-speed wooden roller coaster was an incredibly [ _____ ] experience for thrill-seeking international tourists.",
@@ -1096,5 +1097,725 @@ window.COLLOCATION_QUESTION_BANK = [
         "clozeSentence":  "Detectives spent hours attempting to firmly [ _____ ] the fraud suspect to uncover his hidden criminal network.",
         "rootClue":  "【字根】inter-(在…之間) + rog(提問、要求) + -ate → 在彼此之間深入追問，指「審問、質詢」。",
         "translation":  "刑警們花了數小時試圖嚴厲審問這名詐欺嫌疑犯，以揭露其隱匿的犯罪網絡。"
+    },
+    {
+        "word":  "abundant",
+        "pos":  "v.",
+        "def":  "adj. 豐富的、充裕的",
+        "collocation":  "abundant in (富於…)、abundant natural resources (豐富的自然資源)",
+        "clozeSentence":  "Due to its warm tropical climate and heavy rainfall, the island is blessed with [ _____ ] natural resources.",
+        "rootClue":  "【字根】ab-(離開/強調) + und(波浪、湧出，如 wave/surround) + -ant → 如波浪般不斷湧出，指「豐富的、充裕的」。",
+        "translation":  "由於氣候溫暖且雨量充沛，這座島嶼得天獨厚，擁有豐富的自然資源。"
+    },
+    {
+        "word":  "acknowledge",
+        "pos":  "v.",
+        "def":  "v. 承認；感謝",
+        "collocation":  "acknowledge one\u0027s mistake (承認錯誤)、acknowledge sb\u0027s help (感謝某人協助)",
+        "clozeSentence":  "The university president was willing to publicly [ _____ ] the students\u0027 outstanding contributions to the environmental campaign.",
+        "rootClue":  "【字根】ac-(朝向) + know(知道) + -ledge → 朝向已知的事實公開承認或致謝，指「承認、感謝」。",
+        "translation":  "大學校長願意公開肯定並感謝學生對環保活動所做出的卓越貢獻。"
+    },
+    {
+        "word":  "accustom",
+        "pos":  "v.",
+        "def":  "v. 使習慣",
+        "collocation":  "accustom oneself to (使自己習慣於…)、be accustomed to N/Ving (習慣於…)",
+        "clozeSentence":  "International exchange students need several months to [ _____ ] themselves to the local culture and dietary habits.",
+        "rootClue":  "【字根】ac-(朝向) + custom(習俗、習慣) → 朝向某種習俗調整自己，指「使習慣」。",
+        "translation":  "國際交換生需要幾個月的時間來使自己習慣當地的文化與飲食習慣。"
+    },
+    {
+        "word":  "alter",
+        "pos":  "v.",
+        "def":  "v. 改變、修改",
+        "collocation":  "alter plans (改變計畫)、alter clothes (修改衣服)",
+        "clozeSentence":  "Faced with unforeseen climate conditions, the expedition leader had to immediately [ _____ ] the travel itinerary for safety.",
+        "rootClue":  "【字根】alter(其他的、另外的) → 使事物轉變成另一種樣貌，指「改變、修改」。",
+        "translation":  "面對無法預見的氣候狀況，探險隊長為了安全起見必須立刻更改旅行行程。"
+    },
+    {
+        "word":  "alternate",
+        "pos":  "v.",
+        "def":  "v. 交替、輪流；adj. 間隔的、交替的",
+        "collocation":  "alternate between A and B (在A與B之間交替)、on alternate days (每隔一天)",
+        "clozeSentence":  "During intense dry seasons, the government may require residential areas to endure water supply on [ _____ ] days.",
+        "rootClue":  "【字根】alter(其他) + -n- + -ate → 在彼此與另一個之間輪換，指「交替的、輪流」。",
+        "translation":  "在嚴重乾旱的季節，政府可能會要求住宅區每隔一天輪流供水。"
+    },
+    {
+        "word":  "applause",
+        "pos":  "v.",
+        "def":  "n. 鼓掌、讚許",
+        "collocation":  "a round of applause (一陣掌聲)、win enthusiastic applause (贏得熱烈掌聲)",
+        "clozeSentence":  "The violinist received a thunderous round of [ _____ ] from the audience after delivering an astonishing solo performance.",
+        "rootClue":  "【字根】ap-(朝向) + plaud/plaus(拍手、擊打) → 朝向表演者熱烈拍擊雙手，指「鼓掌、讚許」。",
+        "translation":  "在帶來令人驚嘆的獨奏演出後，小提琴家贏得了全場觀眾如雷的掌聲。"
+    },
+    {
+        "word":  "beneficial",
+        "pos":  "v.",
+        "def":  "adj. 有益的、有幫助的",
+        "collocation":  "be beneficial to/for (對…有益)、beneficial effect (有益的效果)",
+        "clozeSentence":  "Regular physical exercise and balanced nutrition are scientifically proven to be highly [ _____ ] to cardiovascular health.",
+        "rootClue":  "【字根】bene-(良好) + fic(做、造) + -ial → 做出良好的成效，指「有益的、有幫助的」。",
+        "translation":  "規律的身體運動與均衡營養經科學證實對心血管健康極為有益。"
+    },
+    {
+        "word":  "broaden",
+        "pos":  "v.",
+        "def":  "v. 拓展、變寬",
+        "collocation":  "broaden one\u0027s horizons (開拓視野)、broaden one\u0027s knowledge (拓展知識)",
+        "clozeSentence":  "Traveling abroad and experiencing diverse lifestyles will significantly [ _____ ] young people\u0027s horizons and cultural perspectives.",
+        "rootClue":  "【字根】broad(寬闊) + -en(動詞字尾，使變成) → 使原本狹隘的事物變得開闊，指「拓展、變寬」。",
+        "translation":  "出國旅遊並體驗多元的生活方式，將能顯著開拓年輕人的視野與文化觀點。"
+    },
+    {
+        "word":  "caution",
+        "pos":  "v.",
+        "def":  "n. 謹慎、告誡；v. 警告",
+        "collocation":  "with caution (謹慎地)、caution sb against/about (警告某人防範…)",
+        "clozeSentence":  "Healthcare professionals strictly [ _____ ] patients against consuming excessive sugary beverages to prevent chronic disease.",
+        "rootClue":  "【字根】caut(警惕、小心) + -ion → 保持高度戒備防範未然，指「告誡、謹慎」。",
+        "translation":  "醫護專業人員嚴正警告病患切勿飲用過多含糖飲料，以預防慢性疾病。"
+    },
+    {
+        "word":  "cautious",
+        "pos":  "v.",
+        "def":  "adj. 謹慎的、小心的",
+        "collocation":  "be cautious about/of (對…小心謹慎)、cautious approach (謹慎的做法)",
+        "clozeSentence":  "Financial analysts advise inexperienced investors to be exceptionally [ _____ ] about putting capital into volatile stock markets.",
+        "rootClue":  "【字根】caut(警惕、小心) + -ious(形容詞字尾) → 充滿警惕心態的，指「謹慎的、小心的」。",
+        "translation":  "金融分析師建議缺乏經驗的投資人在將資金投入波動劇烈的股市時要格外小心謹慎。"
+    },
+    {
+        "word":  "coincide",
+        "pos":  "v.",
+        "def":  "v. 同時發生、相巧合",
+        "collocation":  "coincide with (與…巧合/同時發生)",
+        "clozeSentence":  "The publication of the scientific research happened to [ _____ ] with the opening ceremony of the international environmental summit.",
+        "rootClue":  "【字根】co-(共同) + in-(進入) + cid(落下、發生) → 兩件事恰巧共同落在同一個時間點，指「同時發生、巧合」。",
+        "translation":  "這篇科學研究的發表恰好與國際環境高峰會的開幕典禮同時舉行。"
+    },
+    {
+        "word":  "commodity",
+        "pos":  "v.",
+        "def":  "n. 商品、貨物",
+        "collocation":  "basic/agricultural commodities (基本生活物資/農產品)、commodity prices (商品價格)",
+        "clozeSentence":  "In ancient times, rare salt was regarded as an indispensable [ _____ ] traded along commercial desert routes across empires.",
+        "rootClue":  "【字根】com-(加強) + mod(度量、合適) + -ity → 能適應市場需求並稱重交易的物資，指「商品、貨物」。",
+        "translation":  "在古代，珍貴的鹽巴被視為沿著跨帝國沙漠商路交易的不可或缺的重要物資。"
+    },
+    {
+        "word":  "commute",
+        "pos":  "v.",
+        "def":  "v. 通勤；n. 通勤路程",
+        "collocation":  "commute to work/school (通勤上班/上學)、daily commute (日常通勤)",
+        "clozeSentence":  "To avoid daily traffic congestion, many suburban office workers prefer to [ _____ ] to the city center by rapid transit.",
+        "rootClue":  "【字根】com-(共同) + mute(改變、變換) → 每天在居住地與工作地之間往返變換，指「通勤」。",
+        "translation":  "為了避開每日的交通壅塞，許多住在郊區的上班族偏好搭乘捷運往返市中心通勤。"
+    },
+    {
+        "word":  "compact",
+        "pos":  "v.",
+        "def":  "adj. 緊湊的、精密的；v. 壓實",
+        "collocation":  "compact car (小型車)、compact design (緊湊精巧的設計)",
+        "clozeSentence":  "Modern urban residents favor folding electric bicycles because their [ _____ ] design allows for effortless storage in small apartments.",
+        "rootClue":  "【字根】com-(共同) + pact(繫緊、固定) → 緊密緊湊地結合在一起，指「緊湊的、精巧的」。",
+        "translation":  "現代都市居民偏愛折疊電動自行車，因為其精巧緊湊的設計方便在小公寓中輕鬆收納。"
+    },
+    {
+        "word":  "compassion",
+        "pos":  "v.",
+        "def":  "n. 同情、憐憫",
+        "collocation":  "have compassion for sb (對某人深具同情心)、show compassion (展現同情)",
+        "clozeSentence":  "Volunteering at disaster relief shelters helps cultivate genuine [ _____ ] for vulnerable victims who lost their homes.",
+        "rootClue":  "【字根】com-(共同) + pass/pat(感受、痛苦) + -ion → 與他人共同體會苦痛之情，指「同情、憐憫」。",
+        "translation":  "在救災避難所當志工有助於培養對失去家園的脆弱災民發自內心的同情與憐憫。"
+    },
+    {
+        "word":  "compassionate",
+        "pos":  "v.",
+        "def":  "adj. 富有同情心的",
+        "collocation":  "a compassionate leader (富同情心的領導者)、compassionate care (慈愛的照護)",
+        "clozeSentence":  "The clinic was praised for its [ _____ ] nurses who patiently comforted anxious elderly patients day and night.",
+        "rootClue":  "【字根】compassion(同情心) + -ate(形容詞字尾) → 充滿同理心與溫暖關懷的，指「富有同情心的」。",
+        "translation":  "這家診所因其日夜耐心安慰焦慮年長病患、富有同情心的護理師而備受讚譽。"
+    },
+    {
+        "word":  "conceal",
+        "pos":  "v.",
+        "def":  "v. 隱瞞、隱藏",
+        "collocation":  "conceal the truth from sb (對某人隱瞞真相)、conceal one\u0027s feelings (掩飾情感)",
+        "clozeSentence":  "The dishonest merchant attempted to deliberately [ _____ ] the serious defects of the used vehicle from potential buyers.",
+        "rootClue":  "【字根】con-(完全) + ceal(隱藏，源自 celare) → 完全嚴密遮蔽隱匿起來，指「隱瞞、隱藏」。",
+        "translation":  "那名不誠實的商人試圖蓄意向潛在買家隱瞞該二手車的嚴重瑕疵。"
+    },
+    {
+        "word":  "condemn",
+        "pos":  "v.",
+        "def":  "v. 譴責；宣判",
+        "collocation":  "condemn violence/terrorism (譴責暴力/恐怖主義)、condemn sb to (判處某人…)",
+        "clozeSentence":  "World leaders gathered at the emergency summit to strictly [ _____ ] the unprovoked violent aggression against peaceful innocent citizens.",
+        "rootClue":  "【字根】con-(完全) + demn(懲罰、損害，如 damage) → 正式判定罪行並施予責罰，指「譴責、宣判」。",
+        "translation":  "各國領袖在緊急高峰會齊聚一堂，嚴厲譴責針對和平無辜民眾無端發動的暴力侵略。"
+    },
+    {
+        "word":  "consent",
+        "pos":  "v.",
+        "def":  "v./n. 同意、贊同",
+        "collocation":  "consent to sth (同意某事)、with sb\u0027s consent (經某人同意)",
+        "clozeSentence":  "Medical experiments cannot proceed legally without obtaining the informed written [ _____ ] of all human participants.",
+        "rootClue":  "【字根】con-(共同) + sent(感覺、思考，如 sense) → 彼此具有共同的想法與感受，指「同意、贊同」。",
+        "translation":  "若未取得所有人類參與者知情同意的書面許可，醫學實驗依法不得進行。"
+    },
+    {
+        "word":  "conserve",
+        "pos":  "v.",
+        "def":  "v. 保存、節約",
+        "collocation":  "conserve energy/resources (節約能源/資源)、conserve wildlife (保護野生動物)",
+        "clozeSentence":  "Environmental agencies encourage households to actively [ _____ ] drinking water and electric power during scorching summer heatwaves.",
+        "rootClue":  "【字根】con-(加強) + serv(保存、守護) → 悉心守護儲存資源不被浪費，指「保存、節約」。",
+        "translation":  "環保機構鼓勵家戶在酷熱的夏季熱浪期間積極節約飲用水與電力。"
+    },
+    {
+        "word":  "considerate",
+        "pos":  "v.",
+        "def":  "adj. 體貼的、深思熟慮的",
+        "collocation":  "be considerate of others (體貼他人)、considerate gesture (體貼的舉動)",
+        "clozeSentence":  "It is polite and [ _____ ] to keep your voice down when speaking on the phone in a quiet public library.",
+        "rootClue":  "【字根】con-(加強) + sider(星體、觀察星象沉思) + -ate → 悉心替周遭他人著想觀察，指「體貼的、深思熟慮的」。",
+        "translation":  "在安靜的公共圖書館講電話時放低音量，是一種既有禮貌又體貼周到的舉止。"
+    },
+    {
+        "word":  "contemplate",
+        "pos":  "v.",
+        "def":  "v. 沉思、仔細考量",
+        "collocation":  "contemplate the future (思考未來)、contemplate doing sth (考慮做某事)",
+        "clozeSentence":  "Before deciding on a career change, one should carefully [ _____ ] the potential financial risks and personal growth opportunities.",
+        "rootClue":  "【字根】con-(加強) + templ(神廟、沉思場所，如 temple) + -ate → 如在神廟中般凝神靜思，指「沉思、仔細考量」。",
+        "translation":  "在決定轉職之前，應仔細深入考量潛在的財務風險與個人成長機會。"
+    },
+    {
+        "word":  "contend",
+        "pos":  "v.",
+        "def":  "v. 競爭；堅稱",
+        "collocation":  "contend for the championship (爭奪冠軍)、contend that... (堅稱/主張…)",
+        "clozeSentence":  "Talented athletes from dozens of nations will fiercely [ _____ ] for Olympic gold medals in the international stadium.",
+        "rootClue":  "【字根】con-(共同) + tend(伸展、拉伸) → 雙方齊力伸出全力拉扯角逐，指「競爭、爭奪；堅稱」。",
+        "translation":  "來自數十個國家的優秀運動員將在國際體育場上為爭奪奧運金牌展開激烈角逐。"
+    },
+    {
+        "word":  "corrupt",
+        "pos":  "v.",
+        "def":  "adj. 貪腐的、腐敗的；v. 使墮落",
+        "collocation":  "corrupt politicians (貪腐政客)、corrupt morals (敗壞道德)",
+        "clozeSentence":  "Strict anti-bribery regulations were enacted to prevent [ _____ ] government officials from accepting illegal kickbacks from corporations.",
+        "rootClue":  "【字根】cor-(完全) + rupt(破裂、損壞，如 bankrupt) → 道德原則徹底破碎敗壞，指「貪腐的、腐敗的」。",
+        "translation":  "當局頒布了嚴格的反賄賂法規，以防止貪腐的政府官員收受來自企業的非法回扣。"
+    },
+    {
+        "word":  "counsel",
+        "pos":  "v.",
+        "def":  "v. 諮詢、建議；n. 忠告、法律顧問",
+        "collocation":  "counsel sb on/about (就…向某人提供諮詢)、seek legal counsel (尋求法律諮詢)",
+        "clozeSentence":  "School psychologists regularly [ _____ ] troubled teenagers on stress management strategies and emotional well-being.",
+        "rootClue":  "【字根】coun-(共同) + sel(召集、商議，源自 consul) → 坐在一起共同商討對策，指「建議、提供諮詢」。",
+        "translation":  "學校心理師經常針對壓力管理策略與情緒健康，向遭遇困擾的青少年提供諮詢輔導。"
+    },
+    {
+        "word":  "devote",
+        "pos":  "v.",
+        "def":  "v. 奉獻、致力於",
+        "collocation":  "devote oneself/time to N/Ving (致力於…)、devote effort to (投入心力於)",
+        "clozeSentence":  "Compassionate medical volunteers gladly [ _____ ] their summer vacations to providing free healthcare in underserved rural villages.",
+        "rootClue":  "【字根】de-(向下/強調) + vote(發誓、許願，如 vow) → 鄭重立誓傾注心力，指「奉獻、致力於」。",
+        "translation":  "富有愛心的醫療志工樂於將暑假奉獻給偏遠缺乏醫療資源的鄉村，提供免費義診服務。"
+    },
+    {
+        "word":  "devotion",
+        "pos":  "v.",
+        "def":  "n. 奉獻、忠誠",
+        "collocation":  "devotion to duty/family (對職責/家庭的奉獻)、selfless devotion (無私的奉獻)",
+        "clozeSentence":  "Mother Teresa won worldwide admiration for her selfless [ _____ ] to helping the poorest and sickest individuals in society.",
+        "rootClue":  "【字根】devote(奉獻) + -ion(名詞字尾) → 全心全意投入的熱誠信仰，指「奉獻、忠誠」。",
+        "translation":  "德蕾莎修女因無私奉獻於幫助社會上最貧困與患病的弱勢群體，而贏得全世界的景仰。"
+    },
+    {
+        "word":  "discriminate",
+        "pos":  "v.",
+        "def":  "v. 歧視；辨別",
+        "collocation":  "discriminate against sb (歧視某人)、discriminate between A and B (區分A與B)",
+        "clozeSentence":  "Fair hiring laws strictly forbid employers to unfairly [ _____ ] against job applicants based on age, gender, or race.",
+        "rootClue":  "【字根】dis-(分開) + crimin(判斷、區分，如 criminal) + -ate → 帶有偏見地分別對待，指「歧視；區分」。",
+        "translation":  "公平就業法嚴格禁止雇主因年齡、性別或種族而對求職者產生不公平的歧視待遇。"
+    },
+    {
+        "word":  "dispense",
+        "pos":  "v.",
+        "def":  "v. 分配、分發；配藥",
+        "collocation":  "dispense with (摒棄/省去)、dispense medication (配發藥物)",
+        "clozeSentence":  "Automated hospital machines are programmed to accurately [ _____ ] daily medications to inpatients according to doctor prescriptions.",
+        "rootClue":  "【字根】dis-(分開) + pens(稱重、分發，如 expense) → 稱量好劑量分門別類發送出去，指「分配、配藥」。",
+        "translation":  "醫院的自動化機器依程式設定，嚴格依照醫師處方準確向住院病患配發每日藥物。"
+    },
+    {
+        "word":  "distress",
+        "pos":  "v.",
+        "def":  "n. 痛苦、悲痛；v. 使苦惱",
+        "collocation":  "in distress (處於痛苦/危難中)、emotional/financial distress (心理/經濟困境)",
+        "clozeSentence":  "Hearing tragic news about devastating earthquakes caused profound emotional [ _____ ] to families awaiting word from overseas relatives.",
+        "rootClue":  "【字根】dis-(分開/完全) + stress/string(拉緊、緊繃) → 精神被拉扯至極限瀕臨崩潰，指「痛苦、極度悲痛」。",
+        "translation":  "聽到毀滅性地震的悲劇消息，讓等待海外親人音訊的家屬陷入極大的心理痛苦。"
+    },
+    {
+        "word":  "elaborate",
+        "pos":  "v.",
+        "def":  "adj. 精心製作的、詳盡的；v. 詳盡說明",
+        "collocation":  "an elaborate plan (縝密的計畫)、elaborate on sth (進一步詳述某事)",
+        "clozeSentence":  "The architect presented an exceptionally [ _____ ] structural plan detailing every aspect of the modern eco-friendly stadium.",
+        "rootClue":  "【字根】e-(向外) + labor(勞動、工作) + -ate → 付出大量心血與勞動精心打磨，指「精心製作的、詳盡的」。",
+        "translation":  "建築師提出了一份極其縝密詳盡的結構藍圖，詳細說明了這座現代環保體育場的各個層面。"
+    },
+    {
+        "word":  "elevate",
+        "pos":  "v.",
+        "def":  "v. 提升、提高、舉起",
+        "collocation":  "elevate one\u0027s status/position (提升地位)、elevate the mood (提振心情)",
+        "clozeSentence":  "Regular reading and continuous self-reflection will significantly [ _____ ] a student\u0027s intellectual capacity and emotional maturity.",
+        "rootClue":  "【字根】e-(向外/向上) + lev(輕、舉起，如 lever/relieve) + -ate → 使重量減輕並向上提升，指「提升、提高」。",
+        "translation":  "規律閱讀與持續的自我反思，將能顯著提升學生的智力涵養與心智成熟度。"
+    },
+    {
+        "word":  "embrace",
+        "pos":  "v.",
+        "def":  "v. 擁抱；欣然接受",
+        "collocation":  "embrace opportunities/change (擁抱機會/變革)、embrace diversity (包容多元)",
+        "clozeSentence":  "Forward-looking global enterprises proactively [ _____ ] technological innovations such as artificial intelligence and automation.",
+        "rootClue":  "【字根】em-(進入) + brace(雙臂) → 張開雙臂迎入懷抱中，引申為「擁抱、欣然接受」。",
+        "translation":  "具有前瞻視野的跨國企業積極擁抱諸如人工智慧與自動化等各項科技創新。"
+    },
+    {
+        "word":  "endeavor",
+        "pos":  "v.",
+        "def":  "v./n. 努力、奮力",
+        "collocation":  "endeavor to VR (竭力去做…)、make every endeavor (竭盡所能)",
+        "clozeSentence":  "Despite encountering numerous setbacks, the dedicated medical scientists continued to [ _____ ] to discover a cure for the rare disease.",
+        "rootClue":  "【字根】en-(使處於) + devoir(職責、本分，法語) → 視為不可推卸的職責而全力以赴，指「努力、奮力」。",
+        "translation":  "儘管遭遇無數挫折，這群敬業的醫學科學家仍持續竭盡全力，以期找出罕見疾病的治癒方法。"
+    },
+    {
+        "word":  "enthusiastic",
+        "pos":  "v.",
+        "def":  "adj. 熱情的、熱烈的",
+        "collocation":  "be enthusiastic about (對…充滿熱情)、enthusiastic support (熱烈支持)",
+        "clozeSentence":  "The visiting guest speaker was deeply touched by the remarkably [ _____ ] response from high school students during Q\u0026A.",
+        "rootClue":  "【字根】en-(在內) + the(神，如 theology) + -astic → 宛如內心受神明感召般充滿熱誠，指「熱情的、熱烈的」。",
+        "translation":  "蒞校演講的客座講者深受高中生在問答環節中展現的極度熱烈反響所感動。"
+    },
+    {
+        "word":  "exceptional",
+        "pos":  "v.",
+        "def":  "adj. 卓越的、傑出的；例外的",
+        "collocation":  "exceptional talent/ability (非凡的才華/能力)、exceptional performance (優異的表現)",
+        "clozeSentence":  "Demonstrating [ _____ ] analytical skills and leadership, the young engineer was promoted to project manager ahead of peers.",
+        "rootClue":  "【字根】ex-(向外) + cept(拿取) + -ion + -al → 自平常標準中獨立脫穎而出，指「卓越的、傑出的；例外的」。",
+        "translation":  "憑藉著非凡卓越的分析能力與領導力，這位年輕工程師比同儕更早被晉升為專案經理。"
+    },
+    {
+        "word":  "excessive",
+        "pos":  "v.",
+        "def":  "adj. 過度的、過量的",
+        "collocation":  "excessive drinking/eating (飲食過度)、excessive noise (過大噪音)",
+        "clozeSentence":  "Nutritionists strongly warn that [ _____ ] consumption of sodium and processed foods drastically increases hypertension risk.",
+        "rootClue":  "【字根】ex-(向外/超出) + cess(走) + -ive → 走出正常界線範圍之外，指「過度的、過量的」。",
+        "translation":  "營養師嚴正警告，過量攝取鈉與加工食品會急劇增加罹患高血壓的風險。"
+    },
+    {
+        "word":  "exclude",
+        "pos":  "v.",
+        "def":  "v. 排除、不包括",
+        "collocation":  "exclude sb from sth (把某人排除在…之外)、exclude the possibility (排除可能性)",
+        "clozeSentence":  "The comprehensive medical insurance policy will explicitly [ _____ ] pre-existing chronic conditions from standard compensation coverage.",
+        "rootClue":  "【字根】ex-(向外) + clud/clus(關閉) → 關在大門外面不讓其進入，指「排除、不包括」。",
+        "translation":  "該綜合醫療保險保單將明確把既有的慢性疾病排除在常規理賠範圍之外。"
+    },
+    {
+        "word":  "execute",
+        "pos":  "v.",
+        "def":  "v. 執行、實施；處決",
+        "collocation":  "execute a plan/strategy (執行計畫/策略)、execute orders (執行命令)",
+        "clozeSentence":  "The emergency response team was thoroughly trained to swiftly [ _____ ] critical rescue missions under extreme weather conditions.",
+        "rootClue":  "【字根】ex-(向外/貫徹) + secut/sequ(跟隨，如 sequence) → 自始至終跟隨貫徹到底，指「執行、實施」。",
+        "translation":  "緊急應變小組受過嚴格訓練，能在極端惡劣的天候條件下迅速執行關鍵的救援任務。"
+    },
+    {
+        "word":  "indispensable",
+        "pos":  "v.",
+        "def":  "adj. 不可或缺的、必需的",
+        "collocation":  "be indispensable to/for (對…是不可或缺的)、play an indispensable role (扮演不可或缺的角色)",
+        "clozeSentence":  "Clean drinking water and breathable fresh air are completely [ _____ ] to the survival and flourishing of all living organisms.",
+        "rootClue":  "【字根】in-(不) + dis-(分開) + pens(分配、稱重) + -able → 絕對無法被省去或替代分配出去的，指「不可或缺的、必需的」。",
+        "translation":  "乾淨的飲用水與清新的空氣對於所有生物的生存與繁衍是完全不可或缺的。"
+    },
+    {
+        "word":  "accurate",
+        "pos":  "v.",
+        "def":  "adj. 準確的、精確的",
+        "collocation":  "accurate information / data (精準的資訊/數據)、an accurate description (精確的描述)",
+        "clozeSentence":  "Scientists must collect [ _____ ] weather data to provide reliable typhoon forecasts for coastal regions.",
+        "rootClue":  "【字根】ac- (朝向) + cur (關心、注意) + -ate → 投注高度關心與注意以確保毫無差錯，指「準確的、精確的」。",
+        "translation":  "科學家必須收集精準的氣象數據，以便為沿海地區提供可靠的颱風預報。"
+    },
+    {
+        "word":  "achieve",
+        "pos":  "v.",
+        "def":  "v. 達成、實現、贏得",
+        "collocation":  "achieve one\u0027s goal / dream (實現目標/夢想)、achieve success (取得成功)",
+        "clozeSentence":  "Through persistent effort and discipline, the young athlete managed to [ _____ ] her dream of winning an Olympic gold medal.",
+        "rootClue":  "【字根】a- (朝向) + chief/cap (頭部、頂點) → 努力攀升邁向最高頂點，指「達成、實現」。",
+        "translation":  "透過持之以恆的努力與自律，這位年輕運動員成功實現了贏得奧運金牌的夢想。"
+    },
+    {
+        "word":  "advantage",
+        "pos":  "v.",
+        "def":  "n. 優勢、好處、利益",
+        "collocation":  "take advantage of (利用…/占…的便宜)、have an advantage over (勝過…/比…有優勢)",
+        "clozeSentence":  "Fluent communication skills give job seekers a significant [ _____ ] over other candidates in international interviews.",
+        "rootClue":  "【字根】ad- (朝向) + vant/van (前方，如 advance) + -age → 走在隊伍最前方領先他人，指「優勢、有利條件」。",
+        "translation":  "流利的溝通能力讓求職者在國際面試中比其他候選人具有顯著的優勢。"
+    },
+    {
+        "word":  "ambition",
+        "pos":  "v.",
+        "def":  "n. 野心、抱負、志向",
+        "collocation":  "career ambition (事業雄心)、full of ambition (充滿抱負)、fulfill one\u0027s ambition (實現抱負)",
+        "clozeSentence":  "Driven by personal [ _____ ], the young entrepreneur worked tirelessly to build an innovative green energy company.",
+        "rootClue":  "【字根】ambi- (周圍、四處) + it (走) + -ion → 為爭取選票而在四處奔走遊說，引申為追求功名成就的「野心、抱負」。",
+        "translation":  "在個人抱負的驅使下，這位年輕企業家不知疲倦地工作，建立了一家創新的綠色能源公司。"
+    },
+    {
+        "word":  "apparent",
+        "pos":  "v.",
+        "def":  "adj. 明顯的、顯而易見的；表面上的",
+        "collocation":  "become apparent (變得顯而易見)、for no apparent reason (不知何故/無緣無故)",
+        "clozeSentence":  "It soon became [ _____ ] that the sudden power failure was caused by a severe lightning strike during the storm.",
+        "rootClue":  "【字根】ap- (朝向) + par (顯現，如 appear) + -ent → 朝向眼前清楚顯露出來，指「顯而易見的、表面上的」。",
+        "translation":  "很快就顯而易見，這場突如其來的停電是由暴風雨中的強烈雷擊所引起的。"
+    },
+    {
+        "word":  "appeal",
+        "pos":  "v.",
+        "def":  "v. 呼籲；吸引；訴諸；n. 吸引力、呼籲",
+        "collocation":  "appeal to sb (吸引某人/向某人呼籲)、lose one\u0027s appeal (失去吸引力)",
+        "clozeSentence":  "The museum\u0027s interactive exhibition aims to [ _____ ] to younger audiences by blending history with virtual reality technology.",
+        "rootClue":  "【字根】ap- (朝向) + peal/pel (驅動、推動) → 朝向人心推動感召，指「呼籲、吸引」。",
+        "translation":  "該博物館的互動展覽旨在透過將歷史與虛擬實境技術相結合，來吸引年輕觀眾。"
+    },
+    {
+        "word":  "appreciate",
+        "pos":  "v.",
+        "def":  "v. 欣賞、感激；增值、理解",
+        "collocation":  "appreciate one\u0027s help / efforts (感激某人的幫助/努力)、appreciate modern art (欣賞現代藝術)",
+        "clozeSentence":  "We sincerely [ _____ ] the dedicated medical staff who risked their lives to protect public safety during the pandemic.",
+        "rootClue":  "【字根】ap- (朝向) + prec/pret (價值、價格，如 price) + -ate → 給予充分的價值認定，指「欣賞、感激」。",
+        "translation":  "我們衷心感激在疫情期間冒著生命危險保護大眾安全的敬業醫護人員。"
+    },
+    {
+        "word":  "approach",
+        "pos":  "v.",
+        "def":  "v. 接近、靠近；著手處理；n. 方法、途徑",
+        "collocation":  "adopt a new approach (採取新方法)、with the approach of... (隨著…的來臨)",
+        "clozeSentence":  "Teachers are encouraged to adopt a student-centered [ _____ ] to inspire critical thinking and creative problem-solving.",
+        "rootClue":  "【字根】ap- (朝向) + proach/proxim (接近，如 approximate) → 步步朝目標走近，引申為「接近、處理方法」。",
+        "translation":  "教師受到鼓勵採取以學生為中心的方法，以啟發思辨能力與創造性問題解決能力。"
+    },
+    {
+        "word":  "approve",
+        "pos":  "v.",
+        "def":  "v. 贊成、同意；批准、核准",
+        "collocation":  "approve of N/Ving (贊成…)、approve the proposal / budget (批准提案/預算)",
+        "clozeSentence":  "The school board voted unanimously to [ _____ ] the budget proposal for upgrading campus science laboratories.",
+        "rootClue":  "【字根】ap- (朝向) + prov/prob (測試、證實優良，如 prove) → 經檢驗後證實令人滿意並給予認可，指「贊成、批准」。",
+        "translation":  "學校董事會一致投票通過批准用於升級校園科學實驗室的預算提案。"
+    },
+    {
+        "word":  "attempt",
+        "pos":  "v.",
+        "def":  "v./n. 企圖、嘗試",
+        "collocation":  "make an attempt to VR (嘗試做…)、in an attempt to VR (為了試圖…)、first attempt (首次嘗試)",
+        "clozeSentence":  "The rescue team made a brave [ _____ ] to reach trapped hikers stranded on the snow-covered mountain summit.",
+        "rootClue":  "【字根】at- (朝向) + tempt (嘗試、試探) → 朝目標伸出觸角嘗試突破，指「企圖、嘗試」。",
+        "translation":  "搜救隊進行了一次勇敢的嘗試，以接近受困在白雪覆蓋之山頂上的登山客。"
+    },
+    {
+        "word":  "attitude",
+        "pos":  "v.",
+        "def":  "n. 態度、心態、看法",
+        "collocation":  "a positive/negative attitude (正向/負面態度)、attitude towards/to (對…的態度)",
+        "clozeSentence":  "Maintaining an optimistic [ _____ ] can significantly help individuals overcome unexpected life hardships and professional challenges.",
+        "rootClue":  "【字根】源自 apt (適合的) + -itude (名詞字尾) → 讓自身心理狀態適應環境所展現的姿態，指「態度、心態」。",
+        "translation":  "保持樂觀的心態能夠顯著幫助個人克服意料之外的人生逆境與職場挑戰。"
+    },
+    {
+        "word":  "attract",
+        "pos":  "v.",
+        "def":  "v. 吸引、引起興趣",
+        "collocation":  "attract tourists / attention (吸引遊客/注意力)、attract investment (吸引投資)",
+        "clozeSentence":  "The annual international lantern festival continues to [ _____ ] hundreds of thousands of visitors from around the world.",
+        "rootClue":  "【字根】at- (朝向) + tract (拉、引，如 tractor) → 將周圍的目光或人潮拉向自己，指「吸引、引發關注」。",
+        "translation":  "一年一度的國際燈會持續吸引著來自世界各地數以十萬計的遊客。"
+    },
+    {
+        "word":  "audience",
+        "pos":  "v.",
+        "def":  "n. 觀眾、聽眾、讀者群",
+        "collocation":  "a target audience (目標受眾)、a captivated audience (被深深吸引的觀眾)",
+        "clozeSentence":  "The talented pianist held the spellbound [ _____ ] in total silence throughout his breathtaking classical performance.",
+        "rootClue":  "【字根】audi- (聽，如 audio) + -ence (名詞字尾) → 側耳傾聽演說或演奏的群體，指「聽眾、觀眾」。",
+        "translation":  "這位才華橫溢的鋼琴家在整場令人屏息的古典演奏中，讓全場聽眾聽得如痴如醉、全神貫注。"
+    },
+    {
+        "word":  "available",
+        "pos":  "v.",
+        "def":  "adj. 可獲得的、可利用的；有空的",
+        "collocation":  "readily available (唾手可得的)、readily available resources (隨時可用的資源)、be available for (有空參加…)",
+        "clozeSentence":  "Fresh drinking water is readily [ _____ ] throughout the sports complex to ensure athletes remain well hydrated.",
+        "rootClue":  "【字根】a- (朝向) + vail/val (力量、價值，如 value) + -able → 隨時有足夠價值與力量可供取用，指「可利用的、有空的」。",
+        "translation":  "整個體育園區內隨處可取得新鮮飲用水，以確保運動員保持充足的水分。"
+    },
+    {
+        "word":  "aware",
+        "pos":  "v.",
+        "def":  "adj. 意識到的、察覺到的",
+        "collocation":  "be aware of (意識到…)、raise awareness (提升意識)、well aware (深切體認到)",
+        "clozeSentence":  "Drivers should always remain fully [ _____ ] of their surroundings to prevent fatal traffic accidents on slippery roads.",
+        "rootClue":  "【字根】源自古英語 wær (警覺、留心，如 wary/ware) → 保持清醒警惕的感知狀態，指「意識到的、有知覺的」。",
+        "translation":  "駕駛人應始終充分留意周遭路況，以防在濕滑路面上發生致命的交通事故。"
+    },
+    {
+        "word":  "balance",
+        "pos":  "v.",
+        "def":  "n. 平衡、均衡；差額；v. 使平衡",
+        "collocation":  "strike a balance between A and B (在A與B間取得平衡)、lose one\u0027s balance (失去平衡)",
+        "clozeSentence":  "College students often struggle to strike a healthy [ _____ ] between demanding academic studies and extracurricular activities.",
+        "rootClue":  "【字根】bi- (雙、兩) + lanx (秤盤) → 天秤兩側的秤盤處於同等重量水平，指「平衡、均衡」。",
+        "translation":  "大學生經常難以在繁重的課業學習與課外活動之間取得健康的平衡。"
+    },
+    {
+        "word":  "brilliant",
+        "pos":  "v.",
+        "def":  "adj. 聰穎的、傑出的；燦爛明亮的",
+        "collocation":  "a brilliant idea / mind (絕妙的點子/才智卓越的心靈)、a brilliant future (燦爛的前程)",
+        "clozeSentence":  "The young scientist proposed a [ _____ ] hypothesis that resolved a biological puzzle that had baffled researchers for decades.",
+        "rootClue":  "【字根】源自 beryllus (綠寶石、閃耀晶體) → 宛如寶石般光彩奪目、思維超卓，指「聰穎的、輝煌燦爛的」。",
+        "translation":  "這位年輕科學家提出了一個絕妙的假說，解開了困擾研究人員數十年的生物學難題。"
+    },
+    {
+        "word":  "blame",
+        "pos":  "v.",
+        "def":  "v. 責怪、歸咎於；n. 責任、責備",
+        "collocation":  "blame A for B (因B而責怪A)、lay/put the blame on (把責任歸咎於…)、take the blame (承擔責任)",
+        "clozeSentence":  "Irresponsible politicians often [ _____ ] external economic factors for their own domestic policy shortcomings.",
+        "rootClue":  "【字根】與 blaspheme (褻瀆、毀謗) 同源，由法語縮略而成 → 口出責難之詞將過失推給對方，指「責怪、歸咎」。",
+        "translation":  "不負責任的政客往往將自身國內政策的缺失歸咎於外部經濟因素。"
+    },
+    {
+        "word":  "burden",
+        "pos":  "v.",
+        "def":  "n. 負擔、重擔；v. 使負擔",
+        "collocation":  "a heavy financial burden (沉重的財務負擔)、bear/ease the burden (承受/減輕負擔)",
+        "clozeSentence":  "Soaring tuition fees and living costs place a heavy financial [ _____ ] on low-income families striving for higher education.",
+        "rootClue":  "【字根】源自 bear (承擔、背負) + -den → 背負在雙肩上的沉重行囊與責任，指「負擔、重擔」。",
+        "translation":  "飆升的學費和生活成本給爭取接受高等教育的低收入家庭帶來了沉重的經濟負擔。"
+    },
+    {
+        "word":  "capable",
+        "pos":  "v.",
+        "def":  "adj. 有能力的、勝任的",
+        "collocation":  "be capable of N/Ving (有能力做…)、a capable leader (能幹的領導者)",
+        "clozeSentence":  "Modern artificial intelligence algorithms are fully [ _____ ] of analyzing vast amounts of medical images within seconds.",
+        "rootClue":  "【字根】cap (抓取、容納，如 capture) + -able → 能夠在腦海與手中掌握住任務要領，指「有能力的、勝任的」。",
+        "translation":  "現代人工智慧演算法完全有能力在數秒內分析大量的醫療影像。"
+    },
+    {
+        "word":  "capture",
+        "pos":  "v.",
+        "def":  "v. 俘虜、捕捉、引起；n. 捕獲",
+        "collocation":  "capture one\u0027s attention / imagination (引起某人的注意/想像)、capture the market (占領市場)",
+        "clozeSentence":  "The wildlife photographer waited patiently for hours to [ _____ ] the majestic tiger leaping across the river.",
+        "rootClue":  "【字根】capt (抓取、握住，如 captive) + -ure → 施加力量將某人或珍貴瞬間牢牢握入手中，指「捕獲、記錄捕捉」。",
+        "translation":  "這位野生動物攝影師耐心等候了數個小時，只為捕捉那隻雄偉老虎躍過河流的瞬間。"
+    },
+    {
+        "word":  "challenge",
+        "pos":  "v.",
+        "def":  "n. 挑戰、艱鉅任務；v. 向…挑戰、質疑",
+        "collocation":  "face a challenge (面臨挑戰)、pose a challenge to (對…構成挑戰)、challenge an assumption (質疑假設)",
+        "clozeSentence":  "Solving global climate change will surely pose a formidable [ _____ ] to the upcoming generation of world leaders.",
+        "rootClue":  "【字根】源自 calumnia (指責、控告) → 提出嚴正質疑與當面對決的考驗，引申為「挑戰、質疑」。",
+        "translation":  "解決全球氣候變遷問題必然會對即將接棒的新一代世界領袖構成艱鉅的挑戰。"
+    },
+    {
+        "word":  "combine",
+        "pos":  "v.",
+        "def":  "v. 結合、合併、兼備",
+        "collocation":  "combine A with B (將A與B結合)、combine business with pleasure (寓工作於娛樂)",
+        "clozeSentence":  "Effective online learning platforms successfully [ _____ ] engaging video lessons with interactive live discussions.",
+        "rootClue":  "【字根】com- (共同) + bin (雙、兩副，如 binary) → 將兩個以上的元素繫在一起，指「結合、合併」。",
+        "translation":  "有效的線上學習平台成功地將吸引人的影音課程與即時互動討論相結合。"
+    },
+    {
+        "word":  "communicate",
+        "pos":  "v.",
+        "def":  "v. 溝通、傳達、交流",
+        "collocation":  "communicate with sb (與某人溝通)、communicate ideas clearly (清楚傳達想法)",
+        "clozeSentence":  "Language exchange programs provide excellent opportunities for teenagers to [ _____ ] with peers from diverse backgrounds.",
+        "rootClue":  "【字根】commun (共同、公共，如 community) + -ic- + -ate → 將自身的資訊或情感分享使之成為大家共同的理解，指「溝通、傳達」。",
+        "translation":  "語言交換計畫為青少年提供了與來自多元背景之同儕進行交流的絕佳機會。"
+    },
+    {
+        "word":  "compete",
+        "pos":  "v.",
+        "def":  "v. 競爭、比賽、對抗",
+        "collocation":  "compete with/against sb for sth (為爭奪…而與某人競爭)、compete in a tournament (參加錦標賽)",
+        "clozeSentence":  "Hundreds of promising student coders gathered at the hackathon to [ _____ ] for the prestigious innovation award.",
+        "rootClue":  "【字根】com- (共同) + pet (尋求、追逐，如 petition) → 眾人一起追逐同一個崇高目標，指「競爭、對抗」。",
+        "translation":  "數百名極具潛力的學生程式設計師齊聚黑客松，共同角逐這座享譽盛名的創新大獎。"
+    },
+    {
+        "word":  "complaint",
+        "pos":  "v.",
+        "def":  "n. 抱怨、投訴；微恙",
+        "collocation":  "make a complaint about (對…提出投訴)、customer complaints (顧客投訴)",
+        "clozeSentence":  "The hotel manager promptly resolved the guest\u0027s [ _____ ] regarding the malfunctioning air conditioner in room 302.",
+        "rootClue":  "【字根】com- (強調) + plaint (搥胸痛哭，源自 complain) → 因權益受損或不滿而發出的抗議陳述，指「抱怨、投訴」。",
+        "translation":  "飯店經理迅速處理了房客對 302 號房空調故障所提出的投訴。"
+    },
+    {
+        "word":  "complex",
+        "pos":  "v.",
+        "def":  "adj. 複雜的、錯綜的；n. 綜合大樓、情結",
+        "collocation":  "a complex problem / issue (複雜的問題/議題)、a sports / shopping complex (體育/購物綜合大樓)",
+        "clozeSentence":  "Understanding human brain neurobiology remains one of the most [ _____ ] scientific challenges in modern medicine.",
+        "rootClue":  "【字根】com- (共同) + plex/plic (重疊、編織，如 multiply) → 許多細節交織編結在一起難以一眼看透，指「複雜的、綜合大樓」。",
+        "translation":  "理解人類大腦的神經生物學仍然是現代醫學中最為複雜的科學挑戰之一。"
+    },
+    {
+        "word":  "conclude",
+        "pos":  "v.",
+        "def":  "v. 下結論、斷定；結束、締結",
+        "collocation":  "conclude that... (下結論認定…)、conclude with sth (以…作結)、to conclude (總而言之)",
+        "clozeSentence":  "After analyzing several years of clinical trials, researchers were able to [ _____ ] that the vaccine is highly effective.",
+        "rootClue":  "【字根】con- (完全) + clud (關閉，如 close) → 把所有的討論與大門完全關閉塵埃落定，指「下結論、結束」。",
+        "translation":  "在分析了數年的臨床試驗後，研究人員得以得出該疫苗高度有效的結論。"
+    },
+    {
+        "word":  "condition",
+        "pos":  "v.",
+        "def":  "n. 狀況、狀態；條件、條款；v. 訓練、使適應",
+        "collocation":  "in good/poor condition (處於良好/不良狀況)、working conditions (工作環境條件)、on condition that (條件是…)",
+        "clozeSentence":  "The historic manuscript was carefully stored in a climate-controlled vault to keep it in pristine [ _____ ].",
+        "rootClue":  "【字根】con- (共同) + dit/dic (說話、陳述) + -ion → 雙方共同說定規範好的狀態或前提，指「狀況、條件」。",
+        "translation":  "這份歷史手稿被小心存放在恆溫恆濕的保險庫中，以保持其完好如初的狀態。"
+    },
+    {
+        "word":  "confident",
+        "pos":  "v.",
+        "def":  "adj. 有信心的、自信的",
+        "collocation":  "be confident in/about (對…充滿信心)、confident smile (自信的微笑)",
+        "clozeSentence":  "Having prepared thoroughly for months, the top student felt very [ _____ ] about taking the college entrance exam.",
+        "rootClue":  "【字根】con- (強調) + fid (信任、誠意，如 faith) + -ent → 內心深處對自身實力抱持深厚信任，指「有信心的、自信的」。",
+        "translation":  "經過數個月的充分準備，這位資優生對參加大學入學考試感到非常有信心。"
+    },
+    {
+        "word":  "confuse",
+        "pos":  "v.",
+        "def":  "v. 使困惑、使混淆",
+        "collocation":  "confuse A with B (把A與B混淆)、confuse the issue (把問題搞混)",
+        "clozeSentence":  "Similar vocabulary spellings can easily [ _____ ] beginner English learners during rapid listening tests.",
+        "rootClue":  "【字根】con- (共同) + fuse/fund (倒、流，如 refuse) → 將多種不同的液體混倒在一起難辨彼此，指「使混淆、使困惑」。",
+        "translation":  "相似的單字拼寫很容易在快節奏的聽力測驗中使初學英語的學生感到混淆。"
+    },
+    {
+        "word":  "connect",
+        "pos":  "v.",
+        "def":  "v. 連接、連結；使產生關聯",
+        "collocation":  "connect A to/with B (將A與B連接)、connect with sb (與某人建立心靈連繫)",
+        "clozeSentence":  "High-speed bullet trains seamlessly [ _____ ] major northern metropolises with southern agricultural towns.",
+        "rootClue":  "【字根】con- (共同) + nect (綁、繫，如 annex) → 把兩端緊緊繫在一處，指「連接、關聯」。",
+        "translation":  "高速高鐵將北部各大都會區與南部農業城鎮無縫連接起來。"
+    },
+    {
+        "word":  "decade",
+        "pos":  "v.",
+        "def":  "n. 十年、十年間",
+        "collocation":  "over the past decade (過去十年來)、for decades (數十年來)",
+        "clozeSentence":  "Over the past [ _____ ], renewable solar energy technology has advanced at an astonishingly rapid pace.",
+        "rootClue":  "【字根】deca- (十，如 decathlon) → 以十年為一個完整循環單位，指「十年、十年期」。",
+        "translation":  "在過去的十年間，再生太陽能技術以令人驚嘆的迅速腳步持續進步。"
+    },
+    {
+        "word":  "considerable",
+        "pos":  "v.",
+        "def":  "adj. 相當大的、相當多的、重大的",
+        "collocation":  "a considerable amount / number of (相當大量的…)、considerable progress (顯著的進步)",
+        "clozeSentence":  "The charity foundation invested a [ _____ ] sum of money into developing clean water supplies in rural Africa.",
+        "rootClue":  "【字根】consider (考慮、斟酌) + -able → 龐大重要到絕對必須認真考慮不能忽略，指「相當大的、相當多的」。",
+        "translation":  "該慈善基金會投入了相當可觀的一筆資金，用於在非洲農村開發乾淨的供水系統。"
+    },
+    {
+        "word":  "constant",
+        "pos":  "v.",
+        "def":  "adj. 持續不斷的、固定的；n. 常數",
+        "collocation":  "constant noise / pain (持續不斷的噪音/疼痛)、remain constant (保持不變)",
+        "clozeSentence":  "Parents should provide [ _____ ] emotional support and encouragement while their children navigate adolescence.",
+        "rootClue":  "【字根】con- (共同、完全) + stant/sta (站立，如 stand) → 始終如一站立在原位不動搖，指「持續不斷的、忠誠堅定的」。",
+        "translation":  "當孩子度過青春期時，父母應該給予持續不斷的情感支持與鼓勵。"
+    },
+    {
+        "word":  "contract",
+        "pos":  "v.",
+        "def":  "n. 合約、契約；v. 簽約；收縮；感染(疾病)",
+        "collocation":  "sign a contract (簽訂合約)、contract a disease (感染疾病)、contract muscles (收縮肌肉)",
+        "clozeSentence":  "Both corporations agreed to carefully review terms before choosing to sign the formal business [ _____ ].",
+        "rootClue":  "【字根】con- (共同) + tract (拉、引) → 將雙方的權利與義務拉攏約束在一紙協議中，引申為「契約、收縮、感染」。",
+        "translation":  "兩家企業在選擇簽署正式商業合約之前，均同意仔細審查各項條款。"
+    },
+    {
+        "word":  "creative",
+        "pos":  "v.",
+        "def":  "adj. 有創意的、具創造力的",
+        "collocation":  "creative thinking (創造性思維)、creative solutions (具創意的解決方案)",
+        "clozeSentence":  "Art classes encourage young students to think outside the box and express their unique [ _____ ] ideas.",
+        "rootClue":  "【字根】creat (生長、造出，如 create) + -ive (形容詞字尾) → 具有自無到有孕育新事物的特質，指「有創意的、創造性的」。",
+        "translation":  "美術課鼓勵年輕學生跳脫傳統框架思考，表達他們獨特且具創意的想法。"
+    },
+    {
+        "word":  "credit",
+        "pos":  "v.",
+        "def":  "n. 信用、讚譽、學分；v. 歸功於",
+        "collocation":  "credit card (信用卡)、give credit to (歸功於…)、take credit for (把功勞攬在自己身上)",
+        "clozeSentence":  "The humble team leader refused to take all the [ _____ ] for completing the project ahead of schedule.",
+        "rootClue":  "【字根】cred (相信、信任，如 credible) + -it → 基於信任而給予的認可、名譽或借貸額度，指「信用、讚譽、學分」。",
+        "translation":  "這位謙遜的團隊負責人拒絕將提前完成專案的所有功勞都歸攬於自己。"
+    },
+    {
+        "word":  "define",
+        "pos":  "v.",
+        "def":  "v. 給…下定義、界定、明確說明",
+        "collocation":  "define terms clearly (清楚界定術語)、define one\u0027s role (界定某人的角色)",
+        "clozeSentence":  "Legal scholars often struggle to precisely [ _____ ] what constitutes an unfair commercial monopoly in the digital age.",
+        "rootClue":  "【字根】de- (完全) + fin (界限、範圍，如 final/finish) → 將邊界與範圍完全劃定分明，指「給…下定義、界定」。",
+        "translation":  "法律學者經常難以精確界定在數位時代究竟何者構成了不公平的商業壟斷。"
+    },
+    {
+        "word":  "determine",
+        "pos":  "v.",
+        "def":  "v. 決定、下定決心；測定、查明",
+        "collocation":  "determine to VR / be determined to VR (決心做…)、determine the cause (查明原因)",
+        "clozeSentence":  "Forensic investigators analyzed physical evidence at the crime scene to accurately [ _____ ] the time of death.",
+        "rootClue":  "【字根】de- (完全) + termin (邊界、終點，如 terminal) → 將目標終點明確劃定不再搖擺，指「決定、決心、查明」。",
+        "translation":  "鑑識調查人員分析犯罪現場的物證，以精準查明死亡時間。"
     }
 ];
