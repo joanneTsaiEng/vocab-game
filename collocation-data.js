@@ -1,4 +1,4 @@
-577window.COLLOCATION_QUESTION_BANK = 
+window.COLLOCATION_QUESTION_BANK =
 [
     {
         "word":  "adapt",
