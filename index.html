@@ -727,6 +727,7 @@
   </div>
 
 <script src="collocation-data.js"></script>
+<script src="vocabulary-translation-data.js"></script>
 <script>
 /**
  * 學測高頻搭配詞 CSV 資料（單字、中文釋義、常考搭配詞、克漏字例句、字根提示、中文翻譯）
@@ -6851,6 +6852,14 @@ if (Array.isArray(window.COLLOCATION_QUESTION_BANK)) {
 // If a specific word is marked for blanking in the example sentence, keep it here.
 // Otherwise, default to the canonical word so the masking still works exactly.
 const VOCABULARY_BY_WORD = new Map(VOCABULARY_DATABASE.map(item => [item.word.toLowerCase(), item]));
+
+if (!window.VOCABULARY_TRANSLATIONS_BY_WORD) {
+  throw new Error('字彙例句中文翻譯資料未載入');
+}
+
+VOCABULARY_DATABASE.forEach(item => {
+  item.translation = window.VOCABULARY_TRANSLATIONS_BY_WORD[item.word.toLowerCase()] || '';
+});
 
 let COLLOCATION_DATABASE = COLLOCATION_CSV_ROWS.map(([word, def, collocation, clozeSentence, rootClue, translation]) => {
   const dictionaryEntry = VOCABULARY_BY_WORD.get(word.toLowerCase());
