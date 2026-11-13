@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>★*~ Y2K 學測英文字彙 5-Min 極限挑戰賽 ~*★</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            y2k: {
+              pinkBg: '#ffd1dc',
+              hotPink: '#ff1493',
+              deepPink: '#ff69b4',
+              softPink: '#ffe4e1',
+              winHeader: '#ff2d75',
+              winHeaderEnd: '#ff8da1',
+              winGray: '#e2d4e8',
+              winBorderLight: '#ffffff',
+              winBorderDark: '#6b4f70',
+              winText: '#2e0854'
+            }
+          },
+          animation: {
+            'pulse-fast': 'pulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'shake': 'shake 0.4s cubic-bezier(.36,.07,.19,.97) both'
+          },
+          keyframes: {
+            shake: {
+              '10%, 90%': { transform: 'translate3d(-2px, 0, 0)' },
+              '20%, 80%': { transform: 'translate3d(4px, 0, 0)' },
+              '30%, 50%, 70%': { transform: 'translate3d(-6px, 0, 0)' },
+              '40%, 60%': { transform: 'translate3d(6px, 0, 0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DotGothic16&family=VT323&family=Noto+Sans+TC:wght@400;700;900&display=swap');
+    
+    body {
+      font-family: 'Noto Sans TC', 'VT323', sans-serif;
+      user-select: none;
+      background-color: #fbcfe8;
+      background-image: 
+        linear-gradient(rgba(255, 105, 180, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 105, 180, 0.15) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    .pixel-font {
+      font-family: 'VT323', 'DotGothic16', monospace;
+    }
+
+    /* 90s/2000s Classic Window Bevel 3D Borders */
+    .win98-window {
+      background-color: #fae8ff;
+      border-top: 3px solid #ffffff;
+      border-left: 3px solid #ffffff;
+      border-right: 3px solid #86198f;
+      border-bottom: 3px solid #86198f;
+      box-shadow: 4px 4px 0px rgba(134, 25, 143, 0.4);
+    }
+
+    .win98-inward {
+      border-top: 2px solid #86198f;
+      border-left: 2px solid #86198f;
+      border-right: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+    }
+
+    .win98-btn {
+      background: linear-gradient(180deg, #fdf4ff 0%, #f5d0fe 100%);
+      border-top: 2px solid #ffffff;
+      border-left: 2px solid #ffffff;
+      border-right: 2px solid #86198f;
+      border-bottom: 2px solid #86198f;
+      box-shadow: 1px 1px 0px #4a044e;
+    }
+
+    .win98-btn:active {
+      border-top: 2px solid #86198f;
+      border-left: 2px solid #86198f;
+      border-right: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: translate(1px, 1px);
+      box-shadow: none;
+    }
+
+    .win98-btn-active {
+      border-top: 2px solid #86198f !important;
+      border-left: 2px solid #86198f !important;
+      border-right: 2px solid #ffffff !important;
+      border-bottom: 2px solid #ffffff !important;
+      background: #f0abfc !important;
+    }
+
+    .y2k-header-gradient {
+      background: linear-gradient(90deg, #ec4899 0%, #f43f5e 50%, #fb7185 100%);
+    }
+
+    /* Custom scrollbar for retro feel */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+      background: #fdf4ff;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f472b6;
+      border: 2px solid #fae8ff;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-fuchsia-950 flex flex-col justify-between relative overflow-x-hidden selection:bg-pink-500 selection:text-white pb-12">
+
+  <!-- Desktop Decorative Icons (Y2K Aesthetic) -->
+  <div class="fixed top-4 left-4 hidden lg:flex flex-col space-y-6 z-0 opacity-85">
+    <div class="flex flex-col items-center group cursor-pointer pointer-events-auto" onclick="app.showScreen('home')">
+      <div class="text-3xl text-pink-600 drop-shadow">💾</div>
+      <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">單字挑戰.exe</span>
+    </div>
+    <div class="flex flex-col items-center group cursor-pointer pointer-events-auto" onclick="app.showDictionaryModal()">
+      <div class="text-3xl text-fuchsia-600 drop-shadow">📖</div>
+      <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">單字總覽.exe</span>
+    </div>
+    <div class="flex flex-col items-center group cursor-pointer pointer-events-auto" onclick="app.showReviewModal()">
+      <div class="text-3xl text-rose-500 drop-shadow">📑</div>
+      <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">智慧錯題本.txt</span>
+    </div>
+  </div>
+
+  <div class="fixed top-4 right-4 hidden lg:flex flex-col space-y-6 z-0 opacity-85">
+    <div class="flex flex-col items-center group cursor-pointer pointer-events-auto" onclick="app.showDictionaryModal()">
+      <div class="text-3xl text-purple-600 drop-shadow">👑</div>
+      <span class="text-[11px] font-bold bg-pink-100 text-fuchsia-900 px-1 border border-pink-400 mt-1">L1-L6題庫.dat</span>
+    </div>
+  </div>
+
+  <!-- Top Retro OS Window Container -->
+  <main class="w-full max-w-4xl mx-auto p-2 sm:p-4 z-10 flex-1 flex flex-col justify-center">
+
+    <!-- MAIN WINDOW -->
+    <div class="win98-window rounded-sm overflow-hidden flex flex-col shadow-2xl">
+      
+      <!-- Window Title Bar -->
+      <div class="y2k-header-gradient px-3 py-1.5 flex items-center justify-between text-white font-bold text-sm select-none border-b border-pink-700">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">🌸</span>
+          <span class="tracking-wider pixel-font text-base sm:text-lg font-black text-yellow-200">
+            [★] SpellingBee_2000_Pro.exe - 高中學測 5分鐘極限衝分
+          </span>
+        </div>
+        <!-- 3D Window Control Buttons -->
+        <div class="flex items-center space-x-1.5">
+          <button onclick="app.toggleSound()" id="soundToggleBtn" title="音效切換" class="w-6 h-6 win98-btn flex items-center justify-center text-xs text-fuchsia-900 font-bold hover:bg-pink-200">
+            <i class="fas fa-volume-up text-[10px]" id="soundIcon"></i>
+          </button>
+          <button onclick="app.showDictionaryModal()" title="大考單字總覽" class="px-2 h-6 win98-btn flex items-center justify-center text-xs text-fuchsia-900 font-bold hover:bg-pink-200">
+            <i class="fas fa-book text-purple-600 mr-1 text-[10px]"></i>
+            <span class="text-[11px]">單字總覽</span>
+          </button>
+          <button onclick="app.showReviewModal()" title="智慧錯題本" class="px-1.5 h-6 win98-btn flex items-center justify-center text-xs text-fuchsia-900 font-bold hover:bg-pink-200">
+            <i class="fas fa-bookmark text-pink-600 mr-1 text-[10px]"></i>
+            <span class="text-[11px]">錯題(<span id="wrongCountBadge" class="text-rose-600 font-black">0</span>)</span>
+          </button>
+          <button onclick="app.showScreen('home')" title="回主頁" class="w-6 h-6 win98-btn flex items-center justify-center text-xs text-fuchsia-900 font-bold">_</button>
+          <button onclick="app.showScreen('home')" title="重設/關閉" class="w-6 h-6 win98-btn flex items-center justify-center text-xs text-rose-700 font-black hover:bg-rose-300">✕</button>
+        </div>
+      </div>
+
+      <!-- Retro Menu Bar -->
+      <div class="bg-pink-100/90 px-3 py-1 border-b border-pink-300 text-xs font-semibold flex items-center space-x-4 text-fuchsia-900">
+        <span class="hover:bg-pink-300 px-1.5 py-0.5 cursor-pointer rounded-sm" onclick="app.showScreen('home')">檔案(<u>F</u>)</span>
+        <span class="hover:bg-pink-300 px-1.5 py-0.5 cursor-pointer rounded-sm" onclick="app.showDictionaryModal()">單字總覽(<u>D</u>)</span>
+        <span class="hover:bg-pink-300 px-1.5 py-0.5 cursor-pointer rounded-sm" onclick="app.showReviewModal()">錯題庫(<u>V</u>)</span>
+        <span class="hover:bg-pink-300 px-1.5 py-0.5 cursor-pointer rounded-sm" onclick="app.showHelpModal()">遊戲說明(<u>H</u>)</span>
+        <div class="flex-1 text-right text-[11px] text-pink-600 font-mono hidden sm:block">
+          ⚡ 系統題庫: <span id="dbTotalCountDisplay" class="font-bold">0</span> 詞彙就緒
+        </div>
+      </div>
+
+      <!-- WINDOW BODY CONTENT -->
+      <div class="p-4 sm:p-6 bg-gradient-to-b from-pink-50 via-fuchsia-50 to-pink-100 min-h-[470px] flex flex-col justify-between">
+
+        <!-- ================= 1. HOME & CONFIG SCREEN ================= -->
+        <div id="homeScreen" class="space-y-5">
+          
+          <!-- Marquee Banner -->
+          <div class="win98-inward bg-pink-900 text-yellow-300 p-1.5 font-mono text-xs overflow-hidden flex items-center">
+            <span class="bg-pink-700 text-white px-2 py-0.5 font-bold mr-2 text-[10px] uppercase">GSAT 2000</span>
+            <div class="truncate animate-pulse">
+              ★★★ 歡迎來到 Y2K 學測單字 5 分鐘極限衝刺！選擇題完全模擬學測第一大題語境推敲，Spelling Bee 聽力雙向開戰！ ★★★
+            </div>
+          </div>
+
+          <div class="text-center space-y-1.5">
+            <div class="inline-flex items-center gap-1 text-2xl font-black text-pink-600 pixel-font tracking-wider">
+              <span>💖</span> <span class="bg-gradient-to-r from-pink-600 to-fuchsia-600 bg-clip-text text-transparent text-3xl sm:text-4xl">5-MIN VOCABULARY CHALLENGE</span> <span>💖</span>
+            </div>
+            <p class="text-xs sm:text-sm text-fuchsia-800 font-semibold">
+              考驗大考單字與語境推敲能力！選擇題全英文情境判斷，5 分鐘內狂飆 COMBO 奪得全校頂標！
+            </p>
+          </div>
+
+          <!-- Mode Selection Boxes (三種模式網格) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            
+            <!-- 1. Spelling Bee Mode -->
+            <div onclick="app.selectMode('spelling')" id="mode-spelling" class="mode-card win98-window p-4 cursor-pointer transition transform hover:-translate-y-0.5 !border-pink-500 bg-pink-100">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-pink-600 font-extrabold text-base flex items-center gap-1.5">
+                  <span>🐝</span>
+                  <span>Spelling Bee 聽音拼字</span>
+                </div>
+                <span class="text-xs bg-pink-500 text-white px-2 py-0.5 rounded-full font-bold">美式發音 • 拼寫</span>
+              </div>
+              <p class="text-xs text-fuchsia-900 mb-3 leading-relaxed">
+                聆聽真人發音、中文提示與例句，直接打字拼寫單字，訓練聽力與大考必備拼字力。
+              </p>
+              <div class="win98-inward bg-pink-200/80 p-1.5 text-center text-[11px] font-bold text-fuchsia-900">
+                ⭐ 基本加分：<span class="text-pink-600 font-black">+150</span> 分 / 題
+              </div>
+            </div>
+
+            <!-- 2. Multiple Choice Mode -->
+            <div onclick="app.selectMode('choice')" id="mode-choice" class="mode-card win98-window p-4 cursor-pointer transition transform hover:-translate-y-0.5 opacity-80 bg-fuchsia-50">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-fuchsia-800 font-extrabold text-base flex items-center gap-1.5">
+                  <span>🎯</span>
+                  <span>學測字彙選擇題 (無中文)</span>
+                </div>
+                <span class="text-xs bg-purple-200 text-purple-800 px-2 py-0.5 rounded-full font-bold">純英文上下文推敲</span>
+              </div>
+              <p class="text-xs text-fuchsia-900 mb-3 leading-relaxed">
+                完全模擬學測第一大題！<b>不給中文、不給發音</b>，全靠句子前後文線索選出最適單字！
+              </p>
+              <div class="win98-inward bg-purple-100 p-1.5 text-center text-[11px] font-bold text-fuchsia-900">
+                ⭐ 基本加分：<span class="text-purple-700 font-black">+100</span> 分 / 題
+              </div>
+            </div>
+
+            <!-- 3. Collocation Mode (新增：高頻搭配詞挑戰) -->
+            <div onclick="app.selectMode('collocation')" id="mode-collocation" class="mode-card win98-window p-4 cursor-pointer transition transform hover:-translate-y-0.5 opacity-80 bg-amber-50">
+              <div class="flex items-center justify-between mb-2">
+                <div class="text-amber-800 font-extrabold text-base flex items-center gap-1.5">
+                  <span>🔥</span>
+                  <span>學測高頻搭配詞挑戰</span>
+                </div>
+                <span class="text-xs bg-amber-500 text-white px-2 py-0.5 rounded-full font-bold">克漏字 • 搭配詞</span>
+              </div>
+              <p class="text-xs text-amber-950 mb-3 leading-relaxed">
+                挑戰大考歷屆克漏字例句！跳脫單字死記，藉由介系詞與上下文語境掌握正確搭配語。
+              </p>
+              <div class="win98-inward bg-amber-200/80 p-1.5 text-center text-[11px] font-bold text-amber-950">
+                ⭐ 基本加分：<span class="text-amber-700 font-black">+120</span> 分 / 題
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Difficulty Level Selector -->
+          <div class="space-y-2">
+            <div class="text-xs font-bold text-fuchsia-900 flex items-center justify-between">
+              <span class="flex items-center gap-1">📂 <span>選擇挑戰詞彙級別：</span></span>
+              <button onclick="app.showDictionaryModal()" class="text-pink-600 hover:underline text-[11px] font-bold">
+                🔍 點此前往【單字總覽】直接背單字
+              </button>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="levelSelectorGroup">
+              <button onclick="app.selectLevel('all')" data-lvl="all" class="lvl-btn win98-btn win98-btn-active py-2 px-2 text-xs font-bold text-fuchsia-950">
+                🌈 全級別混合 (L1-6)
+              </button>
+              <button onclick="app.selectLevel('1-2')" data-lvl="1-2" class="lvl-btn win98-btn py-2 px-2 text-xs font-bold text-fuchsia-950">
+                🌱 Level 1-2 基礎
+              </button>
+              <button onclick="app.selectLevel('3-4')" data-lvl="3-4" class="lvl-btn win98-btn py-2 px-2 text-xs font-bold text-fuchsia-950">
+                🔥 Level 3-4 進階
+              </button>
+              <button onclick="app.selectLevel('5-6')" data-lvl="5-6" class="lvl-btn win98-btn py-2 px-2 text-xs font-bold text-fuchsia-950">
+                👑 Level 5-6 頂標
+              </button>
+            </div>
+          </div>
+
+          <!-- Student Info + Google Sheets Linking -->
+          <div class="win98-inward bg-pink-100 p-3 space-y-3">
+            <div class="flex items-center justify-between gap-2">
+              <div class="text-xs font-black text-fuchsia-900 flex items-center gap-1.5">
+                <span>👤</span>
+                <span>學生作答回傳設定</span>
+              </div>
+              <button onclick="app.saveGoogleSheetConfig()" class="win98-btn px-3 py-1 text-[11px] font-bold text-fuchsia-900">
+                儲存連結
+              </button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+              <div class="space-y-1">
+                <label class="text-[10px] font-bold text-fuchsia-800">學生姓名</label>
+                <input id="studentNameInput" type="text" placeholder="例：王小明" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none">
+              </div>
+              <div class="space-y-1">
+                <label class="text-[10px] font-bold text-fuchsia-800">班級 / 座號</label>
+                <input id="studentClassInput" type="text" placeholder="例：401 / 12" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none">
+              </div>
+              <div class="space-y-1 sm:col-span-1">
+                <label class="text-[10px] font-bold text-fuchsia-800">Google Apps Script URL</label>
+                <input id="googleSheetUrlInput" type="text" placeholder="https://script.google.com/macros/s/.../exec" class="win98-inward w-full px-2 py-1.5 bg-white text-fuchsia-950 font-bold text-xs outline-none break-all">
+              </div>
+            </div>
+            <div id="googleSheetStatus" class="text-[10px] font-bold text-pink-700 bg-white px-2 py-1 border border-pink-300">
+              尚未設定 Google Sheets 回傳連結
+            </div>
+          </div>
+
+          <!-- High Score & Start Button Row -->
+          <div class="pt-3 border-t-2 border-pink-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="win98-inward bg-pink-100 px-4 py-2 flex items-center space-x-3 w-full sm:w-auto">
+              <span class="text-2xl">🏆</span>
+              <div>
+                <div class="text-[10px] text-fuchsia-700 font-bold">本機最高紀錄 (High Score)</div>
+                <div class="text-xl font-black text-pink-600 font-mono">
+                  <span id="bestScoreDisplay">0</span> <span class="text-xs text-fuchsia-800">PTS</span>
+                </div>
+              </div>
+            </div>
+
+            <button onclick="app.startGame()" class="w-full sm:w-auto px-8 py-3 win98-btn bg-gradient-to-r from-pink-400 via-rose-400 to-pink-500 hover:from-pink-300 hover:to-rose-300 text-white font-black text-base rounded-none tracking-wider flex items-center justify-center space-x-2 shadow-lg">
+              <span>開始 5 分鐘挑戰</span>
+              <span class="text-yellow-200">▶</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= 2. ACTIVE GAME SCREEN ================= -->
+        <div id="gameScreen" class="hidden space-y-4">
+          
+          <!-- Game HUD Panel -->
+          <div class="win98-inward bg-pink-950 text-white p-3 flex items-center justify-between shadow-inner">
+            
+            <!-- 5-min Countdown Timer -->
+            <div class="flex items-center space-x-2">
+              <div class="w-9 h-9 win98-btn bg-rose-500 text-white flex items-center justify-center text-base font-bold">
+                ⏳
+              </div>
+              <div>
+                <div class="text-[10px] text-pink-300 font-mono uppercase">TIME LEFT</div>
+                <div id="timerText" class="text-2xl font-black font-mono tracking-widest text-yellow-300">05:00</div>
+              </div>
+            </div>
+
+            <!-- Combo Multiplier Badge -->
+            <div id="comboBadge" class="hidden sm:flex flex-col items-center px-3 py-1 bg-pink-800 border border-pink-500 text-yellow-200">
+              <span class="text-[9px] uppercase tracking-widest font-extrabold">COMBO 連擊</span>
+              <span id="comboText" class="text-base font-black font-mono">1x</span>
+            </div>
+
+            <!-- Live Score -->
+            <div class="text-right">
+              <div class="text-[10px] text-pink-300 font-mono uppercase">CURRENT SCORE</div>
+              <div id="currentScore" class="text-2xl sm:text-3xl font-black font-mono tracking-wider text-green-400">0</div>
+            </div>
+          </div>
+
+          <!-- Main Question Box -->
+          <div id="questionCard" class="win98-window p-4 sm:p-6 relative bg-white min-h-[320px] flex flex-col justify-between">
+            
+            <!-- Question Level & Mode Tag Bar -->
+            <div class="flex justify-between items-center pb-2 border-b border-pink-200 text-xs">
+              <div class="flex items-center space-x-2">
+                <span id="wordLevelTag" class="px-2 py-0.5 bg-pink-500 text-white font-bold font-mono">
+                  Level 1
+                </span>
+                <span id="wordPosTag" class="px-2 py-0.5 bg-pink-100 text-pink-700 font-mono font-bold">
+                  [v.]
+                </span>
+                <span id="questionTypeBadge" class="px-2 py-0.5 bg-purple-100 text-purple-800 font-bold">
+                  學測字彙模式
+                </span>
+              </div>
+              <div class="text-fuchsia-800 text-xs font-semibold">
+                進度：第 <b id="answeredCount" class="text-pink-600 font-mono">0</b> 題
+              </div>
+            </div>
+
+            <!-- Central Question Prompt Area -->
+            <div class="text-center my-3 sm:my-4 space-y-3">
+              
+              <!-- Spelling Bee Prompt -->
+              <div id="spellingPromptArea" class="space-y-2">
+                <div id="spellingAudioContainer" class="flex flex-col items-center justify-center">
+                  <button onclick="app.speakCurrentWord()" class="win98-btn w-14 h-14 rounded-full bg-gradient-to-tr from-pink-400 to-rose-300 text-fuchsia-950 text-xl flex items-center justify-center shadow hover:scale-105 active:scale-95 transition">
+                    <i class="fas fa-volume-high text-xl text-fuchsia-900"></i>
+                  </button>
+                  <span class="text-[11px] font-bold text-pink-600 mt-1">點擊播放美式發音 (TTS)</span>
+                </div>
+                <h3 id="wordDefinition" class="text-2xl sm:text-3xl font-black text-fuchsia-950 tracking-wide">
+                  載入題目中...
+                </h3>
+              </div>
+
+              <!-- Choice & Collocation Cloze Context -->
+              <div id="choicePromptArea" class="hidden text-left bg-pink-50/70 p-3 sm:p-4 rounded border border-pink-200">
+                <div id="choiceModeHeaderLabel" class="text-[11px] font-bold text-fuchsia-700 mb-1 flex items-center gap-1">
+                  <span>📝</span> <span>學測第一大題詞彙題：請根據英文句意選出最適當的單字填入空格</span>
+                </div>
+                <div id="choiceSentenceText" class="text-base sm:text-lg font-bold text-fuchsia-950 leading-relaxed font-serif">
+                  "Loading sentence..."
+                </div>
+              </div>
+
+              <!-- Secondary Sentence display for Spelling Mode -->
+              <p id="spellingExample" class="text-xs sm:text-sm text-fuchsia-800/80 max-w-xl mx-auto italic font-serif">
+                "例句載入中..."
+              </p>
+            </div>
+
+            <!-- Dynamic Answer Area -->
+            <div id="answerSection" class="w-full max-w-xl mx-auto pt-1">
+              
+              <!-- 1. Spelling Bee Form -->
+              <form id="spellingForm" onsubmit="app.handleSpellingSubmit(event)" class="space-y-3">
+                <div class="relative flex">
+                  <input type="text" id="spellingInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="請鍵入英文單字..." class="win98-inward w-full py-3 px-4 bg-pink-50 text-center text-xl sm:text-2xl font-black font-mono text-fuchsia-950 tracking-widest outline-none uppercase placeholder-pink-300">
+                  <button type="submit" class="win98-btn px-6 bg-pink-500 hover:bg-pink-400 text-fuchsia-950 font-black text-sm ml-1.5 flex items-center gap-1">
+                    <span>送出</span>
+                    <span>⏎</span>
+                  </button>
+                </div>
+                
+                <div class="flex justify-between items-center text-xs font-bold text-fuchsia-800 px-1">
+                  <button type="button" onclick="app.giveFirstLetterHint()" class="hover:text-pink-600 flex items-center gap-1">
+                    <span>💡</span> <span>字首提示 (-20分)</span>
+                  </button>
+                  <div id="lengthHint" class="font-mono text-pink-700 bg-pink-100 px-2 py-0.5 border border-pink-300">長度: 5 字母</div>
+                  <button type="button" onclick="app.skipQuestion()" class="hover:text-rose-600 flex items-center gap-1">
+                    <span>⏩</span> <span>跳過此題</span>
+                  </button>
+                </div>
+              </form>
+
+              <!-- 2. Choice Mode Grid -->
+              <div id="choiceGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+
+            <!-- AI 解題筆記按鈕（每題作答後顯示） -->
+            <div id="aiNoteBtnContainer" class="hidden text-center py-2.5">
+              <button onclick="app.openAiNoteModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs sm:text-sm rounded-full shadow-lg transition-transform transform active:scale-95 animate-pulse flex items-center justify-center mx-auto gap-1.5">
+                <span>💡 查看解題筆記（字根提示與中文翻譯）</span>
+              </button>
+            </div>
+
+            <!-- Instant Feedback Banner -->
+            <div id="feedbackBox" class="absolute inset-x-0 bottom-0 py-1.5 text-center text-xs sm:text-sm font-black opacity-0 transition-all duration-200 pointer-events-none border-t">
+            </div>
+          </div>
+        </div>
+
+        <!-- 解題筆記彈窗 (溫柔堅定引導學生) -->
+        <div id="aiNoteModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div class="bg-white border-4 border-black rounded-2xl max-w-lg w-full p-5 shadow-[6px_6px_0px_0px_#000]">
+            <div class="flex justify-between items-center border-b-2 border-indigo-100 pb-2 mb-3">
+              <h3 class="text-base sm:text-lg font-black text-indigo-800 flex items-center gap-2">
+                <span>📖 解題筆記・名師指點</span>
+              </h3>
+              <button onclick="app.closeAiNoteModal()" class="text-gray-400 hover:text-black font-bold text-2xl leading-none">&times;</button>
+            </div>
+            
+            <div class="space-y-3 text-left">
+              <!-- 溫柔堅定引導語 -->
+              <div class="bg-indigo-50 border-l-4 border-indigo-500 p-2.5 rounded-r">
+                <p class="text-xs text-indigo-950 leading-relaxed font-medium">
+                  🌟 <strong>別氣餒，學測克漏字的精髓在於「語意搭配」！</strong><br>
+                  不要單看獨立單字，觀察前後動詞與介系詞，就能找出語意脈絡。
+                </p>
+              </div>
+
+              <div>
+                <span class="inline-block bg-purple-100 text-purple-800 text-[11px] px-2 py-0.5 rounded font-bold">🎯 常考搭配詞</span>
+                <p id="noteCollocation" class="mt-1 font-bold text-gray-800 text-xs sm:text-sm"></p>
+              </div>
+
+              <div>
+                <span class="inline-block bg-blue-100 text-blue-800 text-[11px] px-2 py-0.5 rounded font-bold">🌱 字根與記憶法提示 (E欄)</span>
+                <p id="noteRootClue" class="mt-1 text-gray-700 text-xs sm:text-sm leading-relaxed"></p>
+              </div>
+
+              <div>
+                <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2 py-0.5 rounded font-bold">🌐 克漏字例句中文翻譯 (F欄)</span>
+                <p id="noteTranslation" class="mt-1 text-gray-700 text-xs sm:text-sm leading-relaxed"></p>
+              </div>
+            </div>
+
+            <button onclick="app.closeAiNoteModal()" class="mt-4 w-full py-2 bg-indigo-700 text-white font-bold rounded-xl hover:bg-indigo-800 transition text-sm">
+              我記住了，繼續挑戰下一題！
+            </button>
+          </div>
+        </div>
+
+        <!-- ================= 3. SUMMARY RESULT SCREEN ================= -->
+        <div id="summaryScreen" class="hidden space-y-6">
+          
+          <div class="text-center space-y-2">
+            <div class="text-4xl">👑</div>
+            <h2 class="text-2xl sm:text-3xl font-black text-pink-600 pixel-font tracking-wider">
+              ★ CHALLENGE COMPLETE ★
+            </h2>
+            <p id="summaryRankTitle" class="text-base sm:text-lg font-bold text-fuchsia-900 bg-pink-200 inline-block px-4 py-1 border border-pink-400">
+              大考單字大師！
+            </p>
+          </div>
+
+          <!-- Score Card Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <div class="win98-inward bg-white p-3 text-center">
+              <div class="text-[10px] text-fuchsia-700 font-bold">最終結算得分</div>
+              <div id="summaryFinalScore" class="text-2xl sm:text-3xl font-black font-mono text-pink-600 mt-1">0</div>
+            </div>
+            <div class="win98-inward bg-white p-3 text-center">
+              <div class="text-[10px] text-fuchsia-700 font-bold">答對數 / 總答題</div>
+              <div id="summaryAccuracy" class="text-2xl sm:text-3xl font-black font-mono text-green-600 mt-1">0/0</div>
+            </div>
+            <div class="win98-inward bg-white p-3 text-center">
+              <div class="text-[10px] text-fuchsia-700 font-bold">最高連擊 (Combo)</div>
+              <div id="summaryMaxCombo" class="text-2xl sm:text-3xl font-black font-mono text-purple-600 mt-1">0x</div>
+            </div>
+            <div class="win98-inward bg-white p-3 text-center">
+              <div class="text-[10px] text-fuchsia-700 font-bold">答題正確率</div>
+              <div id="summaryRate" class="text-2xl sm:text-3xl font-black font-mono text-rose-600 mt-1">0%</div>
+            </div>
+          </div>
+
+          <!-- Encouragement Box -->
+          <div class="win98-inward bg-pink-100 p-3 text-xs sm:text-sm text-fuchsia-900 font-medium leading-relaxed text-center">
+            💡 <span id="summaryFeedbackText">太棒了！本輪挑戰的所有錯題已自動記錄至錯題本中，隨時可複習加強！</span>
+          </div>
+
+          <!-- Summary Action Buttons -->
+          <div class="flex flex-col sm:flex-row gap-2 pt-2">
+            <button onclick="app.startGame()" class="flex-1 py-3 win98-btn bg-pink-500 hover:bg-pink-400 text-fuchsia-950 font-black text-sm flex items-center justify-center gap-1.5">
+              <span>🔄</span> <span>再戰一次 (5分鐘)</span>
+            </button>
+            <button onclick="app.showReviewModal()" class="py-3 px-5 win98-btn text-fuchsia-900 font-bold text-sm flex items-center justify-center gap-1.5">
+              <span>📑</span> <span>檢視本輪錯題</span>
+            </button>
+            <button onclick="app.showDictionaryModal()" class="py-3 px-5 win98-btn text-fuchsia-900 font-bold text-sm flex items-center justify-center gap-1.5">
+              <span>📖</span> <span>大考詞彙總覽</span>
+            </button>
+            <button onclick="app.showScreen('home')" class="py-3 px-4 win98-btn text-fuchsia-900 font-bold text-sm">
+              回首頁
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Retro Bottom Status Bar -->
+      <div class="bg-pink-200 px-3 py-1 border-t border-pink-300 text-[11px] font-mono flex items-center justify-between text-fuchsia-800">
+        <div>Ready • 108課綱 1~6 級大考字彙庫全收錄</div>
+        <div class="flex items-center space-x-3">
+          <span>COM: OK</span>
+          <span>AUDIO: <b id="statusAudioText" class="text-pink-700 font-bold">ON</b></span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= 4. DICTIONARY / WORD EXPLORER MODAL ================= -->
+  <div id="dictionaryModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3">
+    <div class="win98-window max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl animate-fadeIn">
+      
+      <!-- Modal Header -->
+      <div class="y2k-header-gradient px-3 py-1.5 flex items-center justify-between text-white font-bold text-sm">
+        <div class="flex items-center space-x-2">
+          <span>📖</span>
+          <span class="pixel-font text-base text-yellow-200 font-bold">大考字彙總覽與背誦系統.exe</span>
+        </div>
+        <button onclick="app.closeDictionaryModal()" class="w-5 h-5 win98-btn flex items-center justify-center text-xs text-rose-700 font-black hover:bg-rose-200">✕</button>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="bg-pink-100 p-3 border-b border-pink-300 flex flex-col sm:flex-row gap-2 items-center justify-between text-xs">
+        <div class="flex items-center space-x-2 w-full sm:w-auto">
+          <span class="font-bold text-fuchsia-950">級別篩選:</span>
+          <select id="dictLevelFilter" onchange="app.filterDictionary()" class="win98-inward px-2 py-1 bg-white font-bold text-fuchsia-950">
+            <option value="all">🌟 全部級別 (L1 ~ L6)</option>
+            <option value="1">🌱 Level 1 (基礎核心)</option>
+            <option value="2">🌿 Level 2 (初階進階)</option>
+            <option value="3">🔥 Level 3 (中級必背)</option>
+            <option value="4">⚡ Level 4 (學測均標)</option>
+            <option value="5">👑 Level 5 (前標高頻)</option>
+            <option value="6">💎 Level 6 (頂標挑戰)</option>
+          </select>
+        </div>
+
+        <div class="w-full sm:w-64 relative">
+          <input type="text" id="dictSearchInput" oninput="app.filterDictionary()" placeholder="搜尋英文或中文釋義..." class="win98-inward w-full px-2.5 py-1 bg-white text-fuchsia-950 font-medium outline-none">
+          <span class="absolute right-2 top-1 text-pink-400">🔍</span>
+        </div>
+      </div>
+
+      <!-- Word Count info -->
+      <div class="px-3 py-1 bg-pink-50 border-b border-pink-200 text-[11px] font-mono text-fuchsia-800 flex justify-between">
+        <span>顯示詞彙數: <b id="dictResultCount" class="text-pink-600">0</b> 筆</span>
+        <span>提示：點擊單字旁的 🔊 可聆聽美式真人發音</span>
+      </div>
+
+      <!-- Modal Body (Word Card Grid) -->
+      <div id="dictionaryList" class="p-3 overflow-y-auto space-y-2 flex-1 text-xs bg-white">
+        <!-- Dynamic cards -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-2.5 bg-pink-100 border-t border-pink-300 flex justify-between items-center text-xs">
+        <span class="text-[11px] text-fuchsia-700">隨時於課前預習與考前快速審視</span>
+        <button onclick="app.closeDictionaryModal()" class="win98-btn px-6 py-1 text-fuchsia-950 font-bold">
+          關閉總覽
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Modal (Y2K Pink Window Style) -->
+  <div id="reviewModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3">
+    <div class="win98-window max-w-xl w-full max-h-[85vh] flex flex-col shadow-2xl animate-fadeIn">
+      
+      <!-- Modal Header -->
+      <div class="y2k-header-gradient px-3 py-1.5 flex items-center justify-between text-white font-bold text-sm">
+        <div class="flex items-center space-x-2">
+          <span>📑</span>
+          <span class="pixel-font text-base text-yellow-200 font-bold">智慧錯題複習本.txt</span>
+        </div>
+        <button onclick="app.closeReviewModal()" class="w-5 h-5 win98-btn flex items-center justify-center text-xs text-rose-700 font-black hover:bg-rose-200">✕</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div id="reviewList" class="p-4 overflow-y-auto space-y-2.5 flex-1 text-xs bg-white">
+        <!-- Dynamic list -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 bg-pink-100 border-t border-pink-300 flex justify-between items-center">
+        <button onclick="app.clearReviewList()" class="win98-btn px-3 py-1 text-rose-700 font-bold text-xs">
+          🗑️ 清空錯題本
+        </button>
+        <button onclick="app.closeReviewModal()" class="win98-btn px-5 py-1 text-fuchsia-950 font-bold text-xs">
+          確定關閉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div id="helpModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs hidden flex items-center justify-center p-3">
+    <div class="win98-window max-w-md w-full p-4 space-y-3 bg-pink-50">
+      <div class="y2k-header-gradient px-3 py-1 text-white font-bold text-xs flex justify-between items-center">
+        <span>📖 遊戲與衝分規則說明</span>
+        <button onclick="document.getElementById('helpModal').classList.add('hidden')" class="text-white font-black">✕</button>
+      </div>
+      <div class="text-xs text-fuchsia-950 space-y-2 leading-relaxed bg-white p-3 win98-inward">
+        <p><b>1. 挑戰時間：</b>共 5 分鐘（300 秒）。</p>
+        <p><b>2. 選擇題模式：</b>比照大考第一大題，<b>不提供中文與發音</b>，訓練看英文上下文推敲空格單字的能力！</p>
+        <p><b>3. 高頻搭配詞挑戰：</b>挑戰學測克漏字精選例句挖空，掌握慣用搭配語與字根推敲能力！</p>
+        <p><b>4. Spelling Bee 模式：</b>提供美式發音、中文提示與例句，輸入完整英文字母。</p>
+        <p><b>5. 解題筆記：</b>每題作答後可查看字根記憶法與中文翻譯，讓學習更深刻！</p>
+      </div>
+      <div class="text-center">
+        <button onclick="document.getElementById('helpModal').classList.add('hidden')" class="win98-btn px-6 py-1 text-xs font-bold">我知道了</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Y2K Retro Windows Taskbar at Bottom -->
+  <footer class="fixed bottom-0 inset-x-0 h-9 bg-pink-300 border-t-2 border-white flex items-center justify-between px-2 z-40 text-xs shadow-md">
+    <div class="flex items-center space-x-2">
+      <button onclick="app.showScreen('home')" class="win98-btn px-2.5 py-1 flex items-center space-x-1 font-black text-fuchsia-950">
+        <span class="text-sm">🌸</span>
+        <span class="font-bold">開始 (<u>S</u>tart)</span>
+      </button>
+      <div class="h-5 w-[1px] bg-pink-400"></div>
+      <button onclick="app.showDictionaryModal()" class="win98-inward px-2 py-0.5 bg-pink-100 text-[11px] font-bold text-pink-800 hover:bg-white truncate">
+        📖 單字總覽.exe
+      </button>
+    </div>
+
+    <!-- Clock / System Tray -->
+    <div class="win98-inward bg-pink-100 px-3 py-0.5 flex items-center space-x-2 text-[11px] font-mono font-bold text-fuchsia-900">
+      <span id="taskbarSoundIcon">🔊</span>
+      <span id="systemClock">12:00 PM</span>
+    </div>
+  </footer>
+
+<script src="collocation-data.js"></script>
+<script>
+/**
+ * 試算表 vocabularies and sentence 分頁資料庫 (學測高頻搭配詞題庫)
+ */
+const COLLOCATION_DATABASE = window.COLLOCATION_QUESTION_BANK;
+
+/**
+ * 高中英文 Level 1~6 完整分級大考字彙資料庫
+ */
+const VOCABULARY_DATABASE = [
+  {"word": "a/an", "level": 1, "pos": "art.", "def": "一個（冠詞）", "hollow_out": "an", "example": "She bought an apple and a banana."},
+  {"word": "abandon", "level": 4, "pos": "v.", "def": "放棄、拋棄", "hollow_out": "abandon", "example": "They had to abandon their car in the heavy snow."},
+  {"word": "abbreviate", "level": 6, "pos": "v.", "def": "縮寫、簡化", "hollow_out": "abbreviated", "example": "The word 'January' is often abbreviated to 'Jan.'"},
+  {"word": "abide", "level": 6, "pos": "v.", "def": "遵守、忍受", "hollow_out": "abide", "example": "You must abide by the rules of the contest."},
+  {"word": "ability", "level": 1, "pos": "n.", "def": "能力、才能", "hollow_out": "ability", "example": "She has the ability to solve complex problems quickly."},
+  {"word": "able", "level": 1, "pos": "adj.", "def": "有能力的、能夠的", "hollow_out": "able", "example": "Will you be able to come to the party tonight?"},
+  {"word": "abnormal", "level": 5, "pos": "adj.", "def": "反常的、異常的", "hollow_out": "abnormal", "example": "They detected abnormal levels of radiation in the water."},
+  {"word": "aboard", "level": 3, "pos": "prep./adv.", "def": "在船（車、飛機）上", "hollow_out": "aboard", "example": "Welcome aboard flight 123 to New York."},
+  {"word": "abolish", "level": 5, "pos": "v.", "def": "廢除、取消", "hollow_out": "abolish", "example": "The government decided to abolish the outdated tax law."},
+  {"word": "adapt", "level": 4, "pos": "v.", "def": "適應、改編", "hollow_out": "adapt", "example": "Animals must adapt to changing environments to survive."},
+  {"word": "adopt", "level": 4, "pos": "v.", "def": "採納、收養", "hollow_out": "adopt", "example": "They decided to adopt a rescue dog from the shelter."},
+  {"word": "benefit", "level": 3, "pos": "n./v.", "def": "好處、利益", "hollow_out": "benefits", "example": "Reading daily brings many long-term benefits."},
+  {"word": "challenge", "level": 2, "pos": "n./v.", "def": "挑戰", "hollow_out": "challenge", "example": "Solving this complex math problem was a difficult challenge."},
+  {"word": "create", "level": 2, "pos": "v.", "def": "創造、建立", "hollow_out": "create", "example": "The goal of the project is to create new job opportunities."},
+  {"word": "crucial", "level": 5, "pos": "adj.", "def": "至關重要的", "hollow_out": "crucial", "example": "Effective communication is crucial for successful teamwork."}
+];
+
+VOCABULARY_DATABASE.forEach(item => {
+  if (!item.hollow_out) item.hollow_out = item.word;
+});
+</script>
+
+<script>
+class Y2KSpellingBeeApp {
+  escapeRegex(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  constructor() {
+    this.mode = 'spelling'; // 'spelling', 'choice', 'collocation'
+    this.selectedLevel = 'all';
+    this.soundEnabled = true;
+    this.googleSheetUrl = localStorage.getItem('y2k_google_sheet_url') || '';
+    this.studentName = localStorage.getItem('y2k_student_name') || '';
+    this.studentClass = localStorage.getItem('y2k_student_class') || '';
+    this.answerLog = [];
+    
+    // Game state
+    this.timer = 300;
+    this.timerInterval = null;
+    this.score = 0;
+    this.combo = 0;
+    this.maxCombo = 0;
+    this.answeredCount = 0;
+    this.correctCount = 0;
+    
+    this.currentQuestion = null;
+    this.activeWordList = [];
+    this.shuffledDeck = [];
+    this.deckIndex = 0;
+    
+    this.wrongWords = this.loadWrongWords();
+    this.bestScore = parseInt(localStorage.getItem('y2k_spelling_best_score') || '0', 10);
+    
+    this.synth = window.speechSynthesis;
+    this.initAudioContext();
+    this.startClock();
+  }
+
+  init() {
+    document.getElementById('bestScoreDisplay').textContent = this.bestScore.toLocaleString();
+    document.getElementById('dbTotalCountDisplay').textContent = (VOCABULARY_DATABASE.length + COLLOCATION_DATABASE.length);
+    this.updateWrongBadge();
+    this.renderDictionaryList(VOCABULARY_DATABASE);
+    this.loadStudentInputs();
+    this.updateGoogleSheetStatus(this.googleSheetUrl ? 'Google Sheets 回傳已連線，可自動同步作答紀錄' : '尚未設定 Google Sheets 回傳連結');
+  }
+
+  loadStudentInputs() {
+    const nameInput = document.getElementById('studentNameInput');
+    const classInput = document.getElementById('studentClassInput');
+    const urlInput = document.getElementById('googleSheetUrlInput');
+    if (nameInput) nameInput.value = this.studentName;
+    if (classInput) classInput.value = this.studentClass;
+    if (urlInput) urlInput.value = this.googleSheetUrl;
+  }
+
+  saveGoogleSheetConfig() {
+    const nameInput = document.getElementById('studentNameInput');
+    const classInput = document.getElementById('studentClassInput');
+    const urlInput = document.getElementById('googleSheetUrlInput');
+
+    if (nameInput) {
+      this.studentName = nameInput.value.trim();
+      localStorage.setItem('y2k_student_name', this.studentName);
+    }
+    if (classInput) {
+      this.studentClass = classInput.value.trim();
+      localStorage.setItem('y2k_student_class', this.studentClass);
+    }
+    if (urlInput) {
+      this.googleSheetUrl = urlInput.value.trim();
+      localStorage.setItem('y2k_google_sheet_url', this.googleSheetUrl);
+      this.updateGoogleSheetStatus(this.googleSheetUrl ? 'Google Sheets 回傳已連線，可自動同步作答紀錄' : '尚未設定 Google Sheets 回傳連結');
+    }
+  }
+
+  updateGoogleSheetStatus(message, success = true) {
+    const status = document.getElementById('googleSheetStatus');
+    if (!status) return;
+    status.textContent = message;
+    status.className = 'text-[10px] font-bold px-2 py-1 border';
+    status.classList.add(success ? 'text-pink-700' : 'text-rose-700');
+    status.classList.add(success ? 'border-pink-300' : 'border-rose-300');
+    status.classList.add('bg-white');
+  }
+
+  startClock() {
+    setInterval(() => {
+      const d = new Date();
+      const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const clockElem = document.getElementById('systemClock');
+      if (clockElem) clockElem.textContent = timeStr;
+    }, 1000);
+  }
+
+  initAudioContext() {
+    try {
+      this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    } catch(e) {
+      console.warn("Web Audio API not supported.");
+    }
+  }
+
+  playSfx(type) {
+    if (!this.soundEnabled || !this.audioCtx) return;
+    if (this.audioCtx.state === 'suspended') {
+      this.audioCtx.resume();
+    }
+    
+    const now = this.audioCtx.currentTime;
+    const osc = this.audioCtx.createOscillator();
+    const gain = this.audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(this.audioCtx.destination);
+
+    if (type === 'correct') {
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.setValueAtTime(783.99, now + 0.08);
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+      osc.start(now);
+      osc.stop(now + 0.25);
+    } else if (type === 'combo') {
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(440, now);
+      osc.frequency.setValueAtTime(554.37, now + 0.07);
+      osc.frequency.setValueAtTime(659.25, now + 0.14);
+      osc.frequency.setValueAtTime(880, now + 0.21);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+      osc.start(now);
+      osc.stop(now + 0.4);
+    } else if (type === 'wrong') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.setValueAtTime(110, now + 0.08);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+      osc.start(now);
+      osc.stop(now + 0.28);
+    } else if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(800, now);
+      gain.gain.setValueAtTime(0.08, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    }
+  }
+
+  speakWord(text) {
+    if (!this.synth) return;
+    this.synth.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.92;
+    utterance.pitch = 1.05;
+    this.synth.speak(utterance);
+  }
+
+  speakCurrentWord() {
+    if (this.currentQuestion && this.mode === 'spelling') {
+      this.speakWord(this.currentQuestion.word);
+    }
+  }
+
+  selectMode(mode) {
+    this.playSfx('click');
+    this.mode = mode;
+    const cards = ['spelling', 'choice', 'collocation'];
+    cards.forEach(m => {
+      const el = document.getElementById(`mode-${m}`);
+      if (el) {
+        if (m === mode) {
+          el.classList.add('!border-pink-500', 'bg-pink-100', 'opacity-100');
+        } else {
+          el.classList.remove('!border-pink-500', 'bg-pink-100');
+          el.classList.add('opacity-80');
+        }
+      }
+    });
+  }
+
+  selectLevel(lvl) {
+    this.playSfx('click');
+    this.selectedLevel = lvl;
+    document.querySelectorAll('.lvl-btn').forEach(btn => {
+      btn.classList.remove('win98-btn-active');
+    });
+    const activeBtn = document.querySelector(`[data-lvl="${lvl}"]`);
+    if (activeBtn) {
+      activeBtn.classList.add('win98-btn-active');
+    }
+  }
+
+  showScreen(screenName) {
+    this.playSfx('click');
+    document.getElementById('homeScreen').classList.add('hidden');
+    document.getElementById('gameScreen').classList.add('hidden');
+    document.getElementById('summaryScreen').classList.add('hidden');
+
+    if (screenName === 'home') {
+      clearInterval(this.timerInterval);
+      document.getElementById('homeScreen').classList.remove('hidden');
+      document.getElementById('bestScoreDisplay').textContent = this.bestScore.toLocaleString();
+    } else if (screenName === 'game') {
+      document.getElementById('gameScreen').classList.remove('hidden');
+    } else if (screenName === 'summary') {
+      document.getElementById('summaryScreen').classList.remove('hidden');
+    }
+  }
+
+  toggleSound() {
+    this.soundEnabled = !this.soundEnabled;
+    const icon = document.getElementById('soundIcon');
+    const tbIcon = document.getElementById('taskbarSoundIcon');
+    const statusText = document.getElementById('statusAudioText');
+    if (this.soundEnabled) {
+      icon.className = 'fas fa-volume-up text-[10px] text-pink-700';
+      if (tbIcon) tbIcon.textContent = '🔊';
+      if (statusText) statusText.textContent = 'ON';
+      this.playSfx('click');
+    } else {
+      icon.className = 'fas fa-volume-xmark text-[10px] text-gray-500';
+      if (tbIcon) tbIcon.textContent = '🔇';
+      if (statusText) statusText.textContent = 'OFF';
+    }
+  }
+
+  startGame() {
+    this.playSfx('click');
+    this.answerLog = [];
+    this.saveGoogleSheetConfig();
+    
+    // 如果是高頻搭配詞模式，使用試算表題庫；否則使用常規題庫
+    if (this.mode === 'collocation') {
+      this.activeWordList = [...COLLOCATION_DATABASE];
+    } else {
+      this.activeWordList = VOCABULARY_DATABASE.filter(item => {
+        if (this.selectedLevel === 'all') return true;
+        if (this.selectedLevel === '1-2') return item.level === 1 || item.level === 2;
+        if (this.selectedLevel === '3-4') return item.level === 3 || item.level === 4;
+        if (this.selectedLevel === '5-6') return item.level === 5 || item.level === 6;
+        return true;
+      });
+    }
+
+    if (this.activeWordList.length === 0) {
+      this.activeWordList = (this.mode === 'collocation') ? COLLOCATION_DATABASE : VOCABULARY_DATABASE;
+    }
+
+    this.shuffledDeck = [...this.activeWordList].sort(() => Math.random() - 0.5);
+    this.deckIndex = 0;
+
+    this.timer = 300;
+    this.score = 0;
+    this.combo = 0;
+    this.maxCombo = 0;
+    this.answeredCount = 0;
+    this.correctCount = 0;
+
+    this.updateHUD();
+    this.showScreen('game');
+
+    clearInterval(this.timerInterval);
+    this.timerInterval = setInterval(() => {
+      this.timer--;
+      this.updateTimerDisplay();
+      if (this.timer <= 0) {
+        this.endGame();
+      }
+    }, 1000);
+
+    this.updateTimerDisplay();
+    this.nextQuestion();
+  }
+
+  updateTimerDisplay() {
+    const mins = Math.floor(this.timer / 60);
+    const secs = this.timer % 60;
+    const timerElem = document.getElementById('timerText');
+    timerElem.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    
+    if (this.timer <= 30) {
+      timerElem.classList.add('text-rose-500', 'animate-pulse');
+    } else {
+      timerElem.classList.remove('text-rose-500', 'animate-pulse');
+    }
+  }
+
+  updateHUD() {
+    document.getElementById('currentScore').textContent = this.score.toLocaleString();
+    document.getElementById('answeredCount').textContent = this.answeredCount;
+    
+    const comboBadge = document.getElementById('comboBadge');
+    const comboText = document.getElementById('comboText');
+    if (this.combo >= 2) {
+      comboBadge.classList.remove('hidden');
+      comboBadge.classList.add('flex');
+      let mult = 1 + (this.combo * 0.2);
+      comboText.textContent = `${this.combo}x (${mult.toFixed(1)}倍)`;
+    } else {
+      comboBadge.classList.add('hidden');
+      comboBadge.classList.remove('flex');
+    }
+  }
+
+  nextQuestion() {
+    const aiBtn = document.getElementById('aiNoteBtnContainer');
+    if (aiBtn) aiBtn.classList.add('hidden');
+
+    if (this.deckIndex >= this.shuffledDeck.length) {
+      this.shuffledDeck = [...this.activeWordList].sort(() => Math.random() - 0.5);
+      this.deckIndex = 0;
+    }
+
+    // 正確賦予題目
+    this.currentQuestion = this.shuffledDeck[this.deckIndex++];
+
+    document.getElementById('wordLevelTag').textContent = `Level ${this.currentQuestion.level || 4}`;
+    document.getElementById('wordPosTag').textContent = `[${this.currentQuestion.pos || 'v.'}]`;
+
+    let maskedSentence = "";
+    if (this.mode === 'collocation' && this.currentQuestion.clozeSentence) {
+      let sent = this.currentQuestion.clozeSentence.replace(/\[.*?\]/g, '').trim();
+      // 確保挖空不落在句首：若開頭即為挖空底線，自動補充引言
+      if (/^_{2,}/.test(sent)) {
+        sent = "In this sentence context, " + sent.charAt(0).toLowerCase() + sent.slice(1);
+      }
+      maskedSentence = sent;
+    } else {
+      const hollowTarget = this.currentQuestion.hollow_out || this.currentQuestion.word;
+      const exampleRegex = new RegExp(this.escapeRegex(hollowTarget), 'gi');
+      maskedSentence = this.currentQuestion.example 
+        ? this.currentQuestion.example.replace(exampleRegex, ' ( _______ ) ') 
+        : `The student prepared carefully to ( _______ ) the challenge.`;
+    }
+
+    const spellingPromptArea = document.getElementById('spellingPromptArea');
+    const choicePromptArea = document.getElementById('choicePromptArea');
+    const spellingForm = document.getElementById('spellingForm');
+    const choiceGrid = document.getElementById('choiceGrid');
+    const questionTypeBadge = document.getElementById('questionTypeBadge');
+    const choiceHeader = document.getElementById('choiceModeHeaderLabel');
+
+    if (this.mode === 'spelling') {
+      questionTypeBadge.textContent = 'Spelling Bee 模式';
+      questionTypeBadge.className = 'px-2 py-0.5 bg-pink-100 text-pink-700 font-bold';
+
+      spellingPromptArea.classList.remove('hidden');
+      choicePromptArea.classList.add('hidden');
+      spellingForm.classList.remove('hidden');
+      choiceGrid.classList.add('hidden');
+
+      document.getElementById('wordDefinition').textContent = this.currentQuestion.def;
+      document.getElementById('spellingExample').textContent = `"${maskedSentence}"`;
+      document.getElementById('spellingExample').classList.remove('hidden');
+
+      const input = document.getElementById('spellingInput');
+      input.value = '';
+      input.focus();
+      document.getElementById('lengthHint').textContent = `長度: ${this.currentQuestion.word.length} 字母`;
+
+      setTimeout(() => {
+        this.speakWord(this.currentQuestion.word);
+      }, 150);
+
+    } else {
+      // Multiple Choice 或是 Collocation 模式
+      if (this.mode === 'collocation') {
+        questionTypeBadge.textContent = '🔥 學測高頻搭配詞挑戰';
+        questionTypeBadge.className = 'px-2 py-0.5 bg-amber-200 text-amber-900 font-bold';
+        choiceHeader.innerHTML = `<span>🔥</span> <span>學測高頻搭配詞克漏字：請注意上下文動詞與介系詞的精準搭配！</span>`;
+      } else {
+        questionTypeBadge.textContent = '學測第一大題字彙模式 (純英文語境)';
+        questionTypeBadge.className = 'px-2 py-0.5 bg-purple-200 text-purple-900 font-bold';
+        choiceHeader.innerHTML = `<span>📝</span> <span>學測第一大題詞彙題：請根據英文句意選出最適當的單字填入空格</span>`;
+      }
+
+      spellingPromptArea.classList.add('hidden');
+      choicePromptArea.classList.remove('hidden');
+      document.getElementById('spellingExample').classList.add('hidden');
+
+      spellingForm.classList.add('hidden');
+      choiceGrid.classList.remove('hidden');
+
+      const highlightedSentence = maskedSentence
+        .replace(/\(\s*_______\s*\)/g, '<span class="px-3 py-0.5 mx-1 bg-yellow-200 border border-yellow-400 font-mono font-black text-pink-700 underline tracking-widest">[ ______ ]</span>')
+        .replace(/_{3,}/g, '<span class="px-3 py-0.5 mx-1 bg-yellow-200 border border-yellow-400 font-mono font-black text-pink-700 underline tracking-widest">[ ______ ]</span>');
+
+      document.getElementById('choiceSentenceText').innerHTML = highlightedSentence;
+      this.buildMultipleChoiceOptions();
+    }
+  }
+
+  buildMultipleChoiceOptions() {
+    const grid = document.getElementById('choiceGrid');
+    grid.innerHTML = '';
+
+    const correctAnswer = this.currentQuestion;
+    const distractors = [];
+    
+    // 依模式挑選混淆詞庫
+    const pool = (this.mode === 'collocation')
+      ? COLLOCATION_DATABASE.filter(w => w.word !== correctAnswer.word)
+      : VOCABULARY_DATABASE.filter(w => w.word !== correctAnswer.word);
+    
+    while (distractors.length < 3 && pool.length > 0) {
+      const randIdx = Math.floor(Math.random() * pool.length);
+      const cand = pool[randIdx];
+      if (!distractors.some(d => d.word === cand.word)) {
+        distractors.push(cand);
+      }
+    }
+
+    const options = [correctAnswer, ...distractors].sort(() => Math.random() - 0.5);
+
+    options.forEach((opt, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'choice-btn win98-btn w-full p-3.5 text-left font-bold flex items-center justify-between transition hover:bg-pink-100 active:scale-98';
+      
+      const keyLabel = String.fromCharCode(65 + idx);
+      btn.innerHTML = `
+        <div class="flex items-center space-x-2.5 truncate">
+          <span class="w-6 h-6 win98-inward bg-pink-100 text-pink-700 flex items-center justify-center font-mono font-black text-xs">(${keyLabel})</span>
+          <span class="text-base sm:text-lg font-black font-mono tracking-wide text-fuchsia-950">${opt.word}</span>
+        </div>
+        <span class="text-[11px] text-fuchsia-600 font-mono font-bold">[${opt.pos || 'v.'}]</span>
+      `;
+      btn.onclick = () => this.handleChoiceSelect(opt.word, btn);
+      grid.appendChild(btn);
+    });
+  }
+
+  handleSpellingSubmit(e) {
+    if (e) e.preventDefault();
+    const input = document.getElementById('spellingInput');
+    const userSpelling = input.value.trim().toLowerCase();
+    const targetSpelling = this.currentQuestion.word.toLowerCase();
+
+    if (!userSpelling) return;
+
+    this.recordAnswer(userSpelling, userSpelling === targetSpelling);
+
+    if (userSpelling === targetSpelling) {
+      this.onAnswerSuccess(150);
+    } else {
+      this.onAnswerFailure(this.currentQuestion.word);
+    }
+  }
+
+  handleChoiceSelect(selectedWord, btnElem) {
+    const isCorrect = selectedWord.toLowerCase() === this.currentQuestion.word.toLowerCase();
+    this.recordAnswer(selectedWord, isCorrect);
+    
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      b.disabled = true;
+      if (b.innerText.includes(this.currentQuestion.word)) {
+        b.classList.add('!bg-green-200', '!border-green-600', 'text-green-950');
+      }
+    });
+
+    if (isCorrect) {
+      btnElem.classList.add('!bg-green-300', '!border-green-700');
+      this.onAnswerSuccess(this.mode === 'collocation' ? 120 : 100);
+    } else {
+      btnElem.classList.add('!bg-rose-200', '!border-rose-700', 'text-rose-950');
+      this.onAnswerFailure(this.currentQuestion.word);
+    }
+  }
+
+  onAnswerSuccess(basePoints) {
+    this.answeredCount++;
+    this.correctCount++;
+    this.combo++;
+    if (this.combo > this.maxCombo) this.maxCombo = this.combo;
+
+    const multiplier = Math.min(1 + (this.combo - 1) * 0.2, 3.0);
+    const addedScore = Math.round(basePoints * multiplier);
+    this.score += addedScore;
+
+    // 作答後顯示解題筆記按鈕
+    const noteBtn = document.getElementById('aiNoteBtnContainer');
+    if (noteBtn) noteBtn.classList.remove('hidden');
+
+    if (this.combo % 3 === 0 && this.combo > 1) {
+      this.playSfx('combo');
+      this.triggerConfetti(0.3);
+      this.showFeedback(`★ ${this.combo} COMBO 連擊！+${addedScore} PTS ★`, 'green');
+    } else {
+      this.playSfx('correct');
+      this.showFeedback(`✓ 正確！+${addedScore} PTS (${this.currentQuestion.word})`, 'green');
+    }
+
+    this.updateHUD();
+    setTimeout(() => this.nextQuestion(), 800);
+  }
+
+  recordAnswer(userAnswer, isCorrect, status = 'answered') {
+    this.answerLog.push({
+      mode: this.mode,
+      word: this.currentQuestion.word,
+      userAnswer,
+      correctAnswer: this.currentQuestion.word,
+      isCorrect,
+      status,
+      question: this.currentQuestion.clozeSentence || this.currentQuestion.example || '',
+      collocation: this.currentQuestion.collocation || '',
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  onAnswerFailure(correctWord) {
+    this.answeredCount++;
+    this.combo = 0;
+    this.playSfx('wrong');
+
+    const card = document.getElementById('questionCard');
+    card.classList.add('animate-shake');
+    setTimeout(() => card.classList.remove('animate-shake'), 400);
+
+    // 答錯時顯示解題筆記按鈕
+    const noteBtn = document.getElementById('aiNoteBtnContainer');
+    if (noteBtn) noteBtn.classList.remove('hidden');
+
+    this.addWrongWord(this.currentQuestion);
+    this.showFeedback(`✗ 答錯了！正確答案：${correctWord} (${this.currentQuestion.def})`, 'rose');
+    this.updateHUD();
+
+    setTimeout(() => this.nextQuestion(), 1600);
+  }
+
+  // --- 💡 解題筆記控制函式 ---
+  openAiNoteModal() {
+    this.playSfx('click');
+    if (!this.currentQuestion) return;
+    document.getElementById('noteCollocation').textContent = this.currentQuestion.collocation || "無特定搭配詞記錄";
+    document.getElementById('noteRootClue').textContent = this.currentQuestion.rootClue || "注意前後文動詞與介系詞搭配。";
+    document.getElementById('noteTranslation').textContent = this.currentQuestion.translation || this.currentQuestion.def;
+    document.getElementById('aiNoteModal').classList.remove('hidden');
+  }
+
+  closeAiNoteModal() {
+    this.playSfx('click');
+    document.getElementById('aiNoteModal').classList.add('hidden');
+  }
+
+  giveFirstLetterHint() {
+    if (!this.currentQuestion || this.mode !== 'spelling') return;
+    this.playSfx('click');
+    const input = document.getElementById('spellingInput');
+    const firstChar = this.currentQuestion.word.charAt(0).toUpperCase();
+    if (!input.value.startsWith(firstChar)) {
+      input.value = firstChar;
+    }
+    this.score = Math.max(0, this.score - 20);
+    this.updateHUD();
+    this.showFeedback(`💡 字首提示：${firstChar}`, 'yellow');
+    input.focus();
+  }
+
+  skipQuestion() {
+    this.playSfx('click');
+    this.recordAnswer('', false, 'skipped');
+    this.addWrongWord(this.currentQuestion);
+    this.combo = 0;
+    this.updateHUD();
+    this.showFeedback(`⏩ 已跳過！答案：${this.currentQuestion.word} (${this.currentQuestion.def})`, 'gray');
+    this.nextQuestion();
+  }
+
+  showFeedback(message, color) {
+    const fb = document.getElementById('feedbackBox');
+    fb.textContent = message;
+    fb.className = 'absolute inset-x-0 bottom-0 py-2 text-center text-xs sm:text-sm font-black transition-all duration-200 pointer-events-none border-t';
+
+    if (color === 'green') {
+      fb.classList.add('bg-green-100', 'text-green-900', 'border-green-400', 'opacity-100');
+    } else if (color === 'rose') {
+      fb.classList.add('bg-rose-100', 'text-rose-900', 'border-rose-400', 'opacity-100');
+    } else if (color === 'yellow') {
+      fb.classList.add('bg-yellow-100', 'text-yellow-900', 'border-yellow-400', 'opacity-100');
+    } else {
+      fb.classList.add('bg-pink-200', 'text-fuchsia-900', 'border-pink-400', 'opacity-100');
+    }
+
+    setTimeout(() => {
+      fb.classList.remove('opacity-100');
+      fb.classList.add('opacity-0');
+    }, 1200);
+  }
+
+  triggerConfetti(ratio = 1) {
+    if (typeof confetti === 'function') {
+      confetti({
+        particleCount: Math.floor(40 * ratio),
+        spread: 60,
+        colors: ['#ff1493', '#ff69b4', '#00ffff', '#ffff00', '#ffffff'],
+        origin: { y: 0.8 }
+      });
+    }
+  }
+
+  endGame() {
+    clearInterval(this.timerInterval);
+    this.playSfx('combo');
+    this.triggerConfetti(2);
+
+    if (this.score > this.bestScore) {
+      this.bestScore = this.score;
+      localStorage.setItem('y2k_spelling_best_score', this.bestScore.toString());
+    }
+
+    document.getElementById('summaryFinalScore').textContent = this.score.toLocaleString();
+    document.getElementById('summaryAccuracy').textContent = `${this.correctCount} / ${this.answeredCount}`;
+    document.getElementById('summaryMaxCombo').textContent = `${this.maxCombo}x`;
+    
+    const rate = this.answeredCount > 0 ? Math.round((this.correctCount / this.answeredCount) * 100) : 0;
+    document.getElementById('summaryRate').textContent = `${rate}%`;
+
+    const titleElem = document.getElementById('summaryRankTitle');
+    const feedbackElem = document.getElementById('summaryFeedbackText');
+    if (this.score >= 3500) {
+      titleElem.textContent = '👑 頂標學霸級 • 學測單字神人！';
+      feedbackElem.textContent = '太厲害了！維持極高連擊與語意搭配直覺，大考克漏字拿滿分易如反掌！';
+    } else if (this.score >= 2000) {
+      titleElem.textContent = '🔥 前標先鋒 • 實力超群！';
+      feedbackElem.textContent = '表現非常亮眼！多利用解題筆記掌握字根與介系詞，下回挑戰必定奪得頂標！';
+    } else {
+      titleElem.textContent = '✨ 均標進階者 • 潛力無窮！';
+      feedbackElem.textContent = '單字搭配需要每天累積！打開「錯題本」多複習字根記憶法與例句，成績必定飛速成長！';
+    }
+
+    this.submitStudentResult();
+    this.showScreen('summary');
+  }
+
+  submitStudentResult() {
+    if (!this.googleSheetUrl) {
+      this.updateGoogleSheetStatus('尚未設定 Google Sheets 回傳連結', false);
+      return Promise.resolve({ ok: false, message: '未設定 Google Apps Script URL' });
+    }
+
+    const studentName = this.studentName || document.getElementById('studentNameInput')?.value?.trim() || '未填姓名';
+    const studentClass = this.studentClass || document.getElementById('studentClassInput')?.value?.trim() || '未填班級';
+    const payload = {
+      studentName,
+      studentClass,
+      mode: this.mode,
+      selectedLevel: this.selectedLevel,
+      score: this.score,
+      correctCount: this.correctCount,
+      answeredCount: this.answeredCount,
+      accuracyRate: this.answeredCount > 0 ? Math.round((this.correctCount / this.answeredCount) * 100) : 0,
+      maxCombo: this.maxCombo,
+      timestamp: new Date().toISOString(),
+      answers: this.answerLog
+    };
+
+    this.updateGoogleSheetStatus('正在同步作答紀錄到 Google Sheets…');
+
+    return fetch(this.googleSheetUrl, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(async (response) => {
+        const text = await response.text();
+        let result = {};
+        try { result = JSON.parse(text); } catch (e) { result = { message: text }; }
+        if (!response.ok || result.ok === false) {
+          throw new Error(result.message || 'Google Sheets 同步失敗');
+        }
+        this.updateGoogleSheetStatus(result.message || 'Google Sheets 同步成功');
+        return result;
+      })
+      .catch((error) => {
+        this.updateGoogleSheetStatus(`同步失敗：${error.message || '請確認 URL 正確'}`, false);
+        return { ok: false, message: error.message || '同步失敗' };
+      });
+  }
+
+  showDictionaryModal() {
+    this.playSfx('click');
+    document.getElementById('dictionaryModal').classList.remove('hidden');
+    this.filterDictionary();
+  }
+
+  closeDictionaryModal() {
+    this.playSfx('click');
+    document.getElementById('dictionaryModal').classList.add('hidden');
+  }
+
+  filterDictionary() {
+    const lvl = document.getElementById('dictLevelFilter').value;
+    const query = document.getElementById('dictSearchInput').value.trim().toLowerCase();
+
+    const filtered = VOCABULARY_DATABASE.filter(item => {
+      const matchLvl = (lvl === 'all') || (item.level.toString() === lvl);
+      const matchQuery = !query || 
+        item.word.toLowerCase().includes(query) || 
+        item.def.includes(query) || 
+        (item.example && item.example.toLowerCase().includes(query));
+      return matchLvl && matchQuery;
+    });
+
+    this.renderDictionaryList(filtered);
+  }
+
+  renderDictionaryList(list) {
+    const container = document.getElementById('dictionaryList');
+    document.getElementById('dictResultCount').textContent = list.length;
+    container.innerHTML = '';
+
+    if (list.length === 0) {
+      container.innerHTML = `
+        <div class="text-center py-10 text-fuchsia-400">
+          <div class="text-3xl mb-2">🔍</div>
+          <p class="font-bold text-fuchsia-900">查無符合條件的單字</p>
+        </div>
+      `;
+      return;
+    }
+
+    list.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'win98-inward p-2.5 bg-pink-50/70 hover:bg-pink-100/80 transition flex flex-col gap-1.5';
+      card.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="text-base font-black font-mono text-pink-700">${item.word}</span>
+            <span class="text-[10px] px-1.5 py-0.2 bg-white text-fuchsia-800 font-mono border border-pink-300">[${item.pos}]</span>
+            <span class="text-[10px] px-1.5 py-0.2 bg-pink-500 text-white font-bold rounded-xs">Level ${item.level}</span>
+          </div>
+          <button onclick="app.speakWord('${item.word}')" class="win98-btn px-2.5 py-0.5 text-xs text-fuchsia-950 font-bold hover:bg-pink-200">
+            🔊 發音
+          </button>
+        </div>
+        <div class="text-xs font-bold text-fuchsia-950">${item.def}</div>
+        ${item.example ? `<div class="text-[11px] text-fuchsia-800 italic bg-white p-2 border border-pink-200 font-serif">"${item.example}"</div>` : ''}
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  loadWrongWords() {
+    try {
+      return JSON.parse(localStorage.getItem('y2k_wrong_words') || '[]');
+    } catch(e) {
+      return [];
+    }
+  }
+
+  saveWrongWords() {
+    localStorage.setItem('y2k_wrong_words', JSON.stringify(this.wrongWords));
+    this.updateWrongBadge();
+  }
+
+  addWrongWord(item) {
+    if (!this.wrongWords.some(w => w.word === item.word)) {
+      this.wrongWords.unshift({
+        word: item.word,
+        pos: item.pos,
+        def: item.def,
+        level: item.level || 4,
+        example: item.example || item.clozeSentence
+      });
+      if (this.wrongWords.length > 100) this.wrongWords.pop();
+      this.saveWrongWords();
+    }
+  }
+
+  updateWrongBadge() {
+    const badge = document.getElementById('wrongCountBadge');
+    if (badge) badge.textContent = this.wrongWords.length;
+  }
+
+  showReviewModal() {
+    this.playSfx('click');
+    const list = document.getElementById('reviewList');
+    list.innerHTML = '';
+
+    if (this.wrongWords.length === 0) {
+      list.innerHTML = `
+        <div class="text-center py-10 text-fuchsia-400">
+          <div class="text-4xl mb-2">🎉</div>
+          <p class="font-bold text-fuchsia-900 text-sm">目前錯題本空空如也！</p>
+          <p class="text-[11px] mt-1 text-fuchsia-600">在 5 分鐘挑戰中答錯或跳過的單字會自動收錄於此，提供例句與發音複習。</p>
+        </div>
+      `;
+    } else {
+      this.wrongWords.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'win98-inward p-2.5 bg-pink-50 flex flex-col gap-1.5';
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="text-base font-black font-mono text-pink-600">${item.word}</span>
+              <span class="text-[10px] px-1.5 py-0.2 bg-white text-fuchsia-800 font-mono border border-pink-300">[${item.pos}]</span>
+              <span class="text-[10px] px-1.5 py-0.2 bg-pink-500 text-white font-bold">L${item.level}</span>
+            </div>
+            <button onclick="app.speakWord('${item.word}')" class="win98-btn px-2 py-0.5 text-xs text-fuchsia-900">
+              🔊 念發音
+            </button>
+          </div>
+          <div class="text-xs font-bold text-fuchsia-950">${item.def}</div>
+          ${item.example ? `<div class="text-[11px] text-fuchsia-800 italic bg-white p-1.5 border border-pink-200">"${item.example}"</div>` : ''}
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    document.getElementById('reviewModal').classList.remove('hidden');
+  }
+
+  closeReviewModal() {
+    this.playSfx('click');
+    document.getElementById('reviewModal').classList.add('hidden');
+  }
+
+  clearReviewList() {
+    if (this.wrongWords.length === 0) return;
+    this.wrongWords = [];
+    this.saveWrongWords();
+    this.showReviewModal();
+  }
+
+  showHelpModal() {
+    this.playSfx('click');
+    document.getElementById('helpModal').classList.remove('hidden');
+  }
+}
+
+// 啟動應用程式
+let app;
+window.onload = function() {
+  app = new Y2KSpellingBeeApp();
+  app.init();
+};
+</script>
+</body>
+</html>
